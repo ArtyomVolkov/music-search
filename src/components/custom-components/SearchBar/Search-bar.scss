@@ -1,0 +1,11 @@
+.search-bar {
+  margin-bottom: 20px;
+  display: flex;
+
+  .input-search {
+    outline: none;
+    padding-left: 10px;
+    margin-right: 15px;
+    width: calc(100% - 145px);
+  }
+}

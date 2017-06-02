@@ -1,0 +1,30 @@
+.app-content main {
+  padding: 20px 10px;
+  display: flex;
+  max-width: 1140px;
+  flex-direction: column;
+  margin: 0 auto; }
+
+.app-content footer {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  bottom: 0;
+  height: 45px;
+  background-color: #efefef;
+  border-top: 1px solid #dcdcdc; }
+.music-list .music-item {
+  background: #c0c7ca; }
+  .music-list .music-item:hover {
+    background: #7dca38; }
+.search-bar {
+  margin-bottom: 20px;
+  display: flex; }
+  .search-bar .input-search {
+    outline: none;
+    padding-left: 10px;
+    margin-right: 15px;
+    width: calc(100% - 145px); }
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjb21tb24uY3NzIiwic291cmNlUm9vdCI6IiJ9*/
