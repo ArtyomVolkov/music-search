@@ -2,7 +2,7 @@ import {SET_SONG} from './../actions/player';
 
 const defaultState = {
   play: false,
-  songData: {}
+  songData: null
 };
 export default function player(state = defaultState, action) {
   if (action.type === SET_SONG) {

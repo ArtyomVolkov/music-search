@@ -1,3 +1,26 @@
+.music-panel {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 55px;
+  background-color: #272727; }
+  .music-panel .img-container {
+    display: flex;
+    margin-right: 15px;
+    background: #FFC107;
+    border-radius: 50%; }
+    .music-panel .img-container img {
+      width: 55px;
+      height: 55px; }
+  .music-panel .player-actions {
+    display: flex; }
+    .music-panel .player-actions .fa {
+      font-size: 24px;
+      padding: 0 15px;
+      cursor: pointer;
+      color: #9E9E9E; }
+      .music-panel .player-actions .fa:hover {
+        color: #FFC107; }
 .app-content main {
   padding: 20px 10px;
   display: flex;
@@ -9,11 +32,7 @@
   position: fixed;
   width: 100%;
   display: flex;
-  justify-content: center;
-  bottom: 0;
-  height: 45px;
-  background-color: #efefef;
-  border-top: 1px solid #dcdcdc; }
+  bottom: 0; }
 .music-list .music-item {
   background: #c0c7ca; }
   .music-list .music-item:hover {

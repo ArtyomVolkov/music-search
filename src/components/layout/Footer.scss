@@ -1,9 +1,10 @@
 .music-panel {
+  max-width: 1140px;
   width: 100%;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   height: 55px;
-  background-color: #272727;
 
   .img-container {
     display: flex;
@@ -22,13 +23,51 @@
 
     .fa {
       font-size: 24px;
-      padding: 0 15px;
+      min-width: 24px;
+      padding: 15px;
       cursor: pointer;
       color: #9E9E9E;
 
       &:hover {
-        color: #FFC107;
+        color: #7dca38;
       }
     }
+  }
+
+  .timer {
+    padding: 0 10px;
+    color: white;
+  }
+
+  .volume {
+    margin-left: 15px;
+    display: flex;
+    flex: 0.2;
+
+    .volume-icon {
+      flex: 0.3;
+
+      .fa {
+        font-size: 18px;
+        color: #9E9E9E;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .fa-volume-off {
+        color: #ff1100;
+      }
+    }
+
+    .volume-slider {
+      flex: 1;
+    }
+  }
+
+  .track-bar {
+    flex: 1;
+    margin: 0 5px;
   }
 }

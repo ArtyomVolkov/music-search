@@ -1,8 +1,16 @@
 .music-list {
-  .music-item {
-    background: #c0c7ca;
+  .song-item {
+    background: #f7f7f7;
+
     &:hover {
-      background: #7dca38;
+      background: #e9e9e9;
+      cursor: pointer;
+    }
+  }
+
+  .music-actions {
+    .fa {
+      margin: 0 10px;
     }
   }
 }
