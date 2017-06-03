@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { CLIENT_ID } from '../../settings';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {CLIENT_ID} from '../../settings';
 import Slider from 'material-ui/Slider';
+
+import {durationToMinutes} from '../../utils/parsers';
 
 // Style
 import './Footer.scss';
@@ -14,50 +15,90 @@ import './Footer.scss';
   dispatch => ({})
 )
 class Footer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
       play: true,
-      muted: false
+      muted: false,
+      currentTime: 0
     };
 
-    this.audioEl = document.createElement('audio');
-    this.audioEl.volume = 0.7;
+    this.audioEl = {
+      el: document.createElement('audio'),
+      duration: 0,
+      currentTime: 0,
+      step: 0
+    };
   }
 
-  componentWillReceiveProps (nextProps) {
-    this.audioEl.src = nextProps.player.songData.stream_url + `?client_id=${CLIENT_ID}`;
+  componentWillReceiveProps(nextProps) {
+    this.setSongData(nextProps.player.songData);
+  }
 
-    this.audioEl.play().then((data) => {
-      console.log('play');
+  setSongData(songData) {
+    const {audioEl, state} = this;
+
+    if (!audioEl.el) {
+      return;
+    }
+
+    audioEl.el.src = songData.stream_url + `?client_id=${CLIENT_ID}`;
+    audioEl.el.volume = 0.7;
+    audioEl.duration = songData.duration;
+    audioEl.step = songData.duration / 1000; // 1% from duration
+    audioEl.el.play().then(() => {
+      console.log('finish load metadata');
     });
+
+    if (!audioEl.el.ontimeupdate) {
+      audioEl.el.ontimeupdate = this.onUpdateTimeBar;
+    }
+
+    if (!state.play) {
+      this.setState({
+        play: true
+      });
+    }
   }
+
+  onUpdateTimeBar = (e) => {
+    this.setState({
+      currentTime: e.target.currentTime * 1000 // ms
+    });
+  };
+
+  onChangeTimeBar = (e, value) => {
+    this.audioEl.el.currentTime = value / 1000;
+  };
 
   onTogglePlay = () => {
-    const { play } = this.state;
+    const {state, audioEl} = this;
 
-    play ? this.audioEl.pause() : this.audioEl.play();
+    state.play ? audioEl.el.pause() : audioEl.el.play();
     this.setState({
-      play: !play
+      play: !state.play
     });
   };
 
   onVolumeChange = (e, value) => {
-    this.audioEl.volume = value;
+    const {el} = this.audioEl;
+    el.volume = value;
   };
 
   onToggleMute = () => {
-    this.audioEl.muted = !this.audioEl.muted;
+    const {el} = this.audioEl;
 
+    el.muted = !el.muted;
     this.setState({
       muted: !this.state.muted
     });
   };
 
-  render () {
-    const { player } = this.props;
-    const { play, muted } = this.state;
+  render() {
+    const {player} = this.props;
+    const {play, muted, currentTime} = this.state;
+    const {audioEl} = this;
 
     if (!player.songData) {
       return false;
@@ -73,19 +114,31 @@ class Footer extends Component {
           <i className={`fa ${play ? 'fa-pause' : 'fa-play'}`} aria-hidden="true" onClick={this.onTogglePlay}/>
           <i className="fa fa-forward" aria-hidden="true"/>
         </div>
-        <div className="timer">00:00/02:35</div>
+        <div className="timer-current">
+          <span>{durationToMinutes(currentTime)}</span>
+        </div>
         <div className="track-bar">
-          <Slider sliderStyle={{ margin: 0 }} min={0} max={1000} step={1}/>
+          <Slider
+            sliderStyle={{margin: 0}}
+            min={0}
+            max={audioEl.duration}
+            step={audioEl.step}
+            value={currentTime}
+            onChange={this.onChangeTimeBar}
+          />
+        </div>
+        <div className="timer-duration">
+          <span>{durationToMinutes(audioEl.duration)}</span>
         </div>
         <div className="volume">
           <div className="volume-icon">
             <i className={`fa ${muted ? 'fa-volume-off' : 'fa-volume-up'}`} aria-hidden="true"
-              onClick={this.onToggleMute}
+               onClick={this.onToggleMute}
             />
           </div>
           <div className="volume-slider">
-            <Slider min={0.1} max={1} step={0.1} defaultValue={0.7} onChange={this.onVolumeChange}
-                    sliderStyle={{ margin: 0 }}/>
+            <Slider min={0.1} max={1} step={0.05} defaultValue={0.7} onChange={this.onVolumeChange}
+                    sliderStyle={{margin: 0}}/>
           </div>
         </div>
       </div>

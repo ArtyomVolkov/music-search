@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Card, CardHeader, CardActions } from 'material-ui/Card';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, {Component} from 'react';
+import {Card, CardHeader, CardActions} from 'material-ui/Card';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {durationToMinutes} from '../../../utils/parsers';
 
@@ -12,33 +12,35 @@ import './MusicList.scss';
 
 @connect(
   state => ({
-    searchResults: state.searchResults
+    searchResults: state.searchResults,
+    songData: state.player.songData
   }),
   dispatch => ({
     actions: bindActionCreators(playerAction, dispatch)
   })
 )
 class MusicList extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
   }
 
-  onClickBySong (song) {
-    const { actions } = this.props;
+  onClickBySong(song) {
+    const {actions} = this.props;
 
     actions.selectSong(song);
   };
 
 
-  render () {
-    const { searchResults } = this.props;
+  render() {
+    const {searchResults, songData} = this.props;
 
     return (
       <div className="music-list">
         {
           searchResults.data && searchResults.data.map((item, index) => {
             return (
-              <div key={index} className="song-item" >
+              <div key={index}
+                   className={`song-item ${songData && songData.id === item.id ? 'active' : ''}`}>
                 <Card onClick={this.onClickBySong.bind(this, item)} style={{backgroundColor: 'inherit'}}>
                   <CardHeader
                     title={item.user.username}
@@ -49,11 +51,11 @@ class MusicList extends Component {
                     <div className="music-actions">
                       <i className="fa fa-play-circle" aria-hidden="true"/>
                       <span>{durationToMinutes(item.duration)}</span>
-                      <i className="fa fa-heart" aria-hidden="true" />
+                      <i className="fa fa-heart" aria-hidden="true"/>
                       <span>{item.likes_count}</span>
-                      <i className="fa fa-headphones" aria-hidden="true" />
+                      <i className="fa fa-headphones" aria-hidden="true"/>
                       <span>{item.playback_count}</span>
-                      <i className="fa fa-commenting" aria-hidden="true" />
+                      <i className="fa fa-commenting" aria-hidden="true"/>
                       <span>{item.comment_count}</span>
                     </div>
                   </CardActions>
