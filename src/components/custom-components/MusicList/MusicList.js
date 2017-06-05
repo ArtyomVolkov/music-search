@@ -4,10 +4,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {durationToMinutes} from '../../../utils/parsers';
-
 // actions
 import * as playerAction from './../../../actions/player';
-
+// Styles
 import './MusicList.scss';
 
 @connect(
@@ -24,10 +23,8 @@ class MusicList extends Component {
     super(props);
   }
 
-  onClickBySong(song) {
-    const {actions} = this.props;
-
-    actions.selectSong(song);
+  onClickBySong(song, index) {
+    this.props.actions.selectSong(song, index);
   };
 
 
@@ -41,7 +38,7 @@ class MusicList extends Component {
             return (
               <div key={index}
                    className={`song-item ${songData && songData.id === item.id ? 'active' : ''}`}>
-                <Card onClick={this.onClickBySong.bind(this, item)} style={{backgroundColor: 'inherit'}}>
+                <Card onClick={this.onClickBySong.bind(this, item, index)} style={{backgroundColor: 'inherit'}}>
                   <CardHeader
                     title={item.user.username}
                     subtitle={item.title}

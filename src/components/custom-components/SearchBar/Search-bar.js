@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import RaisedButton from 'material-ui/RaisedButton';
-import ActionSearch from 'material-ui/svg-icons/action/search';
-
+import {TextField} from 'material-ui';
 // endpoints
 import * as searchActions from './../../../actions/search';
-
+// Style
 import './Search-bar.scss';
+
+const ENTER_KEY_CODE = 13;
 
 @connect(
   state => ({}),
@@ -20,7 +20,7 @@ class SearchBar extends Component {
     super(props);
 
     this.state = {
-      disableSearch: true
+      disableSearch: false
     };
 
     this.searchValue = '';
@@ -30,24 +30,23 @@ class SearchBar extends Component {
     const { disableSearch } = this.state;
 
     this.searchValue = e.target.value;
-    if (disableSearch && this.searchValue) {
+
+    if (this.searchValue.length < 3) {
       this.setState({
-        disableSearch: false
+        disableSearch: true
       });
       return;
     }
 
-    if (!disableSearch && !this.searchValue) {
+    if (disableSearch) {
       this.setState({
-        disableSearch: true
+        disableSearch: false
       });
     }
-  };
 
-  onSearchMusic = () => {
-    const {actions} = this.props;
-
-    actions.searchSongs(this.searchValue);
+    if (e.keyCode === ENTER_KEY_CODE) {
+      this.props.actions.searchSongs(this.searchValue);
+    }
   };
 
   render () {
@@ -55,13 +54,15 @@ class SearchBar extends Component {
 
     return (
       <div className="search-bar">
-        <input type="text" className="input-search" onKeyUp={this.onKeyUp}/>
-        <RaisedButton
-          label="Search"
-          icon={<ActionSearch />}
-          backgroundColor="#f5f5f5"
-          disabled={disableSearch}
-          onTouchTap={this.onSearchMusic}/>
+        <TextField
+          className={"input-search"}
+          hintText="Type any song and press Enter"
+          onKeyUp={this.onKeyUp}
+          style={{fontSize: 20}}
+          errorStyle={{color: 'orange'}}
+          errorText={disableSearch ? 'Type at least 3 symbols' : ''}
+          fullWidth={true}
+        />
       </div>
     );
   }

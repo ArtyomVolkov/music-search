@@ -2,14 +2,15 @@ import {SET_SONG} from './../actions/player';
 
 const defaultState = {
   play: false,
-  songData: null
+  songData: null,
+  soundIndex: 0
 };
 export default function player(state = defaultState, action) {
   if (action.type === SET_SONG) {
-    console.log(action.payload);
     return Object.assign({}, state, {
       play: true,
-      songData: action.payload
+      songData: action.payload.songData,
+      soundIndex: action.payload.index
     });
   }
   return state;
