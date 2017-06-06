@@ -1,7 +1,5 @@
 .music-list {
   .song-item {
-    background: #f7f7f7;
-
     &:hover {
       background: #e9e9e9;
       cursor: pointer;
@@ -11,6 +9,10 @@
       background: #caffd5;
       &:hover {
         background: #c7ffb7;
+      }
+
+      .fa-play-circle {
+        color: orangered;
       }
     }
   }

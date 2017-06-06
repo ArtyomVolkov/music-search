@@ -3,10 +3,12 @@ import {combineReducers} from 'redux';
 import app from './app';
 import player from  './player';
 import searchResults from './search-results';
+import system from './system';
 
 const ROOT = combineReducers({
   app,
   player,
+  system,
   searchResults
 });
 
