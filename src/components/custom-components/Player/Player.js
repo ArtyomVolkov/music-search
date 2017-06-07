@@ -55,7 +55,7 @@ class Player extends Component {
     audioEl.el.volume = 0.7;
     audioEl.duration = songData.duration;
     audioEl.el.play().then(() => {
-      console.log('finish load metadata');
+      //console.log('finish metadata loading');
     });
 
     if (!audioEl.el.onended) {

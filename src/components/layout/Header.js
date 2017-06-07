@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { AppBar, IconButton } from 'material-ui';
+import { IconButton } from 'material-ui';
+// Components
+import AppBar from '../custom-components/AppBar/AppBar';
 // Material Icons
 import AvLibraryMusic from 'material-ui/svg-icons/av/library-music';
 import AvPlaylistPlay from 'material-ui/svg-icons/av/playlist-play';
@@ -12,37 +14,11 @@ import './Header.scss';
 class Header extends Component {
   constructor (props) {
     super(props);
-
-    this.matUIStyles = {
-      appBar: {
-        background: '#272727'
-      },
-      searchIcon: {
-        color: 'white'
-      }
-    };
   }
 
   render () {
-    const { appBar, searchIcon } = this.matUIStyles;
-
     return (
-      <AppBar
-        title="Music Search"
-        iconElementLeft={
-          <IconButton>
-            <AvLibraryMusic />
-          </IconButton>
-        }
-        iconElementRight={
-          <div className="app-navigation">
-            <IconButton iconStyle={searchIcon}><ActionSearch /></IconButton>
-            <IconButton iconStyle={searchIcon}><AvPlaylistPlay /></IconButton>
-            <IconButton iconStyle={searchIcon}><SocialPerson /></IconButton>
-          </div>
-        }
-        style={appBar}
-      />
+      <AppBar title="Music Search"/>
     )
   }
 }

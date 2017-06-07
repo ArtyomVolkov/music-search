@@ -1,22 +1,22 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import MusicList from '../custom-components/MusicList/MusicList';
 import SearchBar from '../custom-components/SearchBar/Search-bar';
 
-class Dashboard extends Component {
-  constructor(props) {
+class Search extends Component {
+  constructor (props) {
     super(props);
   }
 
-  render() {
+  render () {
 
     return (
       <div>
-	      <SearchBar />
+        <SearchBar />
         <MusicList />
       </div>
     )
   }
 }
 
-export default Dashboard;
+export default Search;

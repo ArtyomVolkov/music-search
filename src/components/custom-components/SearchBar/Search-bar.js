@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import {TextField} from 'material-ui';
 // endpoints
 import * as searchActions from './../../../actions/search';
+// Services
+import URL_Service from '../../../services/QueryParamService/URLservice';
 // Style
 import './Search-bar.scss';
 
@@ -24,6 +26,15 @@ class SearchBar extends Component {
     };
 
     this.searchValue = '';
+    if (URL_Service.getQueryParam('searchTerm')) {
+      this.searchValue = decodeURI(URL_Service.getQueryParam('searchTerm').value);
+    }
+  }
+
+  componentDidMount() {
+    if (this.searchValue) {
+      this.props.actions.searchSongs(this.searchValue);
+    }
   }
 
   onKeyUp = (e) => {
@@ -45,6 +56,7 @@ class SearchBar extends Component {
     }
 
     if (e.keyCode === ENTER_KEY_CODE) {
+      URL_Service.setQueryParam('searchTerm', this.searchValue);
       this.props.actions.searchSongs(this.searchValue);
     }
   };
@@ -58,6 +70,7 @@ class SearchBar extends Component {
           className={"input-search"}
           hintText="Type any song and press Enter"
           onKeyUp={this.onKeyUp}
+          defaultValue={this.searchValue}
           style={{fontSize: 20}}
           errorStyle={{color: 'orange'}}
           errorText={disableSearch ? 'Type at least 3 symbols' : ''}
