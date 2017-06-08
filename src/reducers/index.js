@@ -3,12 +3,14 @@ import {combineReducers} from 'redux';
 import app from './app';
 import player from  './player';
 import searchResults from './search-results';
+import playLists from './playlists';
 import system from './system';
 
 const ROOT = combineReducers({
   app,
   player,
   system,
+  playLists,
   searchResults
 });
 

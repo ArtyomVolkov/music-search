@@ -6,3 +6,7 @@ export function durationToMinutes(value) {
   return `${minutes < 10 ? '0'+minutes : minutes}:${seconds < 10 ? '0'+seconds : seconds}`;
 
 }
+
+export function replaceStringURL(urlStr = '', replacedValue, newValue) {
+  return urlStr.replace(replacedValue, newValue);
+}

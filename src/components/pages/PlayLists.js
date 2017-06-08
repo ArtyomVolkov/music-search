@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+// components
+import PlayListCards from '../custom-components/PlayListCards/PlayListCards';
 
 class PlayLists extends Component {
   constructor (props) {
@@ -7,7 +9,9 @@ class PlayLists extends Component {
 
   render () {
     return (
-      <div className="play-lists"></div>
+      <div className="play-lists-page">
+        <PlayListCards />
+      </div>
     );
   }
 }

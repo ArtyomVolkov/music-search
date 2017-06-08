@@ -34,15 +34,15 @@ class NavigationBar extends Component {
            onClick={this.onNavigateTo.bind(this, '/search')}>
           <span className="icon-title">Search</span>
         </i>
+        <i className={`fa fa-list-alt ${currentPage === '/play-lists' ? 'active' : ''}`}
+           aria-hidden="true"
+           onClick={this.onNavigateTo.bind(this, '/play-lists')}>
+          <span className="icon-title">Playlists</span>
+        </i>
         <i className={`fa fa-play-circle-o ${currentPage === '/recent-activity' ? 'active' : ''}`}
            aria-hidden="true"
            onClick={this.onNavigateTo.bind(this, '/recent-activity')}>
           <span className="icon-title">Recent Activity</span>
-        </i>
-        <i className={`fa fa-list-alt ${currentPage === '/play-lists' ? 'active' : ''}`}
-           aria-hidden="true"
-           onClick={this.onNavigateTo.bind(this, '/play-lists')}>
-          <span className="icon-title">Play lists</span>
         </i>
       </div>
     )
