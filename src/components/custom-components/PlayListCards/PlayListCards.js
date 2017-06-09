@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // actions
 import * as playlistActions from './../../../actions/playlists';
+import * as playerActions from './../../../actions/player';
 
 // Components
 import Card from './Card/Card';
 
 // utils
-import {replaceStringURL} from '../../../utils/parsers';
+import { replaceStringURL } from '../../../utils/parsers';
 
 // Styles
 import './PlayListCards.scss';
@@ -18,7 +19,8 @@ import './PlayListCards.scss';
     playLists: state.playLists
   }),
   dispatch => ({
-    actions: bindActionCreators(playlistActions, dispatch)
+    playListActions: bindActionCreators(playlistActions, dispatch),
+    playerActions: bindActionCreators(playerActions, dispatch)
   })
 )
 class PlayListCards extends Component {
@@ -27,11 +29,15 @@ class PlayListCards extends Component {
   }
 
   componentDidMount () {
-    this.props.actions.getPlayLists();
+    this.props.playListActions.getPlayLists();
   }
 
-  onCallAction =(name)=> {
-    console.log(name);
+  onCallAction (index, actionName) {
+    const { playLists } = this.props;
+    const tracks = playLists.data[index].tracks;
+
+    console.log(actionName, tracks);
+    this.props.playerActions.setPlayListData(tracks);
   };
 
   render () {
@@ -46,9 +52,9 @@ class PlayListCards extends Component {
                 <Card
                   title={list.title}
                   subTitle={`${list.track_count} ${list.track_count > 1 ? 'tracks' : 'track'}`}
-                  media={replaceStringURL(list.artwork_url || list.tracks[0].artwork_url, 'large', 'crop')}
-                  onAction={this.onCallAction}
-                 />
+                  media={replaceStringURL(list.artwork_url || list.tracks[ 0 ].artwork_url, 'large', 'crop')}
+                  onAction={this.onCallAction.bind(this, index)}
+                />
               </div>
             )
           })

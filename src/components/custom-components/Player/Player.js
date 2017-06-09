@@ -1,16 +1,17 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import * as playerActions from './../../../actions/player';
 
 // components
 import PlayerActions from '../Player/PlayerActions/PlayerActions';
+import PlayListSection from './PlayListSection/PlayListSection';
 import TrackBar from '../Player/TrackBar/TrackBar';
 import Timer from '../Player/Timer/Timer';
 import Volume from './Volume/Volume';
 // Settings & Utils
-import {CLIENT_ID} from '../../../settings';
+import { CLIENT_ID } from '../../../settings';
 
 // Style
 import './Player.scss';
@@ -24,7 +25,7 @@ import './Player.scss';
   })
 )
 class Player extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.state = {
@@ -40,14 +41,14 @@ class Player extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     this.setSongData(nextProps.player.songData);
   }
 
-  setSongData(songData) {
-    const {audioEl, state} = this;
+  setSongData (songData) {
+    const { audioEl, state } = this;
 
-    if (!audioEl.el) {
+    if (!audioEl.el || !songData) {
       return;
     }
 
@@ -73,7 +74,7 @@ class Player extends Component {
     this.nextSong(this.props.player.soundIndex + 1);
   };
 
-  nextSong(index) {
+  nextSong (index) {
     if (!index || index < 0) {
       return;
     }
@@ -81,8 +82,8 @@ class Player extends Component {
   }
 
   onChangePlayerAction = (name) => {
-    const {state, audioEl} = this;
-    const {player} = this.props;
+    const { state, audioEl } = this;
+    const { player } = this.props;
 
     switch (name) {
       case 'play':
@@ -110,10 +111,14 @@ class Player extends Component {
     });
   };
 
-  render() {
-    const {player} = this.props;
-    const {play, timeValue} = this.state;
-    const {audioEl} = this;
+  onTogglePlayList = () => {
+    console.log('show/hide playlist');
+  };
+
+  render () {
+    const { player } = this.props;
+    const { play, timeValue } = this.state;
+    const { audioEl } = this;
 
     if (!player.songData) {
       return false;
@@ -129,6 +134,10 @@ class Player extends Component {
             isPlaying={play}
             onChange={this.onChangePlayerAction}
           />
+          {player.playList &&
+          <div className="playlist-icons">
+            <i className="fa fa-list-alt" aria-hidden="true" onClick={this.onTogglePlayList}/>
+          </div>}
           <Timer
             value={timeValue * 1000}
             autoUpdate={true}
@@ -142,6 +151,7 @@ class Player extends Component {
           />
           <Timer value={player.songData.duration}/>
           <Volume audioEl={audioEl.el}/>
+          <PlayListSection tracks={player.playList} />
         </div>
       </div>
     );

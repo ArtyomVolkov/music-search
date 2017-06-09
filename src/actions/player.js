@@ -1,9 +1,10 @@
 export const SET_SONG = 'SET_SONG';
 export const SET_NEXT_SONG = 'SET_NEXT_SONG';
+export const SET_PLAYLIST_DATA = 'SET_PLAYLIST_DATA';
 
 export function selectSong (songData, index) {
   return function (dispatch) {
-    dispatch(setSong({index, songData}));
+    dispatch(setSong({ index, songData }));
   }
 }
 
@@ -14,11 +15,11 @@ function setSong (data) {
   }
 }
 
-export function setNextSong(soundIndex) {
+export function setNextSong (soundIndex) {
   return function (dispatch, getState) {
     const state = getState();
     const searchResults = state.searchResults;
-    const nextSongData = searchResults.data[soundIndex] || searchResults.data[0];
+    const nextSongData = searchResults.data[ soundIndex ] || searchResults.data[ 0 ];
 
     dispatch(nextSong());
     dispatch(setSong({
@@ -28,9 +29,22 @@ export function setNextSong(soundIndex) {
   }
 }
 
-function nextSong() {
+function nextSong () {
   return {
     type: SET_NEXT_SONG
+  };
+}
+
+export function setPlayListData (data) {
+  return function (dispatch) {
+    dispatch(pushPlaylistData(data));
   }
+}
+
+function pushPlaylistData (data) {
+  return {
+    type: SET_PLAYLIST_DATA,
+    payload: data
+  };
 }
 
