@@ -1,4 +1,4 @@
-import { SET_SONG, SET_PLAYLIST_DATA } from './../actions/player';
+import { SET_SONG, SET_PLAYLIST_DATA, TOGGLE_PLAYLIST_SECTION} from './../actions/player';
 
 const defaultState = {
   play: false,
@@ -16,8 +16,11 @@ export default function player (state = defaultState, action) {
   }
 
   if (action.type === SET_PLAYLIST_DATA) {
+    console.log('set playlist');
     return Object.assign({}, state, {
-      playList: action.payload
+      play: true,
+      playList: action.payload,
+      songData: action.payload.songData,
     });
   }
 

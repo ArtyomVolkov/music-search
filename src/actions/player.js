@@ -19,7 +19,10 @@ export function setNextSong (soundIndex) {
   return function (dispatch, getState) {
     const state = getState();
     const searchResults = state.searchResults;
-    const nextSongData = searchResults.data[ soundIndex ] || searchResults.data[ 0 ];
+    const playList = state.player.playList;
+    const nextSongData = playList
+      ? playList[soundIndex] || playList[0]
+      : searchResults.data[ soundIndex ] || searchResults.data[ 0 ];
 
     dispatch(nextSong());
     dispatch(setSong({

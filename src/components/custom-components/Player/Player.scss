@@ -32,6 +32,10 @@
       font-size: 24px;
       color: #9E9E9E;
 
+      &.fa-list-alt.active {
+        color: orange;
+      }
+
       &:hover {
         color: orange;
         cursor: pointer;

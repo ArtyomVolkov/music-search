@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
+// Actions
 import * as playerActions from './../../../actions/player';
-
+import * as playListActions from './../../../actions/playlists';
 // components
 import PlayerActions from '../Player/PlayerActions/PlayerActions';
-import PlayListSection from './PlayListSection/PlayListSection';
+import PlayListDialog from './../Player/PlayListDialog/PlayListDialog';
 import TrackBar from '../Player/TrackBar/TrackBar';
 import Timer from '../Player/Timer/Timer';
 import Volume from './Volume/Volume';
@@ -21,7 +21,8 @@ import './Player.scss';
     player: state.player
   }),
   dispatch => ({
-    actions: bindActionCreators(playerActions, dispatch)
+    playerActions: bindActionCreators(playerActions, dispatch),
+    playListActions: bindActionCreators(playListActions, dispatch)
   })
 )
 class Player extends Component {
@@ -78,7 +79,7 @@ class Player extends Component {
     if (!index || index < 0) {
       return;
     }
-    this.props.actions.setNextSong(index);
+    this.props.playerActions.setNextSong(index);
   }
 
   onChangePlayerAction = (name) => {
@@ -111,8 +112,12 @@ class Player extends Component {
     });
   };
 
-  onTogglePlayList = () => {
-    console.log('show/hide playlist');
+  onTogglePlayList = (e) => {
+    e.currentTarget.classList.contains('active')
+      ? e.currentTarget.classList.remove('active')
+      : e.currentTarget.classList.add('active');
+
+    this.props.playListActions.onTogglePlayList();
   };
 
   render () {
@@ -128,7 +133,7 @@ class Player extends Component {
       <div className="player-container">
         <div className="music-panel">
           <div className="img-container">
-            <img src={player.songData.user.avatar_url}/>
+            <img src={player.songData.artwork_url || player.songData.user.avatar_url}/>
           </div>
           <PlayerActions
             isPlaying={play}
@@ -136,7 +141,10 @@ class Player extends Component {
           />
           {player.playList &&
           <div className="playlist-icons">
-            <i className="fa fa-list-alt" aria-hidden="true" onClick={this.onTogglePlayList}/>
+            <i
+              className="fa fa-list-alt"
+              aria-hidden="true"
+              onClick={this.onTogglePlayList}/>
           </div>}
           <Timer
             value={timeValue * 1000}
@@ -151,7 +159,7 @@ class Player extends Component {
           />
           <Timer value={player.songData.duration}/>
           <Volume audioEl={audioEl.el}/>
-          <PlayListSection tracks={player.playList} />
+          <PlayListDialog />
         </div>
       </div>
     );

@@ -1,4 +1,5 @@
 export const RECEIVE_PLAY_LISTS = 'RECEIVE_PLAY_LISTS';
+export const TOGGLE_PLAYLIST_SECTION = 'TOGGLE_PLAYLIST_SECTION';
 
 // endpoints
 import { fetchPlayLists } from './../endpoints/sound-cloud-api';
@@ -19,4 +20,16 @@ function receivePlayLists (data) {
     type: RECEIVE_PLAY_LISTS,
     payload: data
   };
+}
+
+export function onTogglePlayList() {
+  return function (dispatch) {
+    dispatch(togglePlayList());
+  }
+}
+
+function togglePlayList() {
+  return {
+    type: TOGGLE_PLAYLIST_SECTION
+  }
 }

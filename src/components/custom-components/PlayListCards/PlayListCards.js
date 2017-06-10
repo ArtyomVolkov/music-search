@@ -4,13 +4,10 @@ import { bindActionCreators } from 'redux';
 // actions
 import * as playlistActions from './../../../actions/playlists';
 import * as playerActions from './../../../actions/player';
-
 // Components
 import Card from './Card/Card';
-
 // utils
 import { replaceStringURL } from '../../../utils/parsers';
-
 // Styles
 import './PlayListCards.scss';
 
@@ -36,8 +33,9 @@ class PlayListCards extends Component {
     const { playLists } = this.props;
     const tracks = playLists.data[index].tracks;
 
-    console.log(actionName, tracks);
     this.props.playerActions.setPlayListData(tracks);
+    // select first song to play
+    this.props.playerActions.selectSong(tracks[0], 0);
   };
 
   render () {
