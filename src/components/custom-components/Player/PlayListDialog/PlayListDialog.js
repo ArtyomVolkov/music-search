@@ -13,7 +13,8 @@ import './PlayListDialog.scss';
 @connect(
   state => ({
     showPlayList: state.playLists.showPlayList,
-    playlist: state.player.playList
+    playlist: state.player.playList,
+    songData: state.player.songData
   }),
   dispatch => ({
     playerAction: bindActionCreators(playerAction, dispatch)
@@ -31,7 +32,7 @@ class PlayListDialog extends Component {
   };
 
   render() {
-    const {showPlayList, playlist} = this.props;
+    const {showPlayList, playlist, songData} = this.props;
 
     return (
       <Dialog
@@ -42,7 +43,7 @@ class PlayListDialog extends Component {
         <div className="body-content">
           <SongItems
             songs={playlist}
-            songData={null}
+            songData={songData}
             onAction={this.onCallAction}
           />
         </div>

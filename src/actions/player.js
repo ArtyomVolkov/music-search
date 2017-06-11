@@ -1,6 +1,7 @@
 export const SET_SONG = 'SET_SONG';
 export const SET_NEXT_SONG = 'SET_NEXT_SONG';
 export const SET_PLAYLIST_DATA = 'SET_PLAYLIST_DATA';
+export const TOGGLE_PLAY = 'TOGGLE_PLAY';
 
 export function selectSong (songData, index) {
   return function (dispatch) {
@@ -12,7 +13,19 @@ function setSong (data) {
   return {
     type: SET_SONG,
     payload: data
+  };
+}
+
+export function onTogglePlay() {
+  return function (dispatch) {
+    dispatch(togglePlay());
   }
+}
+
+function togglePlay() {
+  return {
+    type: TOGGLE_PLAY
+  };
 }
 
 export function setNextSong (soundIndex) {

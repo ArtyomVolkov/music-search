@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Style
 import './Card.scss';
 
+@connect(
+  state => ({
+    player: state.player
+  }),
+  dispatch => ({
+  })
+)
 class Card extends Component {
   constructor (props) {
     super(props);
@@ -13,10 +21,10 @@ class Card extends Component {
   };
 
   render() {
-    const {title, subTitle, media} = this.props;
+    const {title, subTitle, media, active, player} = this.props;
 
     return (
-      <div className="card">
+      <div className={`card ${active ? 'active' : ''}`}>
         <div className="card-header">
           <div className="title">
             <span>{title}</span>
@@ -27,8 +35,10 @@ class Card extends Component {
         </div>
         <div className="card-body">
           <img src={media}/>
-          <i className="fa fa-play-circle" aria-hidden="true" onClick={this.onTogglePlay} />
-          <div className="shadow-wrap"></div>
+          <i className={`fa ${active && player.play ? 'fa-pause-circle' : 'fa-play-circle'}`}
+             aria-hidden="true"
+             onClick={this.onTogglePlay} />
+          <div className="shadow-wrap" />
         </div>
       </div>
     )

@@ -47,18 +47,26 @@ class Player extends Component {
   }
 
   setSongData (songData) {
+    const {player} = this.props;
     const { audioEl, state } = this;
 
     if (!audioEl.el || !songData) {
       return;
     }
 
+    if (player.songData && player.songData.id === songData.id) {
+      !state.play ? audioEl.el.play() : audioEl.el.pause();
+      this.setState({
+        play: !state.play,
+        timeValue: audioEl.el.currentTime
+      });
+      return;
+    }
+
     audioEl.el.src = songData.stream_url + `?client_id=${CLIENT_ID}`;
     audioEl.el.volume = 0.7;
     audioEl.duration = songData.duration;
-    audioEl.el.play().then(() => {
-      //console.log('finish metadata loading');
-    });
+    audioEl.el.play().then(() => {/*console.log('finish metadata loading');*/});
 
     if (!audioEl.el.onended) {
       audioEl.el.onended = this.onEndTrack;
@@ -83,16 +91,11 @@ class Player extends Component {
   }
 
   onChangePlayerAction = (name) => {
-    const { state, audioEl } = this;
-    const { player } = this.props;
+    const { player, playerActions } = this.props;
 
     switch (name) {
       case 'play':
-        state.play ? audioEl.el.pause() : audioEl.el.play();
-        this.setState({
-          play: !state.play,
-          timeValue: audioEl.el.currentTime
-        });
+        playerActions.onTogglePlay();
         return;
 
       case 'next':

@@ -13,7 +13,8 @@ import './PlayListCards.scss';
 
 @connect(
   state => ({
-    playLists: state.playLists
+    playLists: state.playLists,
+    playList: state.player.playList
   }),
   dispatch => ({
     playListActions: bindActionCreators(playlistActions, dispatch),
@@ -30,16 +31,24 @@ class PlayListCards extends Component {
   }
 
   onCallAction (index, actionName) {
-    const { playLists } = this.props;
+    const { playLists, playListActions, playerActions, playList } = this.props;
     const tracks = playLists.data[index].tracks;
 
-    this.props.playerActions.setPlayListData(tracks);
-    // select first song to play
-    this.props.playerActions.selectSong(tracks[0], 0);
+    if (!playList || !playLists.activeIndex || playLists.activeIndex !== index) {
+      playListActions.setActivePlaylist(index);
+      playerActions.setPlayListData(tracks);
+      // select first song to play
+      playerActions.selectSong(tracks[0], 0);
+      return;
+    }
+
+    if (playLists.activeIndex === index) {
+      playerActions.onTogglePlay();
+    }
   };
 
   render () {
-    const { playLists } = this.props;
+    const { playLists, playList} = this.props;
 
     return (
       <div className="play-list-cards">
@@ -48,6 +57,7 @@ class PlayListCards extends Component {
             return (
               <div key={index} className="card-item">
                 <Card
+                  active={playList && playLists.activeIndex === index}
                   title={list.title}
                   subTitle={`${list.track_count} ${list.track_count > 1 ? 'tracks' : 'track'}`}
                   media={replaceStringURL(list.artwork_url || list.tracks[ 0 ].artwork_url, 'large', 'crop')}

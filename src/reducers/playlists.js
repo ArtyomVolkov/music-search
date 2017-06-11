@@ -1,20 +1,28 @@
-import { RECEIVE_PLAY_LISTS, TOGGLE_PLAYLIST_SECTION } from './../actions/playlists';
+import {RECEIVE_PLAY_LISTS, TOGGLE_PLAYLIST_SECTION, SET_ACTIVE_INDEX} from './../actions/playlists';
 
 const defaultState = {
   data: null,
-  showPlayList: false
+  showPlayList: false,
+  activeIndex: null
 };
-export default function playLists (state = defaultState, action) {
-  if (action.type === RECEIVE_PLAY_LISTS) {
-    return Object.assign({}, state, {
-      data: action.payload
-    });
-  }
+export default function playLists(state = defaultState, action) {
+  switch (action.type) {
+    case RECEIVE_PLAY_LISTS:
+      return Object.assign({}, state, {
+        data: action.payload
+      });
 
-  if (action.type === TOGGLE_PLAYLIST_SECTION) {
-    return Object.assign({}, state, {
-      showPlayList: !state.showPlayList
-    });
+    case TOGGLE_PLAYLIST_SECTION:
+      return Object.assign({}, state, {
+        showPlayList: !state.showPlayList
+      });
+
+    case SET_ACTIVE_INDEX:
+      return Object.assign({}, state, {
+        activeIndex: action.payload
+      });
+
+    default:
+      return state;
   }
-  return state;
 }

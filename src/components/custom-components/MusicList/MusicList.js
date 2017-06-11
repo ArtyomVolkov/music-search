@@ -9,10 +9,11 @@ import SongItems from './../SongItems/SongItems';
 @connect(
   state => ({
     searchResults: state.searchResults,
-    songData: state.player.songData
+    songData: state.player.songData,
+    playList: state.player.playList
   }),
   dispatch => ({
-    actions: bindActionCreators(playerAction, dispatch)
+    playerActions: bindActionCreators(playerAction, dispatch)
   })
 )
 class MusicList extends Component {
@@ -21,8 +22,15 @@ class MusicList extends Component {
   }
 
   onCallAction =(name, song, index)=> {
+    const {playerActions, playList} = this.props;
+
     if (name === 'selectSong') {
-      this.props.actions.selectSong(song, index);
+      if (playList) {
+        // reset playList Data
+        playerActions.setPlayListData(null);
+      }
+
+      playerActions.selectSong(song, index);
     }
   };
 
