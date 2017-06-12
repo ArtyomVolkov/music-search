@@ -8,20 +8,26 @@ import './Card.scss';
   state => ({
     player: state.player
   }),
-  dispatch => ({
-  })
+  dispatch => ({})
 )
 class Card extends Component {
   constructor (props) {
     super(props);
   }
 
-  onTogglePlay =() => {
+  onTogglePlay = (e) => {
+    if (e.target.classList.contains('fa-pause-circle')) {
+      e.target.classList.remove('fa-pause-circle');
+      e.target.classList.add('fa-play-circle');
+    } else {
+      e.target.classList.remove('fa-play-circle');
+      e.target.classList.add('fa-pause-circle');
+    }
     this.props.onAction('play');
   };
 
-  render() {
-    const {title, subTitle, media, active, player} = this.props;
+  render () {
+    const { title, subTitle, media, active, player } = this.props;
 
     return (
       <div className={`card ${active ? 'active' : ''}`}>
@@ -37,8 +43,8 @@ class Card extends Component {
           <img src={media}/>
           <i className={`fa ${active && player.play ? 'fa-pause-circle' : 'fa-play-circle'}`}
              aria-hidden="true"
-             onClick={this.onTogglePlay} />
-          <div className="shadow-wrap" />
+             onClick={this.onTogglePlay}/>
+          <div className="shadow-wrap"/>
         </div>
       </div>
     )

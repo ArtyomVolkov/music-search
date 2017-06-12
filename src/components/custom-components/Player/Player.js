@@ -162,7 +162,7 @@ class Player extends Component {
           />
           <Timer value={player.songData.duration}/>
           <Volume audioEl={audioEl.el}/>
-          <PlayListDialog />
+          {player.playList && <PlayListDialog />}
         </div>
       </div>
     );

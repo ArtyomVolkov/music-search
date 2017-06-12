@@ -1,0 +1,83 @@
+.user-details {
+  display: flex;
+  align-items: center;
+  position: relative;
+  &:hover {
+    color: #ffc107;
+    cursor: pointer;
+  }
+
+  .avatar {
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
+
+  .user-name {
+    max-width: 160px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0 10px;
+    overflow: hidden;
+  }
+
+  .user-notifications {
+
+    .fa-bell {
+      font-size: 18px;
+      color: #c2c2c2;
+
+      &:hover {
+        color: #d12f4b;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .details {
+    position: absolute;
+    top: 57px;
+    width: 190px;
+    z-index: 99;
+    background: black;
+
+    .count-value {
+      color: #E91E63;
+      margin-left: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 5px;
+    }
+
+    .details-item {
+      color: #c2c2c2;
+      padding: 10px;
+      &:hover {
+        background: #464d51;
+      }
+
+      .fa {
+        padding-right: 10px;
+        cursor: pointer;
+      }
+      // icon colors
+      .fa-address-card-o {
+        color: #00BCD4;
+      }
+      .fa-users {
+        color: #4CAF50;
+      }
+      .fa-envelope-open {
+        color: #ffeea3;
+      }
+      .fa-heart {
+        color: #d12f4b;
+      }
+      .fa-list-alt {
+        color: #ffc107;
+      }
+    }
+  }
+}

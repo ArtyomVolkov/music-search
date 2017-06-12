@@ -13,7 +13,7 @@ import './PlayListDialog.scss';
 @connect(
   state => ({
     showPlayList: state.playLists.showPlayList,
-    playlist: state.player.playList,
+    playLists: state.playLists,
     songData: state.player.songData
   }),
   dispatch => ({
@@ -32,17 +32,18 @@ class PlayListDialog extends Component {
   };
 
   render() {
-    const {showPlayList, playlist, songData} = this.props;
+    const {showPlayList, songData, playLists} = this.props;
+    const activePlayList = playLists.data[playLists.activeIndex];
 
     return (
       <Dialog
-        title="Playlist dialog"
+        title={activePlayList.title}
         modal={false}
         open={showPlayList}
         autoScrollBodyContent={true}>
         <div className="body-content">
           <SongItems
-            songs={playlist}
+            songs={activePlayList.tracks}
             songData={songData}
             onAction={this.onCallAction}
           />

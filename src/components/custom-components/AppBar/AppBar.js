@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // Components
 import NavigationBar from '../NavigationBar/NavigationBar';
+import UserSection from '../../custom-components/UserSection/UserSection';
 
 // Style
 import './AppBar.scss';
@@ -19,7 +20,7 @@ class AppBar extends Component {
           <NavigationBar />
         </div>
         <div className="user-section">
-          <i className="fa fa-user-circle-o" aria-hidden="true" />
+          <UserSection />
         </div>
       </div>
     )
