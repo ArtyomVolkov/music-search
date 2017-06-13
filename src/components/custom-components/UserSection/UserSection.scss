@@ -12,32 +12,3 @@
     }
   }
 }
-
-.social-login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-
-  .fa {
-    font-size: 36px;
-    padding: 0 15px;
-
-    &:hover {
-      text-shadow: 2px 0 8px #17e220, 0 0 1em #18941d;
-      cursor: pointer;
-    }
-
-    &.fa-google-plus-square {
-      color: #ea4335;
-    }
-
-    &.fa-soundcloud {
-      color: orangered;
-    }
-    
-    &.fa-facebook-square {
-      color: #264285;;
-    }
-  }
-}

@@ -5,6 +5,7 @@ import player from  './player';
 import searchResults from './search-results';
 import playLists from './playlists';
 import system from './system';
+import dialog from './dialog';
 import auth from './auth';
 
 const ROOT = combineReducers({
@@ -12,6 +13,7 @@ const ROOT = combineReducers({
   auth,
   player,
   system,
+  dialog,
   playLists,
   searchResults
 });

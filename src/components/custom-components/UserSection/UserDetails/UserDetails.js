@@ -21,25 +21,25 @@ class UserDetails extends Component {
         name: 'Friends',
         action: 'open_friends',
         icon: 'fa-users',
-        number: 25
+        number: 0
       },
       {
         name: 'Messages',
         action: 'open_messages',
         icon: 'fa-envelope-open',
-        number: 4
+        number: 0
       },
       {
         name: 'Likes',
         action: 'open_likes',
         icon: 'fa-heart',
-        number: 5
+        number: props.user.likes_count
       },
       {
         name: 'Playlists',
         action: 'open_playlists',
         icon: 'fa-list-alt',
-        number: 4
+        number: props.user.playlist_count
       }
     ];
   }
@@ -87,7 +87,7 @@ class UserDetails extends Component {
                   onClick={this.onCallAction.bind(this, item.action)}>
                   <i className={`fa ${item.icon}`} aria-hidden="true"/>
                   <span>{item.name}</span>
-                  {item.number && <span className="count-value">{item.number}</span>}
+                  {!!item.number && <span className="count-value">{item.number}</span>}
                 </div>
               )
             })}

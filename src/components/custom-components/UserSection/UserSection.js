@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // Actions
 import * as authActions from './../../../actions/auth';
-// MU components
-import { Dialog, TextField, FlatButton } from 'material-ui';
 // Components
 import UserDetails from './UserDetails/UserDetails';
+//Services
+import DIALOG_SERVICE from '../../../services/DialogService/DialogService';
 // Styles
 import './UserSection.scss';
 
@@ -30,69 +30,31 @@ class UserSection extends Component {
     props.authActions.getUser();
   }
 
-  onOpenUserDialog (name) {
-    if (name === 'login') {
-      this.setState({
-        isOpenDialog: true,
-        dialogData: this.getLoginDialogData()
-      });
-    }
-  }
-
-  onCloseDialog = () => {
-    this.setState({
-      isOpenDialog: false
-    });
-  };
-
-  getLoginDialogData () {
-    return {
-      title: 'Login',
-      body: (
-        <div>
-          <TextField
-            floatingLabelText="Email"
-            fullWidth={true}
-            hintText="type email address"/>
-          <br />
-          <TextField
-            hintText="Password"
-            fullWidth={true}
-            floatingLabelText="Password"
-            type="password"
-          />
-          <div className="social-login">
-            <i className="fa fa-google-plus-square" aria-hidden="true"/>
-            <i className="fa fa-facebook-square" aria-hidden="true"/>
-            <i className="fa fa-soundcloud" aria-hidden="true"/>
-          </div>
-        </div>
-      ),
-      actions: [
-        <FlatButton
-          label="Cancel"
-          primary={false}
-          onTouchTap={this.onCloseDialog}
-        />,
-        <FlatButton
-          label="Login"
-          primary={true}
-          onTouchTap={this.onCloseDialog}
-        />
-      ],
-      style: {
-        width: '400px'
-      }
-    };
-  }
 
   onAction = (name) => {
-    console.log('Action ' + name);
+    switch (name) {
+      case 'open_profile':
+        this.openProfileDialog();
+        break;
+
+      case 'open_login':
+        this.openLoginDialog();
+        break;
+
+      default: break;
+    }
   };
+
+  openProfileDialog () {
+    DIALOG_SERVICE.onOpen('profile', this.props.auth.user);
+  }
+
+  openLoginDialog () {
+    DIALOG_SERVICE.onOpen('login');
+  }
 
   render () {
     const { auth } = this.props;
-    const { isOpenDialog, dialogData } = this.state;
 
     return (
       <div className="user-data">
@@ -100,21 +62,10 @@ class UserSection extends Component {
           !auth.authorization &&
           <div className="default-user">
             <i className="fa fa-user-circle-o" aria-hidden="true"/>
-            <span onClick={this.onOpenUserDialog.bind(this, 'login')}>Login</span>
+            <span onClick={this.onAction.bind(this, 'open_login')}>Login</span>
           </div>
         }
         {auth.authorization && <UserDetails user={auth.user} onAction={this.onAction}/>}
-        {dialogData &&
-        <Dialog
-          title={dialogData.title}
-          autoScrollBodyContent={true}
-          contentStyle={dialogData.style}
-          open={isOpenDialog}
-          actions={dialogData.actions}
-          modal={false}>
-          <div>{dialogData.body}</div>
-        </Dialog>
-        }
       </div>
     )
   }
