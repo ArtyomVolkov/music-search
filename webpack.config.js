@@ -5,14 +5,14 @@ var path = require("path");
 var extractCSS = new ExtractTextPlugin('common.css');
 
 module.exports = {
-	context: path.join(__dirname, "src"),
+	context: path.join(__dirname, "client/src"),
 	devtool: "inline-sourcemap",
 	entry: './index.js',
 	stats: {
 		children: false
 	},
 	output: {
-		path: __dirname,
+		path: 'client',
 		filename: 'main.min.js'
 	},
 	resolve: {

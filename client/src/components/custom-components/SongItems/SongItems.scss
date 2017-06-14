@@ -1,0 +1,25 @@
+.song-items {
+  .song-item {
+    &:hover {
+      background: #e9e9e9;
+      cursor: pointer;
+    }
+
+    &.active {
+      background: #caffd5;
+      &:hover {
+        background: #c7ffb7;
+      }
+
+      .fa-play-circle {
+        color: orangered;
+      }
+    }
+  }
+
+  .music-actions {
+    .fa {
+      margin: 0 10px;
+    }
+  }
+}

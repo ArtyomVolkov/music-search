@@ -1,0 +1,50 @@
+.player-container {
+  width: 100%;
+  display: flex;
+  border-top: 4px solid #7dca38;
+  background: #272727;
+}
+
+.music-panel {
+  width: 100%;
+  display: flex;
+  max-width: 1140px;
+  margin: 0 auto;
+  align-items: center;
+  height: 60px;
+
+  .img-container {
+    display: flex;
+    margin-right: 15px;
+    background: #FFC107;
+    border-radius: 50%;
+
+    img {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .playlist-icons {
+    margin: 0 10px;
+
+    .fa {
+      font-size: 24px;
+      color: #9E9E9E;
+
+      &.fa-list-alt.active {
+        color: orange;
+      }
+
+      &:hover {
+        color: orange;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .timer {
+    padding: 0 10px;
+    color: white;
+  }
+}
