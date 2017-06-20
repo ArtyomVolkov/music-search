@@ -1,0 +1,204 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+// Actions
+import * as playerActions from '../../../actions/player';
+import * as playListActions from '../../../actions/playlists';
+// components
+import PlayerActions from './PlayerActions/PlayerActions';
+import PlayListDialog from './PlayListDialog/PlayListDialog';
+import TrackBar from './TrackBar/TrackBar';
+import Timer from './Timer/Timer';
+import Volume from './Volume/Volume';
+// Services
+import MSG_SRV from '../../../services/MessageService/MessageService';
+// Settings & Utils
+import { SONG_IMG_URL, DEFAULT_VOLUME } from '../../../settings';
+
+// Style
+import './Player.scss';
+
+@connect(
+  state => ({
+    player: state.player
+  }),
+  dispatch => ({
+    playerActions: bindActionCreators(playerActions, dispatch),
+    playListActions: bindActionCreators(playListActions, dispatch)
+  })
+)
+class Player extends Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      play: true,
+      muted: false,
+      timeValue: 0
+    };
+
+    this.audioEl = {
+      el: document.createElement('audio'),
+      duration: 0,
+      step: 0
+    };
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setSongData(nextProps.player.songData);
+  }
+
+  setSongData (songData) {
+    const { player } = this.props;
+    const { audioEl, state } = this;
+
+    if (!audioEl.el || !songData) {
+      return;
+    }
+
+    if (player.songData && player.songData.id === songData.id) {
+      !state.play ? audioEl.el.play() : audioEl.el.pause();
+      this.setState({
+        play: !state.play,
+        timeValue: audioEl.el.currentTime
+      });
+      return;
+    }
+
+    this.setAudioData(songData);
+  }
+
+  setAudioData (audio) {
+    const { audioEl, state } = this;
+
+    audioEl.el.src = audio.stream_url;
+    audioEl.el.volume = DEFAULT_VOLUME;
+    audioEl.duration = audio.duration;
+
+    this.setAudioHandlers();
+    if (state.play) {
+      this.setState({
+        play: true
+      });
+    }
+  }
+
+  setAudioHandlers () {
+    const { audioEl } = this;
+
+    if (!audioEl.el.onended) {
+      audioEl.el.onended = this.onEndTrack;
+    }
+
+    if (!audioEl.el.onerror) {
+      audioEl.el.onerror = () => {
+        MSG_SRV.pushMessage({
+          type: 'error',
+          msg: 'Error in loading of song data stream'
+        });
+        this.setState({
+          play: false
+        });
+      }
+    }
+
+    if (!audioEl.el.oncanplaythrough) {
+      audioEl.el.oncanplaythrough = () => {
+        if (this.state.play) {
+          audioEl.el.play();
+        }
+      };
+    }
+  }
+
+  onEndTrack = () => {
+    this.nextSong(this.props.player.soundIndex + 1);
+  };
+
+  nextSong (index) {
+    if (!index || index < 0) {
+      return;
+    }
+    this.props.playerActions.setNextSong(index);
+  }
+
+  onChangePlayerAction = (name) => {
+    const { player, playerActions } = this.props;
+
+    switch (name) {
+      case 'play':
+        playerActions.onTogglePlay();
+        return;
+
+      case 'next':
+        this.nextSong(player.soundIndex + 1);
+        return;
+
+      case 'previous':
+        this.nextSong(player.soundIndex - 1);
+        break;
+    }
+  };
+
+  onChangeTimeBar = (value) => {
+    this.audioEl.el.currentTime = value;
+    this.setState({
+      timeValue: value
+    });
+  };
+
+  onTogglePlayList = (e) => {
+    e.currentTarget.classList.contains('active')
+      ? e.currentTarget.classList.remove('active')
+      : e.currentTarget.classList.add('active');
+
+    this.props.playListActions.onTogglePlayList();
+  };
+
+  render () {
+    const { player } = this.props;
+    const { play, timeValue } = this.state;
+    const { audioEl } = this;
+
+    if (!player.songData) {
+      return false;
+    }
+
+    return (
+      <div className="player-container">
+        <div className="music-panel">
+          <div className="img-container">
+            <img src={player.songData.img || SONG_IMG_URL}/>
+          </div>
+          <PlayerActions
+            isPlaying={play}
+            onChange={this.onChangePlayerAction}
+          />
+          {player.playList &&
+          <div className="playlist-icons">
+            <i
+              className="fa fa-list-alt"
+              aria-hidden="true"
+              onClick={this.onTogglePlayList}/>
+          </div>}
+          <Timer
+            value={timeValue * 1000}
+            autoUpdate={true}
+            audio={audioEl.el}
+            isPlaying={play}
+          />
+          <TrackBar
+            audioEl={audioEl.el}
+            isPlaying={play}
+            onChangeTimeBar={this.onChangeTimeBar}
+          />
+          <Timer value={player.songData.duration * 1000}/>
+          <Volume audioEl={audioEl.el}/>
+          {player.playList && <PlayListDialog />}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default Player;

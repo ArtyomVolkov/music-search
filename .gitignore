@@ -1,5 +1,5 @@
 .idea
 node_modules
 *.log
-client/main.min.js
-client/common.css
+main.min.js
+common.css

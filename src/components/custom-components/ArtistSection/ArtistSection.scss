@@ -1,0 +1,11 @@
+.artist-section {
+  display: flex;
+  align-items: center;
+
+  .title {
+    margin-left: 15px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #607d8b;
+  }
+}
