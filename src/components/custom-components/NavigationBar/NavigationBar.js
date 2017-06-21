@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 // Services
 import RouterService from '../../../services/RouterService/RouterService';
 // Style
 import './NavigationBar.scss';
 
-class NavigationBar extends Component {
+class NavigationBar extends React.Component {
   constructor (props) {
     super(props);
 
@@ -30,17 +30,14 @@ class NavigationBar extends Component {
     return (
       <div className="nav-bar">
         <i className={`fa fa-search ${currentPage === '/search' ? 'active' : ''}`}
-           aria-hidden="true"
            onClick={this.onNavigateTo.bind(this, '/search')}>
           <span className="icon-title">Search</span>
         </i>
         <i className={`fa fa-list-alt ${currentPage === '/play-lists' ? 'active' : ''}`}
-           aria-hidden="true"
            onClick={this.onNavigateTo.bind(this, '/play-lists')}>
           <span className="icon-title">Playlists</span>
         </i>
         <i className={`fa fa-play-circle-o ${currentPage === '/recent-activity' ? 'active' : ''}`}
-           aria-hidden="true"
            onClick={this.onNavigateTo.bind(this, '/recent-activity')}>
           <span className="icon-title">Recent Activity</span>
         </i>

@@ -1,0 +1,46 @@
+.track-item {
+  position: relative;
+  border-top: 1px solid #dcdcdc;
+
+  &.active {
+    background: #e8e8e8;
+    &:hover {
+      background: #e8e8e8;
+    }
+  }
+
+  &.error {
+    background: #ffdcda;
+    &:hover {
+      background: #ffdcda;
+    }
+  }
+
+  &.disabled {
+    background: #f1f1f1;
+    opacity: 0.5;
+    &:hover {
+      background: #ebebeb;
+      cursor: default;
+    }
+  }
+
+  .fa-play-circle, .fa-pause-circle {
+    font-size: 38px;
+    color: #607D8B;
+
+    &:hover {
+      color: #84a0ad;
+    }
+  }
+  .spinner-wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(225, 225, 225, 0.5);
+  }
+}

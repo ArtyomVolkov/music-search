@@ -46,4 +46,35 @@
     padding: 0 10px;
     color: white;
   }
+
+  .track-section {
+    flex: 1;
+    margin: 0 10px;
+
+    .song-details {
+      font-size: 14px;
+      color: #ff9800;
+
+      span {
+        display: inline-block;
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .author {
+        font-weight: 600;
+        max-width: 200px;
+      }
+
+      .divider {
+        padding: 0 5px;
+      }
+
+      .song-name {
+        max-width: 350px;
+      }
+    }
+  }
 }

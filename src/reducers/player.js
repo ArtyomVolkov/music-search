@@ -1,10 +1,11 @@
-import { SET_SONG, SET_PLAYLIST_DATA, TOGGLE_PLAY} from '../actions/player';
+import { SET_SONG, SET_PLAYLIST_DATA, TOGGLE_PLAY, SET_ERROR_TRACK_ID} from '../actions/player';
 
 const defaultState = {
   play: false,
   songData: null,
   playList: null,
-  soundIndex: -1
+  soundIndex: -1,
+  trackIdError: null
 };
 
 export default function player (state = defaultState, action) {
@@ -24,6 +25,11 @@ export default function player (state = defaultState, action) {
     case TOGGLE_PLAY:
       return Object.assign({}, state, {
         play: !state.play,
+      });
+
+    case SET_ERROR_TRACK_ID:
+      return Object.assign({}, state, {
+        trackIdError: action.payload
       });
 
     default:

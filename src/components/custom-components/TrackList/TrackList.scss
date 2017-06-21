@@ -1,33 +1,4 @@
 .tracks {
   margin-top: 20px;
   border: 1px solid #dcdcdc;
-
-  .track-item {
-    border-top: 1px solid #dcdcdc;
-
-    &.active {
-      background: #cbffcd;
-      &:hover {
-        background: #c3ffbb;
-      }
-    }
-
-    &.disabled {
-      background: #f1f1f1;
-      opacity: 0.5;
-      &:hover {
-        background: #ebebeb;
-        cursor: default;
-      }
-    }
-
-    .fa-play-circle, .fa-pause-circle {
-      font-size: 38px;
-      color: #607D8B;
-
-      &:hover {
-        color: #84a0ad;
-      }
-    }
-  }
 }

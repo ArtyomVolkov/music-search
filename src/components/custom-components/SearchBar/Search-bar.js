@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { TextField, SelectField, MenuItem } from 'material-ui';
@@ -17,7 +17,7 @@ const ENTER_KEY_CODE = 13;
     actions: bindActionCreators(searchActions, dispatch)
   })
 )
-class SearchBar extends Component {
+class SearchBar extends React.Component {
   constructor (props) {
     super(props);
 
@@ -76,7 +76,7 @@ class SearchBar extends Component {
         <TextField
           className={"input-search"}
           floatingLabelText="Search any song or artist"
-          hintText="Type any song and press Enter"
+          hintText="Type any value and press Enter"
           onKeyUp={this.onKeyUp}
           defaultValue={this.searchValue}
           style={{ fontSize: 20 }}
@@ -88,8 +88,10 @@ class SearchBar extends Component {
           value={searchFilter}
           floatingLabelText="Search by"
           onChange={this.onChangeSearchFilter}>
-          <MenuItem value={0} primaryText="All"/>
-          <MenuItem value={1} primaryText="Artist"/>
+          <MenuItem value={0} primaryText="All" leftIcon={<i className="fa fa-globe" />}/>
+          <MenuItem value={1} primaryText="Artist" leftIcon={<i className="fa fa-users" />}/>
+          <MenuItem value={2} primaryText="Genre" leftIcon={<i className="fa fa-music" />}/>
+          <MenuItem value={3} primaryText="Track" leftIcon={<i className="fa fa-list" />}/>
         </SelectField>
       </div>
     );

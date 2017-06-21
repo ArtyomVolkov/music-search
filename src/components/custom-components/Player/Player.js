@@ -45,46 +45,44 @@ class Player extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setSongData(nextProps.player.songData);
+    this.setSongData(nextProps.player);
   }
 
-  setSongData (songData) {
+  setSongData (newSongData) {
+    const { audioEl } = this;
     const { player } = this.props;
-    const { audioEl, state } = this;
 
-    if (!audioEl.el || !songData) {
+    if (!audioEl.el || !newSongData.songData) {
       return;
     }
 
-    if (player.songData && player.songData.id === songData.id) {
-      !state.play ? audioEl.el.play() : audioEl.el.pause();
-      this.setState({
-        play: !state.play,
-        timeValue: audioEl.el.currentTime
-      });
+    if (player.songData && player.songData.id === newSongData.songData.id) {
+      this.onPlayPause(audioEl.el);
       return;
     }
+    this.setAudioData(newSongData.songData);
+  }
 
-    this.setAudioData(songData);
+  onPlayPause (audio) {
+    !this.props.player.play ? audio.play() : audio.pause();
+    this.setState({
+      timeValue: audio.currentTime
+    });
   }
 
   setAudioData (audio) {
-    const { audioEl, state } = this;
+    const { audioEl } = this;
 
     audioEl.el.src = audio.stream_url;
     audioEl.el.volume = DEFAULT_VOLUME;
     audioEl.duration = audio.duration;
 
     this.setAudioHandlers();
-    if (state.play) {
-      this.setState({
-        play: true
-      });
-    }
   }
 
   setAudioHandlers () {
     const { audioEl } = this;
+    const { playerActions } = this.props;
 
     if (!audioEl.el.onended) {
       audioEl.el.onended = this.onEndTrack;
@@ -96,15 +94,13 @@ class Player extends Component {
           type: 'error',
           msg: 'Error in loading of song data stream'
         });
-        this.setState({
-          play: false
-        });
+        playerActions.onErrorTrackID(this.props.player.songData.id);
       }
     }
 
     if (!audioEl.el.oncanplaythrough) {
       audioEl.el.oncanplaythrough = () => {
-        if (this.state.play) {
+        if (this.props.player.play) {
           audioEl.el.play();
         }
       };
@@ -119,7 +115,7 @@ class Player extends Component {
     if (!index || index < 0) {
       return;
     }
-    this.props.playerActions.setNextSong(index);
+    //this.props.playerActions.setNextSong(index);
   }
 
   onChangePlayerAction = (name) => {
@@ -157,7 +153,7 @@ class Player extends Component {
 
   render () {
     const { player } = this.props;
-    const { play, timeValue } = this.state;
+    const { timeValue } = this.state;
     const { audioEl } = this;
 
     if (!player.songData) {
@@ -171,7 +167,7 @@ class Player extends Component {
             <img src={player.songData.img || SONG_IMG_URL}/>
           </div>
           <PlayerActions
-            isPlaying={play}
+            isPlaying={player.play}
             onChange={this.onChangePlayerAction}
           />
           {player.playList &&
@@ -185,13 +181,20 @@ class Player extends Component {
             value={timeValue * 1000}
             autoUpdate={true}
             audio={audioEl.el}
-            isPlaying={play}
+            isPlaying={player.play}
           />
-          <TrackBar
-            audioEl={audioEl.el}
-            isPlaying={play}
-            onChangeTimeBar={this.onChangeTimeBar}
-          />
+          <div className="track-section">
+            <div className="song-details">
+              <span className="author" title={player.songData.singer}>{player.songData.singer}</span>
+              <span className="divider"> - </span>
+              <span className="song-name" title={player.songData.song}>{player.songData.song}</span>
+            </div>
+            <TrackBar
+              audioEl={audioEl.el}
+              isPlaying={player.play}
+              onChangeTimeBar={this.onChangeTimeBar}
+            />
+          </div>
           <Timer value={player.songData.duration * 1000}/>
           <Volume audioEl={audioEl.el}/>
           {player.playList && <PlayListDialog />}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // MU components
 import { Snackbar } from 'material-ui';
-// actions]
+// actions
 import * as msgActions from '../../../../actions/system';
 // settings
 import { MESSAGE_DURATION_TIME, NO_DATA } from '../../../../settings';

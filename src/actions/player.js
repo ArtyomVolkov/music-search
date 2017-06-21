@@ -2,6 +2,7 @@ export const SET_SONG = 'SET_SONG';
 export const SET_NEXT_SONG = 'SET_NEXT_SONG';
 export const SET_PLAYLIST_DATA = 'SET_PLAYLIST_DATA';
 export const TOGGLE_PLAY = 'TOGGLE_PLAY';
+export const SET_ERROR_TRACK_ID = 'SET_ERROR_TRACK_ID';
 
 export function selectSong (songData, index) {
   return function (dispatch) {
@@ -61,6 +62,19 @@ function pushPlaylistData (data) {
   return {
     type: SET_PLAYLIST_DATA,
     payload: data
+  };
+}
+
+export function onErrorTrackID (trackId) {
+  return function (dispatch) {
+    dispatch(setErrorTrackId(trackId))
+  }
+}
+
+function setErrorTrackId (trackId) {
+  return {
+    type: SET_ERROR_TRACK_ID,
+    payload: trackId
   };
 }
 
