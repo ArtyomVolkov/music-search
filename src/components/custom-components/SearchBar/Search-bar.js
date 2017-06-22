@@ -10,6 +10,12 @@ import URL_Service from '../../../services/QueryParamService/URLservice';
 import './Search-bar.scss';
 
 const ENTER_KEY_CODE = 13;
+const MIN_SEARCH_TERM_LENGTH = 3;
+const FILTER_TYPES = [
+  {index: 0, className: 'fa-users', value: "ARTIST"},
+  {index: 1, className: 'fa-music', value: "GENRE"},
+  {index: 2, className: 'fa-list', value: "TRACK"}
+];
 
 @connect(
   state => ({}),
@@ -23,27 +29,46 @@ class SearchBar extends React.Component {
 
     this.state = {
       disableSearch: false,
-      searchFilter: 0
+      filterIndex: 0,
+      searchType: FILTER_TYPES[0].value
     };
+    this.parseQueryParams();
+  }
 
+  parseQueryParams() {
     this.searchValue = '';
-    if (URL_Service.getQueryParam('searchTerm')) {
-      this.searchValue = decodeURI(URL_Service.getQueryParam('searchTerm').value);
-    }
+    URL_Service.getQueryParams().map((param) => {
+      if (param.key === 'searchTerm' && param.value) {
+        this.searchValue = param.value;
+        return
+      }
+      if (param.key === 'type' && param.value) {
+        const filter = FILTER_TYPES.find((filter) => filter.value === param.value);
+
+        if (filter) {
+          this.state.searchType = param.value;
+          this.state.filterIndex = filter.index;
+        } else {
+          this.state.searchType = FILTER_TYPES[0].value; // set by default
+        }
+      }
+    });
   }
 
   componentDidMount () {
-    if (this.searchValue) {
-      this.props.actions.searchSongs(this.searchValue);
+    const { props, searchValue, state } = this;
+
+    if (searchValue && searchValue.length >= MIN_SEARCH_TERM_LENGTH) {
+      props.actions.searchBy(searchValue, state.searchType);
     }
   }
 
   onKeyUp = (e) => {
-    const { disableSearch } = this.state;
+    const { disableSearch, searchType } = this.state;
 
     this.searchValue = e.target.value;
 
-    if (this.searchValue.length < 3) {
+    if (this.searchValue.length < MIN_SEARCH_TERM_LENGTH) {
       this.setState({
         disableSearch: true
       });
@@ -57,26 +82,57 @@ class SearchBar extends React.Component {
     }
 
     if (e.keyCode === ENTER_KEY_CODE) {
-      URL_Service.setQueryParam('searchTerm', this.searchValue);
-      this.props.actions.searchSongs(this.searchValue);
+      this.searchMusic(this.searchValue, searchType);
     }
   };
 
-  onChangeSearchFilter = (e, value) => {
+  searchMusic (searchTerm, type) {
+    const { actions } = this.props;
+
+    URL_Service.setQueryParam('searchTerm', searchTerm);
+    URL_Service.setQueryParam('type', type);
+    actions.searchBy(searchTerm, type);
+  }
+
+  onChangeSearchFilter = (e, index) => {
+    const { filterIndex } = this.state;
+    const type = this.getFilterHintValue(index);
+
+    if (this.searchValue.length >= MIN_SEARCH_TERM_LENGTH && filterIndex !== index) {
+      this.searchMusic(this.searchValue, type);
+    }
+
     this.setState({
-      searchFilter: value
+      filterIndex: index,
+      searchType: type
     });
   };
 
+  getFilterHintValue (index) {
+    switch (index) {
+      case 0:
+        return 'ARTIST';
+
+      case 1:
+        return 'GENRE';
+
+      case 2:
+        return 'TRACK';
+
+      default :
+        return 'ARTIST';
+    }
+  }
+
   render () {
-    const { disableSearch, searchFilter } = this.state;
+    const { disableSearch, filterIndex, searchType } = this.state;
 
     return (
       <div className="search-bar">
         <TextField
           className={"input-search"}
-          floatingLabelText="Search any song or artist"
-          hintText="Type any value and press Enter"
+          floatingLabelText={`Search by ${searchType}`}
+          hintText="Type value and press Enter"
           onKeyUp={this.onKeyUp}
           defaultValue={this.searchValue}
           style={{ fontSize: 20 }}
@@ -85,13 +141,21 @@ class SearchBar extends React.Component {
           fullWidth={true}
         />
         <SelectField
-          value={searchFilter}
+          value={filterIndex}
           floatingLabelText="Search by"
           onChange={this.onChangeSearchFilter}>
-          <MenuItem value={0} primaryText="All" leftIcon={<i className="fa fa-globe" />}/>
-          <MenuItem value={1} primaryText="Artist" leftIcon={<i className="fa fa-users" />}/>
-          <MenuItem value={2} primaryText="Genre" leftIcon={<i className="fa fa-music" />}/>
-          <MenuItem value={3} primaryText="Track" leftIcon={<i className="fa fa-list" />}/>
+          {
+            FILTER_TYPES.map((item, index) => {
+              return (
+                <MenuItem
+                  key={index}
+                  disabled={!item.index}
+                  value={item.index}
+                  primaryText={item.value}
+                  leftIcon={<i className={`fa ${item.className}`}/>}/>
+              );
+            })
+          }
         </SelectField>
       </div>
     );

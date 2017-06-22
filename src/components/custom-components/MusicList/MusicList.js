@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import * as playerAction from '../../../actions/player';
 // Components
 import SongItems from '../SongItems/SongItems';
+import TrackList from '../TrackList/TrackList';
 // Services
 import RouterService from '../../../services/RouterService/RouterService';
 
@@ -41,11 +42,24 @@ class MusicList extends Component {
     return (
       <div className="music-list">
         {
-          searchResults.data &&
-          <SongItems
-            songs={searchResults.data}
-            songData={songData}
-            onAction={this.onCallAction} />
+          searchResults.type === 'ARTIST' &&
+          (searchResults.data &&
+            <SongItems
+              songs={searchResults.data}
+              songData={songData}
+              onAction={this.onCallAction}
+            />
+          )
+        }
+        {
+          searchResults.type === 'TRACK' &&
+          (searchResults.data &&
+            <TrackList
+              tracks={searchResults.data}
+              subHeader={`Found tracks (${searchResults.data.length})`}
+              artistId={null}
+            />
+          )
         }
       </div>
     );

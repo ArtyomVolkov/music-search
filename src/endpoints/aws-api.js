@@ -1,8 +1,24 @@
 import * as axios from 'axios';
-import { ARTIST_SEARCH, ARTIST_TRACKS, ARTIST_DATA, STREAM, SONG_MBID } from '../settings';
+import {
+  SEARCH_ARTIST,
+  SEARCH_GENRE,
+  SEARCH_TRACK,
+  ARTIST_TRACKS,
+  ARTIST_DATA,
+  STREAM,
+  SONG_MBID
+} from '../settings';
 
-export function searchArtist (value) {
-  return axios.get(`${ARTIST_SEARCH}?query=${value}`);
+export function searchByArtist (value) {
+  return axios.get(`${SEARCH_ARTIST}?query=${value}`);
+}
+
+export function searchByGenre (value) {
+  return axios.get(`${SEARCH_GENRE}?query=${value}`);
+}
+
+export function searchByTrack (value) {
+  return axios.get(`${SEARCH_TRACK}?query=${value}`);
 }
 
 export function getArtistTracks(artistId) {

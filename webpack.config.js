@@ -12,7 +12,7 @@ module.exports = {
 		children: false
 	},
 	output: {
-		path: 'client',
+		path: __dirname,
 		filename: 'main.min.js'
 	},
 	resolve: {

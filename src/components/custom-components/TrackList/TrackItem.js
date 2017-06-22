@@ -8,7 +8,7 @@ import * as artistActions from '../../../actions/artist';
 import * as system from '../../../actions/system';
 
 // endpoints
-import {getSongData, getSongStreamById} from '../../../endpoints/aws-api';
+import {getSongStreamById} from '../../../endpoints/aws-api';
 
 // MU components
 import { IconMenu, MenuItem, IconButton, CircularProgress } from 'material-ui';
@@ -41,7 +41,6 @@ class TrackItem extends React.Component {
     const { artistId, playerActions, systemActions, player } = this.props;
     let songData = {};
 
-
     if (player.songData && index === player.soundIndex) {
       if (player.songData.id === player.trackIdError) {
         systemActions.onPushMessage({
@@ -59,46 +58,31 @@ class TrackItem extends React.Component {
       loading: true
     });
 
-    getSongData(artistId, track.mbid).then((songDataResp) => {
-      if (!songDataResp.data) {
-        // push error
-        systemActions.onPushMessage({
-          type: 'error',
-          msg: 'No Song Data'
-        });
+    songData = Object.assign({}, track);
+    getSongStreamById(track.id).then((streamData) => {
+      songData.stream_url = streamData.data;
+      playerActions.selectSong(songData, index);
 
-        this.setState({
-          loading: false
-        });
-        return;
-      }
-
-      songData = songDataResp.data;
-      getSongStreamById(songDataResp.data.id).then((streamData) => {
-        songData.stream_url = streamData.data;
-        playerActions.selectSong(songData, index);
-
-        this.setState({
-          loading: false
-        });
-      })
+      this.setState({
+        loading: false
+      });
     });
   }
 
   render () {
-    const { player, track, indexItem, artistId } = this.props;
+    const { player, track, indexItem } = this.props;
     const { loading } = this.state;
     const active = player.soundIndex === indexItem ? 'active' : '';
-    const disabled = !track.mbid ? 'disabled' : '';
+    //const disabled = !track.mbid ? 'disabled' : '';
     const error = (player.songData && !!active && player.songData.id === player.trackIdError) ? 'error' : '';
 
     return (
-      <div className={`track-item ${active} ${disabled} ${error}`} >
+      <div className={`track-item ${active} ${error}`} >
         <ListItem
-          disabled={!track.mbid}
+          disabled={false}
           onTouchTap={this.onPlaySong.bind(this, track, indexItem)}
-          primaryText={track.name}
-          rightIconButton={track.mbid &&
+          primaryText={`${track.singer} - ${track.song}`}
+          rightIconButton={
           <IconMenu iconButtonElement={
             <IconButton
               touch={true}

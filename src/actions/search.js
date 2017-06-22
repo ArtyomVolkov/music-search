@@ -1,23 +1,42 @@
 export const RECEIVE_SONGS = 'RECEIVE_SONGS';
 
 // endpoints
-import { searchArtist } from '../endpoints/aws-api';
+import { searchByArtist, searchByGenre, searchByTrack } from '../endpoints/aws-api';
 import { showSpinner, hideSpinner } from './system';
 
-export function searchSongs (value) {
+export function searchBy (value, searchType) {
   return function (dispatch) {
     dispatch(showSpinner());
 
-    searchArtist(value).then((resp) => {
-      dispatch(hideSpinner());
-      dispatch(receiveSongs(resp.data));
-    });
+    if (searchType === 'ARTIST') {
+      searchByArtist(value).then((resp) => {
+        dispatch(receiveSongData(searchType, resp.data));
+        dispatch(hideSpinner());
+      });
+      return;
+    }
+
+    if (searchType === 'GENRE') {
+      searchByGenre(value).then((resp) => {
+        dispatch(receiveSongData(searchType, resp.data));
+        dispatch(hideSpinner());
+      });
+      return;
+    }
+
+    if (searchType === 'TRACK') {
+      searchByTrack(value).then((resp) => {
+        dispatch(receiveSongData(searchType, resp.data));
+        dispatch(hideSpinner());
+      });
+    }
+    dispatch(hideSpinner());
   };
 }
 
-function receiveSongs (data) {
+function receiveSongData (type, data) {
   return {
     type: RECEIVE_SONGS,
-    payload: data
+    payload: { type, data }
   };
 }

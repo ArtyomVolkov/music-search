@@ -1,4 +1,24 @@
 .tracks {
   margin-top: 20px;
   border: 1px solid #dcdcdc;
+
+  .spinner-container {
+    position: relative;
+    display: flex;
+    padding: 4px;
+    min-height: 40px;
+    align-items: center;
+    background: #eaeaea;
+    justify-content: center;
+
+    &.hidden {
+      display: none;
+    }
+
+    .spinner {
+      position: relative;
+      left: -20px;
+      top: -20px;
+    }
+  }
 }
