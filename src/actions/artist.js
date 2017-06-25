@@ -1,11 +1,11 @@
+// actions
+import { RECEIVE_ARTIST_DATA } from './index';
 // endpoints
 import { getArtistTracks, getSongData, getSongStreamById } from '../endpoints/aws-api';
 // player actions
 import { selectSong } from './player';
 // system actions
 import { showSpinner, hideSpinner, onPushMessage } from './system';
-
-export const RECEIVE_ARTIST_DATA = 'RECEIVE_ARTIST_DATA';
 
 export function getAtristData (artistId) {
   return function (dispatch) {

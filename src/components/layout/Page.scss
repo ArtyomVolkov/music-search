@@ -1,5 +1,6 @@
-.app {
+#app {
   height: 100%;
+  background: #f3f3f3;
 }
 
 .app-content {
@@ -7,11 +8,11 @@
   position: relative;
 
   main {
-    padding: 75px 15px 70px 15px;
+    padding: 75px 15px 10px 15px;
     display: flex;
     max-width: 1140px;
     flex-direction: column;
-    margin: 0 auto;
+    margin: 0 auto 65px auto;
   }
 
   footer {

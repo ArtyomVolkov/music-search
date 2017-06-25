@@ -5,17 +5,15 @@
   "license": "MIT",
   "main": "webpack.config.js",
   "scripts": {
-    "build": "webpack --progress --profile --bail",
-    "server": "node server.js",
+    "build-prod": "set NODE_ENV=PROD&& webpack --progress",
+    "build-dev": "set NODE_ENV=DEV&& webpack --progress",
     "start": "webpack-dev-server --port 3000 --content-base --inline --hot --host=0.0.0.0",
     "test": "jest"
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "classnames": "^2.2.5",
     "material-ui": "^0.16.7",
     "moment": "^2.18.1",
-    "nib": "^1.1.2",
     "react": "15.4.1",
     "react-dom": "^15.4.1",
     "react-redux": "^5.0.1",
@@ -23,27 +21,26 @@
     "react-waypoint": "^7.0.4",
     "redux": "^3.6.0",
     "redux-devtools-extension": "^2.13.2",
-    "redux-thunk": "^2.2.0",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^2.3.1",
-    "webpack": "^1.12.9"
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "babel": "^6.5.2",
-    "babel-core": "^6.7.2",
-    "babel-loader": "^6.2.4",
+    "babel": "^6.23.0",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-react-html-attrs": "^2.0.0",
     "babel-plugin-transform-class-properties": "^6.3.13",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0",
+    "cross-env": "^5.0.1",
     "css-loader": "^0.23.1",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.1.2",
     "node-sass": "^4.5.3",
     "react-tap-event-plugin": "^2.0.1",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
   }
 }

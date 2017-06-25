@@ -1,14 +1,16 @@
 .tracks {
   margin-top: 20px;
+  position: relative;
   border: 1px solid #dcdcdc;
 
   .spinner-container {
     position: relative;
     display: flex;
+    bottom: 0;
     padding: 4px;
     min-height: 40px;
     align-items: center;
-    background: #eaeaea;
+    background: #e6e6e6;
     justify-content: center;
 
     &.hidden {

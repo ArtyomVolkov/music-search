@@ -1,9 +1,6 @@
-export const OPEN_DIALOG = 'OPEN_DIALOG';
-export const CLOSE_DIALOG = 'CLOSE_DIALOG';
+// actions
+import { OPEN_DIALOG, CLOSE_DIALOG } from './index';
 
-/*
- * Action functions for dispatch events, without binding components
- */
 export function openDialog (name, data = null) {
   return {
     type: OPEN_DIALOG,

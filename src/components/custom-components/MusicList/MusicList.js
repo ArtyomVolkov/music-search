@@ -8,6 +8,8 @@ import SongItems from '../SongItems/SongItems';
 import TrackList from '../TrackList/TrackList';
 // Services
 import RouterService from '../../../services/RouterService/RouterService';
+// Style
+import './MusicList.scss';
 
 @connect(
   state => ({

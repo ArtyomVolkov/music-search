@@ -1,4 +1,5 @@
-export const RECEIVE_SONGS = 'RECEIVE_SONGS';
+// actions
+import { RECEIVE_SONGS } from './index';
 
 // endpoints
 import { searchByArtist, searchByGenre, searchByTrack } from '../endpoints/aws-api';
@@ -29,6 +30,7 @@ export function searchBy (value, searchType) {
         dispatch(receiveSongData(searchType, resp.data));
         dispatch(hideSpinner());
       });
+      return;
     }
     dispatch(hideSpinner());
   };

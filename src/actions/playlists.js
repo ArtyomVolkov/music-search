@@ -1,6 +1,9 @@
-export const RECEIVE_PLAY_LISTS = 'RECEIVE_PLAY_LISTS';
-export const TOGGLE_PLAYLIST_SECTION = 'TOGGLE_PLAYLIST_SECTION';
-export const SET_ACTIVE_INDEX = 'SET_ACTIVE_INDEX';
+// actions
+import {
+  RECEIVE_PLAY_LISTS,
+  TOGGLE_PLAYLIST_SECTION,
+  SET_ACTIVE_INDEX
+} from './index';
 
 // endpoints
 import { fetchPlayLists } from '../endpoints/sound-cloud-api';
@@ -23,25 +26,25 @@ function receivePlayLists (data) {
   };
 }
 
-export function onTogglePlayList() {
+export function onTogglePlayList () {
   return function (dispatch) {
     dispatch(togglePlayList());
   }
 }
 
-function togglePlayList() {
+function togglePlayList () {
   return {
     type: TOGGLE_PLAYLIST_SECTION
   }
 }
 
-export function setActivePlaylist(index) {
+export function setActivePlaylist (index) {
   return function (dispatch) {
     dispatch(setActive(index));
   }
 }
 
-function setActive(index) {
+function setActive (index) {
   return {
     type: SET_ACTIVE_INDEX,
     payload: index

@@ -1,9 +1,12 @@
-export const SHOW_GLOBAL_SPINNER = 'SHOW_GLOBAL_SPINNER';
-export const HIDE_GLOBAL_SPINNER = 'HIDE_GLOBAL_SPINNER';
-export const PUSH_MESSAGE = 'PUSH_MESSAGE';
-export const REMOVE_MESSAGE = 'REMOVE_MESSAGE';
+// actions
+import {
+  SHOW_GLOBAL_SPINNER,
+  HIDE_GLOBAL_SPINNER,
+  PUSH_MESSAGE,
+  REMOVE_MESSAGE
+} from './index';
 
-export function onToggleGlobalSpinner(flag = false) {
+export function onToggleGlobalSpinner (flag = false) {
   return function (dispatch) {
     dispatch(flag ? showSpinner() : hideSpinner());
   }

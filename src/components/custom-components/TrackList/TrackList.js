@@ -35,7 +35,7 @@ class TrackList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.tracks) {
+    if (this.props.tracks !== nextProps.tracks) {
       this.setState({
         tracks: nextProps.tracks.slice(0, TRACK_LIMIT)
       });
@@ -88,7 +88,7 @@ class TrackList extends React.Component {
             />
           </div>
         </div>
-        <Waypoint onEnter={this.loadMoreTracks}/>
+        <Waypoint onEnter={this.loadMoreTracks} />
       </div>
     )
   }

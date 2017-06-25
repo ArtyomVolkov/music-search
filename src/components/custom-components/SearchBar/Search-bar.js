@@ -29,8 +29,8 @@ class SearchBar extends React.Component {
 
     this.state = {
       disableSearch: false,
-      filterIndex: 0,
-      searchType: FILTER_TYPES[0].value
+      filterIndex: 1,
+      searchType: FILTER_TYPES[1].value
     };
     this.parseQueryParams();
   }

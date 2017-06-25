@@ -1,5 +1,5 @@
-export const FETCH_USER = 'FETCH_USER';
-
+// actions
+import { FETCH_USER } from './index';
 // endpoints
 import { fetchUser } from '../endpoints/sound-cloud-api';
 
