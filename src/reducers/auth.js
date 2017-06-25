@@ -1,4 +1,4 @@
-import { FETCH_USER } from '../actions/auth';
+import { FETCH_USER } from '../actions/index';
 
 const defaultState = {
   authorization: false,

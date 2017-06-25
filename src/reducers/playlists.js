@@ -1,4 +1,8 @@
-import {RECEIVE_PLAY_LISTS, TOGGLE_PLAYLIST_SECTION, SET_ACTIVE_INDEX} from '../actions/playlists';
+import {
+  RECEIVE_PLAY_LISTS,
+  TOGGLE_PLAYLIST_SECTION,
+  SET_ACTIVE_INDEX
+} from '../actions/index';
 
 const defaultState = {
   data: null,

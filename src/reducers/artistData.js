@@ -1,4 +1,4 @@
-import {RECEIVE_ARTIST_DATA} from '../actions/artist';
+import {RECEIVE_ARTIST_DATA} from '../actions/index';
 
 const defaultState = {};
 

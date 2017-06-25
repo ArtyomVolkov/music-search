@@ -1,4 +1,8 @@
-import { SHOW_GLOBAL_SPINNER, HIDE_GLOBAL_SPINNER, PUSH_MESSAGE } from '../actions/system';
+import {
+  SHOW_GLOBAL_SPINNER,
+  HIDE_GLOBAL_SPINNER,
+  PUSH_MESSAGE
+} from '../actions/index';
 
 const defaultState = {
   spinner: false,

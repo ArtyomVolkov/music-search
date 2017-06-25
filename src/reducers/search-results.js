@@ -1,4 +1,4 @@
-import {RECEIVE_SONGS} from '../actions/search';
+import {RECEIVE_SONGS} from '../actions/index';
 
 const defaultState = {
   type: 'all',

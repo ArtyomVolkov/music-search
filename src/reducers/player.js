@@ -1,4 +1,9 @@
-import { SET_SONG, SET_PLAYLIST_DATA, TOGGLE_PLAY, SET_ERROR_TRACK_ID} from '../actions/player';
+import {
+  SET_SONG,
+  SET_PLAYLIST_DATA,
+  TOGGLE_PLAY,
+  SET_ERROR_TRACK_ID
+} from '../actions/index';
 
 const defaultState = {
   play: false,
