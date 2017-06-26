@@ -5,8 +5,8 @@
   "license": "MIT",
   "main": "webpack.config.js",
   "scripts": {
-    "build-prod": "set NODE_ENV=PROD&& webpack --progress",
-    "build-dev": "set NODE_ENV=DEV&& webpack --progress",
+    "build-prod": "set NODE_ENV=production&& webpack --progress",
+    "build-dev": "set NODE_ENV=development&& webpack --progress",
     "start": "webpack-dev-server --port 3000 --content-base --inline --hot --host=0.0.0.0",
     "test": "jest"
   },

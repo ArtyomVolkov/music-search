@@ -7,12 +7,8 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const extractCSS = new ExtractTextPlugin('common.css');
 
 // ENV vars
-const NODE_ENV = process.env.NODE_ENV || 'DEV';
-const ENV_PROD = NODE_ENV === 'PROD';
-
-new webpack.DefinePlugin({
-  'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
-});
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const ENV_PROD = NODE_ENV === 'production';
 
 // Loaders
 const RULES = {
@@ -43,27 +39,35 @@ const MODULE = {
   ]
 };
 // Plugins
-const PLUGINS = !ENV_PROD ? [extractCSS] : [
-  extractCSS,
-  new UglifyJsPlugin({
-    minimize: true,
-    compress: {
-      warnings: false,
-      screw_ie8: true,
-      conditionals: true,
-      unused: true,
-      comparisons: true,
-      sequences: true,
-      dead_code: true,
-      evaluate: true,
-      if_return: true,
-      join_vars: true,
-    },
-    output: {
-      comments: false
-    },
-  })
-];
+const PLUGINS = !ENV_PROD ?
+  [ extractCSS,
+    new DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
+    })
+  ] :
+  [ extractCSS,
+    new DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
+    }),
+    new UglifyJsPlugin({
+      minimize: true,
+      compress: {
+        warnings: false,
+        screw_ie8: true,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
+        dead_code: true,
+        evaluate: true,
+        if_return: true,
+        join_vars: true,
+      },
+      output: {
+        comments: false
+      },
+    })
+  ];
 
 // CONFIG
 module.exports = {
