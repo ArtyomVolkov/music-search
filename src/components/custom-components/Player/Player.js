@@ -36,7 +36,6 @@ class Player extends Component {
       muted: false,
       timeValue: 0
     };
-
     this.audioEl = {
       el: document.createElement('audio'),
       duration: 0,
@@ -112,10 +111,13 @@ class Player extends Component {
   };
 
   nextSong (index) {
+    const { playerActions } = this.props;
+
     if (!index || index < 0) {
       return;
     }
-    //this.props.playerActions.setNextSong(index);
+    // TODO: future functionality
+    //playerActions.setNextSong(index);
   }
 
   onChangePlayerAction = (name) => {
@@ -162,6 +164,11 @@ class Player extends Component {
 
     return (
       <div className="player-container">
+        <TrackBar
+          audioEl={audioEl.el}
+          isPlaying={player.play}
+          onChangeTimeBar={this.onChangeTimeBar}
+        />
         <div className="music-panel">
           <div className="img-container">
             <img src={player.songData.img || SONG_IMG_URL}/>
@@ -174,7 +181,6 @@ class Player extends Component {
           <div className="playlist-icons">
             <i
               className="fa fa-list-alt"
-              aria-hidden="true"
               onClick={this.onTogglePlayList}/>
           </div>}
           <Timer
@@ -189,11 +195,6 @@ class Player extends Component {
               <span className="divider"> - </span>
               <span className="song-name" title={player.songData.song}>{player.songData.song}</span>
             </div>
-            <TrackBar
-              audioEl={audioEl.el}
-              isPlaying={player.play}
-              onChangeTimeBar={this.onChangeTimeBar}
-            />
           </div>
           <Timer value={player.songData.duration * 1000}/>
           <Volume audioEl={audioEl.el}/>

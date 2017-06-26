@@ -1,12 +1,9 @@
 .player-container {
   width: 100%;
-  display: flex;
-  border-top: 4px solid #7dca38;
   background: #272727;
 }
 
 .music-panel {
-  width: 100%;
   display: flex;
   max-width: 1140px;
   margin: 0 auto;
@@ -52,12 +49,12 @@
     margin: 0 10px;
 
     .song-details {
-      font-size: 14px;
-      color: #ff9800;
+      font-size: 16px;
+      color: #00BCD4;
 
       span {
         display: inline-block;
-        vertical-align: middle;
+        vertical-align: sub;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

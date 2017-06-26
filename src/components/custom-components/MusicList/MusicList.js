@@ -4,8 +4,9 @@ import {bindActionCreators} from 'redux';
 // actions
 import * as playerAction from '../../../actions/player';
 // Components
-import SongItems from '../SongItems/SongItems';
+import ArtistList from '../ArtistList/ArtistList';
 import TrackList from '../TrackList/TrackList';
+import GenresSection from '../GenresSection/GenresSection';
 // Services
 import RouterService from '../../../services/RouterService/RouterService';
 // Style
@@ -46,8 +47,8 @@ class MusicList extends Component {
         {
           searchResults.type === 'ARTIST' &&
           (searchResults.data &&
-            <SongItems
-              songs={searchResults.data}
+            <ArtistList
+              artists={searchResults.data}
               songData={songData}
               onAction={this.onCallAction}
             />
@@ -61,6 +62,12 @@ class MusicList extends Component {
               subHeader={`Found tracks (${searchResults.data.length})`}
               artistId={null}
             />
+          )
+        }
+        {
+          searchResults.type === 'GENRE' &&
+          (searchResults.data &&
+            <GenresSection genres={searchResults.data} />
           )
         }
       </div>

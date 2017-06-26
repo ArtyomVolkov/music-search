@@ -29,8 +29,8 @@ class SearchBar extends React.Component {
 
     this.state = {
       disableSearch: false,
-      filterIndex: 1,
-      searchType: FILTER_TYPES[1].value
+      filterIndex: 2,
+      searchType: FILTER_TYPES[2].value
     };
     this.parseQueryParams();
   }
@@ -149,7 +149,6 @@ class SearchBar extends React.Component {
               return (
                 <MenuItem
                   key={index}
-                  disabled={!item.index}
                   value={item.index}
                   primaryText={item.value}
                   leftIcon={<i className={`fa ${item.className}`}/>}/>

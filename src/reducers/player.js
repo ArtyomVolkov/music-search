@@ -1,8 +1,10 @@
 import {
   SET_SONG,
-  SET_PLAYLIST_DATA,
   TOGGLE_PLAY,
-  SET_ERROR_TRACK_ID
+  SET_PLAYLIST_DATA,
+  SET_ERROR_TRACK_ID,
+  LOADING_TRACK_STREAM,
+  RECEIVE_TRACK_STREAM
 } from '../actions/index';
 
 const defaultState = {
@@ -10,7 +12,8 @@ const defaultState = {
   songData: null,
   playList: null,
   soundIndex: -1,
-  trackIdError: null
+  trackIdError: null,
+  streamLoading: false
 };
 
 export default function player (state = defaultState, action) {
@@ -35,6 +38,20 @@ export default function player (state = defaultState, action) {
     case SET_ERROR_TRACK_ID:
       return Object.assign({}, state, {
         trackIdError: action.payload
+      });
+
+    case LOADING_TRACK_STREAM:
+      return Object.assign({}, state, {
+        streamLoading: true
+      });
+
+    case RECEIVE_TRACK_STREAM:
+      const songData = state.songData;
+      // mute object
+      songData.stream_url = action.payload;
+
+      return Object.assign({}, state, {
+        songData: songData
       });
 
     default:

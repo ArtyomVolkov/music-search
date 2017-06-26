@@ -25,5 +25,6 @@ export const NO_DATA = 'N/A';
 export const MESSAGE_DURATION_TIME = 3000;
 // Player
 export const DEFAULT_VOLUME = 0.7;
+export const AUTO_UPDATE_TRACK_BAR = 250; // ms
 export const TRACK_LIMIT = 20;
-export const SONG_IMG_URL = 'http://www.freeiconspng.com/uploads/audio-file-format-mp3-icon-33.png';
+export const SONG_IMG_URL = 'http://findicons.com/files/icons/2455/web_icons/48/music.png';

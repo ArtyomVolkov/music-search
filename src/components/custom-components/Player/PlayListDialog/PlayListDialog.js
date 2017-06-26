@@ -6,7 +6,7 @@ import * as playerAction from '../../../../actions/player';
 // MU components
 import {Dialog} from 'material-ui';
 // Components
-import SongItems from '../../SongItems/SongItems';
+import SongItems from '../../ArtistList/ArtistList';
 // Styles
 import './PlayListDialog.scss';
 

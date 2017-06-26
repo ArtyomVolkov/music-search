@@ -1,12 +1,12 @@
-.song-items {
-  .song-item {
+.artists {
+  .artist {
     &:hover {
-      background: #e9e9e9;
+      background: #ededed;
       cursor: pointer;
     }
-
     &.active {
       background: #caffd5;
+
       &:hover {
         background: #c7ffb7;
       }
@@ -16,13 +16,17 @@
       }
     }
 
+    .artist-name {
+      font-size: 18px;
+      color: #5b15d7;
+
+      &:hover {
+        color: #8952eb;
+      }
+    }
+
     .tags {
       display: flex;
-
-      .tag-chip {
-        margin-right: 10px;
-        color: grey;
-      }
     }
   }
 

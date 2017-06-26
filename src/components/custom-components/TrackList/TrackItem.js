@@ -38,7 +38,7 @@ class TrackItem extends React.Component {
   }
 
   onPlaySong (track, index) {
-    const { artistId, playerActions, systemActions, player } = this.props;
+    const { playerActions, systemActions, player } = this.props;
     let songData = {};
 
     if (player.songData && index === player.soundIndex) {
@@ -54,6 +54,8 @@ class TrackItem extends React.Component {
       return;
     }
 
+
+    //playerActions.loadingSongStream(track.id);
     this.setState({
       loading: true
     });
@@ -72,7 +74,7 @@ class TrackItem extends React.Component {
   render () {
     const { player, track, indexItem } = this.props;
     const { loading } = this.state;
-    const active = player.soundIndex === indexItem ? 'active' : '';
+    const active = player.songData && player.songData.id === track.id ? 'active' : '';
     //const disabled = !track.mbid ? 'disabled' : '';
     const error = (player.songData && !!active && player.songData.id === player.trackIdError) ? 'error' : '';
 
@@ -81,7 +83,13 @@ class TrackItem extends React.Component {
         <ListItem
           disabled={false}
           onTouchTap={this.onPlaySong.bind(this, track, indexItem)}
-          primaryText={`${track.singer} - ${track.song}`}
+          primaryText={
+            <div className="song-info">
+              <span className="singer">{track.singer}</span>
+              <span className="divider">-</span>
+              <span className="song-name">{track.song}</span>
+            </div>
+          }
           rightIconButton={
           <IconMenu iconButtonElement={
             <IconButton
@@ -91,8 +99,8 @@ class TrackItem extends React.Component {
               <MoreVertIcon color={'#607D8B'}/>
             </IconButton>
           }>
-            <MenuItem>Add to playlist</MenuItem>
-            <MenuItem>Add to favorite</MenuItem>
+            <MenuItem leftIcon={<i className="fa fa-list-alt" />}>Add to playlist</MenuItem>
+            <MenuItem leftIcon={<i className="fa fa-star" />}>Add to favorite</MenuItem>
           </IconMenu>
           }
           leftAvatar={

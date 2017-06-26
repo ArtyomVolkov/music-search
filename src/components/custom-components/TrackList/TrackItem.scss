@@ -3,9 +3,9 @@
   border-top: 1px solid #dcdcdc;
 
   &.active {
-    background: #e8e8e8;
+    background: #d5ffaf;
     &:hover {
-      background: #e8e8e8;
+      background: #d5ffaf;
     }
   }
 
@@ -42,5 +42,20 @@
     width: 100%;
     height: 100%;
     background: rgba(225, 225, 225, 0.5);
+  }
+
+  .song-info {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    .singer {
+      font-weight: 600;
+    }
+
+    .divider {
+      padding: 0 4px;
+    }
   }
 }

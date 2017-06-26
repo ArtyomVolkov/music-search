@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 // MU components
 import { Card, CardHeader, CardActions, CardText } from 'material-ui/Card';
-import { Chip, Avatar } from 'material-ui';
+import { Avatar } from 'material-ui';
+// Components
+import Chip from  '../Chip/Chip';
 // utils
 import { durationToMinutes } from '../../../utils/parsers';
 // Settings
 import { NO_DATA } from '../../../settings';
 // Styles
-import './SongItems.scss';
+import './ArtistList.scss';
 
-class SongItems extends Component {
+class ArtistList extends React.Component {
   constructor (props) {
     super(props);
 
@@ -22,6 +24,8 @@ class SongItems extends Component {
     const { onAction } = this.props;
 
     if (onAction) {
+      // TODO: temporary disabled functionality
+      return;
       onAction(name, item, index);
     }
   }
@@ -32,32 +36,40 @@ class SongItems extends Component {
     });
   }
 
+  onOpenArtistSongs() {
+    console.log('open artist songs');
+  }
+
   render () {
-    const { songs, songData } = this.props;
+    const { artists, songData } = this.props;
     const { showDetailsId } = this.state;
 
     return (
-      <div className="song-items">
+      <div className="artists">
         {
-          songs && songs.map((item, index) => {
+          artists && artists.map((item, index) => {
             if (!item.artistData) {
               return false;
             }
 
             return (
-              <div key={index} className={`song-item ${songData && songData.id === item.id ? 'active' : ''}`}>
+              <div key={index} className={`artist ${songData && songData.id === item.id ? 'active' : ''}`}>
                 <Card
                   expanded={showDetailsId === item.stringId}
                   onClick={this.onCallAction.bind(this, 'selectSong', item, index)}
                   onExpandChange={this.onToggleDetails.bind(this, item.stringId)}
                   style={{ backgroundColor: 'inherit' }}>
                   <CardHeader
-                    title={item.artistData.fullName}
+                    title={
+                      <span
+                        className="artist-name"
+                        onClick={this.onOpenArtistSongs}>{item.artistData.fullName}</span>
+                    }
                     titleStyle={{ fontSize: 18, fontWeight: 600, marginBottom: 10 }}
                     subtitle={
                       <div className="music-actions">
-                        <i className="fa fa-clock-o" aria-hidden="true" title="Total duration"/>
-                        <span>{durationToMinutes(item.artistData.id.timestamp, 'ms')}</span>
+                        <i className="fa fa-clock-o" title="Total duration"/>
+                        <span>Total Duration: {durationToMinutes(item.artistData.id.timestamp, 'ms')}</span>
                       </div>
                     }
                     avatar={
@@ -71,9 +83,7 @@ class SongItems extends Component {
                       {
                         item.artistData.tags.map((tag, index) => {
                           return (
-                            <Chip key={index} style={{ marginRight: 10, backgroundColor: '#ffc93b' }}>
-                              {tag}
-                            </Chip>
+                            <Chip key={index} tagName={tag}>{tag}</Chip>
                           );
                         })
                       }
@@ -92,4 +102,4 @@ class SongItems extends Component {
   }
 }
 
-export default SongItems;
+export default ArtistList;

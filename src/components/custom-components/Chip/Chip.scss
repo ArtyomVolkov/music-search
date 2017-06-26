@@ -1,0 +1,45 @@
+.chip {
+  margin: 5px;
+  width: fit-content;
+  background: lightgrey;
+  border: 1px solid #b2b2b2;
+  border-radius: 18px;
+
+  &.pop {
+    background: #E91E63;
+    border-color: #b80542;
+  }
+
+  &.acoustic {
+    background: #FFC107;
+    border: 1px solid #d9a509;
+  }
+
+  &.singer-songwriter {
+    background: #a5d76b;
+    border: 1px solid #5ad25e;
+  }
+
+  &.rock {
+    background: #FF5722;
+    border: 1px solid #e16e4a;
+  }
+
+  &.soul {
+    background: #00BCD4;
+    border: 1px solid #369ca9;
+  }
+
+  &.metal {
+    background: #673AB7;
+    border: 1px solid #9b7ed0;
+    color: #d5d5d5;
+  }
+
+  .tag-content {
+    padding: 0 10px;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 32px;
+  }
+}

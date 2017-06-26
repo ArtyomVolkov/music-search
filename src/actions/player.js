@@ -4,8 +4,12 @@ import {
   SET_NEXT_SONG,
   SET_PLAYLIST_DATA,
   TOGGLE_PLAY,
-  SET_ERROR_TRACK_ID
+  SET_ERROR_TRACK_ID,
+  LOADING_TRACK_STREAM,
+  RECEIVE_TRACK_STREAM
 } from './index';
+
+import {getSongStreamById} from '../endpoints/aws-api';
 
 export function selectSong (songData, index) {
   return function (dispatch) {
@@ -37,9 +41,17 @@ export function setNextSong (soundIndex) {
     const state = getState();
     const searchResults = state.searchResults;
     const playList = state.player.playList;
-    const nextSongData = playList
-      ? playList[ soundIndex ] || playList[ 0 ]
-      : searchResults.data[ soundIndex ] || searchResults.data[ 0 ];
+    let nextSongData = playList
+      ? playList[ soundIndex ] || playList[0]
+      : searchResults.data[ soundIndex ] || searchResults.data[0];
+
+    if (playList) {
+      nextSongData = playList[ soundIndex ] || playList[0];
+    } else {
+      if (searchResults.type === 'TRACK' && searchResults.data.length) {
+        nextSongData = searchResults.data[ soundIndex ] || searchResults.data[0];
+      }
+    }
 
     dispatch(nextSong());
     dispatch(setSong({
@@ -81,3 +93,25 @@ function setErrorTrackId (trackId) {
   };
 }
 
+export function loadingSongStream (songId) {
+  return function (dispatch) {
+    dispatch(setLoadingStream());
+
+    getSongStreamById(songId).then((resp) => {
+      dispatch(receiveTrackStream(resp.data));
+    });
+  }
+}
+
+function setLoadingStream () {
+  return {
+    type: LOADING_TRACK_STREAM
+  };
+}
+
+function receiveTrackStream (url) {
+  return {
+    type: RECEIVE_TRACK_STREAM,
+    payload: url
+  };
+}

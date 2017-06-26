@@ -1,26 +1,49 @@
-import React, {Component} from 'react';
-
-// components
+import React from 'react';
+// M-UI components
 import Slider from 'material-ui/Slider';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+// Settings
+import { AUTO_UPDATE_TRACK_BAR } from '../../../../settings';
 // Styles
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './TrackBar.scss';
+const MUI_Theme = getMuiTheme({
+  slider: {
+    selectionColor: '#7dca38',
+    rippleColor: '#68ca4c',
+    handleSizeActive: 16,
+    handleSize: 14,
+    trackSize: 4
+  }
+});
 
-class TrackBar extends Component {
-  constructor(props) {
+class TrackBar extends React.Component {
+  constructor (props) {
     super(props);
 
     this.state = {
       currentTime: 0
     };
 
-    if (!props.audioEl.ontimeupdate) {
-      props.audioEl.ontimeupdate = this.onUpdateTimeBar;
+    // instead of ontimeupdate (DOM audio handler)
+    this.interval = setInterval(this.updateTrackBar, AUTO_UPDATE_TRACK_BAR);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (!nextProps.isPlaying) {
+      clearInterval(this.interval);
+      this.interval = null;
+      return;
+    }
+
+    if (!this.interval) {
+      this.interval = setInterval(this.updateTrackBar, AUTO_UPDATE_TRACK_BAR);
     }
   }
 
-  onUpdateTimeBar = (e) => {
+  updateTrackBar = () => {
     this.setState({
-      currentTime: e.target.currentTime
+      currentTime: this.props.audioEl.currentTime
     });
   };
 
@@ -32,21 +55,23 @@ class TrackBar extends Component {
     });
   };
 
-  render() {
-    const {audioEl} = this.props;
-    const {currentTime} = this.state;
+  render () {
+    const { audioEl } = this.props;
+    const { currentTime } = this.state;
 
     return (
       <div className="track-bar">
-        <Slider
-          className="time-bar"
-          sliderStyle={{margin: 0}}
-          min={0}
-          max={audioEl.duration}
-          step={0.5}
-          value={currentTime}
-          onChange={this.onChangeTimeBar}
-        />
+        <MuiThemeProvider muiTheme={MUI_Theme}>
+          <Slider
+            className="time-bar"
+            sliderStyle={{ margin: 0 }}
+            min={0}
+            max={audioEl.duration}
+            step={0.1}
+            value={currentTime}
+            onChange={this.onChangeTimeBar}
+          />
+        </MuiThemeProvider>
       </div>
     )
   }
