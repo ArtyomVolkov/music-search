@@ -1,5 +1,7 @@
 // auth
 export const FETCH_USER = 'FETCH_USER';
+export const AUTHORIZED = 'AUTHORIZED';
+export const UNAUTHORIZED = 'UNAUTHORIZED';
 // artist
 export const RECEIVE_ARTIST_DATA = 'RECEIVE_ARTIST_DATA';
 // system

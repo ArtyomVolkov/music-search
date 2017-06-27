@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-
+import React from 'react';
+// Settings
+import {USER_IMG_DEFAULT} from '../../../../settings';
 // Styles
 import './UserDetails.scss';
 
-class UserDetails extends Component {
+class UserDetails extends React.Component {
   constructor (props) {
     super(props);
 
@@ -33,13 +34,18 @@ class UserDetails extends Component {
         name: 'Likes',
         action: 'open_likes',
         icon: 'fa-heart',
-        number: props.user.likes_count
+        number: 0
       },
       {
         name: 'Playlists',
         action: 'open_playlists',
         icon: 'fa-list-alt',
-        number: props.user.playlist_count
+        number: 0
+      },
+      {
+        name: 'Sign out',
+        action: 'sign_out',
+        icon: 'fa-sign-out'
       }
     ];
   }
@@ -68,13 +74,13 @@ class UserDetails extends Component {
     return (
       <div className="user-details" onClick={this.onToggleDetails}>
         <div className="avatar">
-          <img src={user.avatar_url} alt="avatar"/>
+          <img src={user.avatar_url || USER_IMG_DEFAULT} alt="avatar"/>
         </div>
         <div className="user-name">
           <span>{user.username}</span>
         </div>
         <div className="user-notifications">
-          <i className="fa fa-bell" aria-hidden="true"/>
+          <i className="fa fa-bell" />
         </div>
         {
           showDetails &&
@@ -85,7 +91,7 @@ class UserDetails extends Component {
                   className="details-item"
                   key={index}
                   onClick={this.onCallAction.bind(this, item.action)}>
-                  <i className={`fa ${item.icon}`} aria-hidden="true"/>
+                  <i className={`fa ${item.icon}`} />
                   <span>{item.name}</span>
                   {!!item.number && <span className="count-value">{item.number}</span>}
                 </div>

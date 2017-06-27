@@ -12,7 +12,7 @@
       padding: 0 15px;
 
       &:hover {
-        text-shadow: 2px 0 8px #17e220, 0 0 1em #18941d;
+        text-shadow: 2px 0 8px #00BCD4, 0 0 1em #ffffff;
         cursor: pointer;
       }
 
@@ -26,6 +26,10 @@
 
       &.fa-facebook-square {
         color: #264285;;
+      }
+
+      &.fa-vk {
+        color: #4c75a3;
       }
     }
   }

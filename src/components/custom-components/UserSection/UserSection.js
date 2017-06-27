@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // Actions
@@ -12,13 +12,13 @@ import './UserSection.scss';
 
 @connect(
   state => ({
-    auth: state.auth,
+    auth: state.auth
   }),
   dispatch => ({
     authActions: bindActionCreators(authActions, dispatch)
   })
 )
-class UserSection extends Component {
+class UserSection extends React.Component {
   constructor (props) {
     super(props);
 
@@ -27,7 +27,7 @@ class UserSection extends Component {
       isOpenDialog: false
     };
 
-    props.authActions.getUser();
+    props.authActions.checkAuthUser();
   }
 
 
@@ -41,6 +41,10 @@ class UserSection extends Component {
         this.openLoginDialog();
         break;
 
+      case 'sign_out':
+        this.onSignOut();
+        return;
+
       default: break;
     }
   };
@@ -53,6 +57,10 @@ class UserSection extends Component {
     DIALOG_SERVICE.onOpen('login');
   }
 
+  onSignOut =()=> {
+    this.props.authActions.signOut();
+  };
+
   render () {
     const { auth } = this.props;
 
@@ -61,7 +69,7 @@ class UserSection extends Component {
         {
           !auth.authorization &&
           <div className="default-user">
-            <i className="fa fa-user-circle-o" aria-hidden="true"/>
+            <i className="fa fa-user-circle-o" />
             <span onClick={this.onAction.bind(this, 'open_login')}>Login</span>
           </div>
         }

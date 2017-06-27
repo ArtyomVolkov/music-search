@@ -6,7 +6,9 @@ import {
   ARTIST_TRACKS,
   ARTIST_DATA,
   STREAM,
-  SONG_MBID
+  SONG_MBID,
+  USER_REGISTRATION,
+  USER_LOGIN
 } from '../settings';
 
 export function searchByArtist (value) {
@@ -35,4 +37,12 @@ export function getSongData(artistId, songMbid) {
 
 export function getSongStreamById (songId) {
   return axios.get(`${STREAM}/${songId}`);
+}
+
+export function userRegistration (data) {
+  return axios.post(USER_REGISTRATION, data);
+}
+
+export function authUser (credentials) {
+  return axios.post(USER_LOGIN, credentials);
 }

@@ -9,6 +9,10 @@ export const CLOUD_API_PLAY_LISTS = `https://api.soundcloud.com/users/${USER_ID}
 const SERVER_URL = 'http://ec2-52-14-232-217.us-east-2.compute.amazonaws.com:9999';
 export const ARTIST_SEARCH = `${SERVER_URL}/artist/search`;
 export const ARTIST_DATA = `${SERVER_URL}/artist`;
+// Auth
+export const USER_REGISTRATION = `${SERVER_URL}/registrations/users`;
+export const USER_LOGIN = `${SERVER_URL}/authentication`;
+
 // Search Music
 export const SEARCH_ARTIST = `${SERVER_URL}/search/artist`;
 export const SEARCH_GENRE = `${SERVER_URL}/search/genre`;
@@ -28,3 +32,5 @@ export const DEFAULT_VOLUME = 0.7;
 export const AUTO_UPDATE_TRACK_BAR = 200; // ms
 export const TRACK_LIMIT = 20;
 export const SONG_IMG_URL = 'http://findicons.com/files/icons/2455/web_icons/48/music.png';
+// User Section
+export const USER_IMG_DEFAULT = 'https://thumbs.dreamstime.com/t/human-head-headphones-vector-illustration-63700471.jpg';

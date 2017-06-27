@@ -66,7 +66,6 @@ class TrackItem extends React.Component {
             <IconMenu iconButtonElement={
               <IconButton
                 touch={true}
-                tooltip="actions"
                 tooltipPosition="bottom-left">
                 <MoreVertIcon color={'#607D8B'}/>
               </IconButton>

@@ -1,4 +1,4 @@
-import { FETCH_USER } from '../actions/index';
+import { FETCH_USER, AUTHORIZED, UNAUTHORIZED } from '../actions/index';
 
 const defaultState = {
   authorization: false,
@@ -6,11 +6,22 @@ const defaultState = {
 };
 
 export default function auth (state = defaultState, action) {
-  if (action.type === FETCH_USER) {
-    return Object.assign({}, state, {
-      authorization: true,
-      user: action.payload
-    });
+  switch (action.type) {
+    case FETCH_USER:
+      return Object.assign({}, state, {
+        authorization: true,
+        user: action.payload
+      });
+
+    case AUTHORIZED:
+      return Object.assign({}, state, {
+        authorization: true,
+        user: action.payload
+      });
+
+    case UNAUTHORIZED:
+      return defaultState;
+
+    default: return state;
   }
-  return state;
 }
