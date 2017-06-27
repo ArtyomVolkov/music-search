@@ -15,7 +15,6 @@ export const TOGGLE_PLAYLIST_SECTION = 'TOGGLE_PLAYLIST_SECTION';
 export const SET_ACTIVE_INDEX = 'SET_ACTIVE_INDEX';
 // player
 export const SET_SONG = 'SET_SONG';
-export const SET_NEXT_SONG = 'SET_NEXT_SONG';
 export const SET_PLAYLIST_DATA = 'SET_PLAYLIST_DATA';
 export const TOGGLE_PLAY = 'TOGGLE_PLAY';
 export const SET_ERROR_TRACK_ID = 'SET_ERROR_TRACK_ID';

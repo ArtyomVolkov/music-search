@@ -1,15 +1,16 @@
 // actions
 import {
   SET_SONG,
-  SET_NEXT_SONG,
   SET_PLAYLIST_DATA,
   TOGGLE_PLAY,
   SET_ERROR_TRACK_ID,
   LOADING_TRACK_STREAM,
   RECEIVE_TRACK_STREAM
 } from './index';
-
-import {getSongStreamById} from '../endpoints/aws-api';
+// endpoints
+import { getSongStreamById } from '../endpoints/aws-api';
+// other actions
+import { onPushMessage } from './system';
 
 export function selectSong (songData, index) {
   return function (dispatch) {
@@ -33,37 +34,6 @@ export function onTogglePlay () {
 function togglePlay () {
   return {
     type: TOGGLE_PLAY
-  };
-}
-
-export function setNextSong (soundIndex) {
-  return function (dispatch, getState) {
-    const state = getState();
-    const searchResults = state.searchResults;
-    const playList = state.player.playList;
-    let nextSongData = playList
-      ? playList[ soundIndex ] || playList[0]
-      : searchResults.data[ soundIndex ] || searchResults.data[0];
-
-    if (playList) {
-      nextSongData = playList[ soundIndex ] || playList[0];
-    } else {
-      if (searchResults.type === 'TRACK' && searchResults.data.length) {
-        nextSongData = searchResults.data[ soundIndex ] || searchResults.data[0];
-      }
-    }
-
-    dispatch(nextSong());
-    dispatch(setSong({
-      index: soundIndex,
-      songData: nextSongData
-    }));
-  }
-}
-
-function nextSong () {
-  return {
-    type: SET_NEXT_SONG
   };
 }
 
@@ -93,25 +63,43 @@ function setErrorTrackId (trackId) {
   };
 }
 
-export function loadingSongStream (songId) {
-  return function (dispatch) {
-    dispatch(setLoadingStream());
+export function playNext (index) {
+  return function (dispatch, getState) {
+    const state = getState();
+    const searchResults = state.searchResults;
 
-    getSongStreamById(songId).then((resp) => {
-      dispatch(receiveTrackStream(resp.data));
+    if (searchResults.type !== 'TRACK' || !searchResults.data.length) {
+      return;
+    }
+    const songData = searchResults.data[ index ] || searchResults.data[ 0 ];
+
+    dispatch(setLoadingStream(songData.id));
+    getSongStreamById(songData.id).then((resp) => {
+      if (resp.data) {
+        songData.stream_url = resp.data;
+        dispatch(receiveTrackStream(resp.data));
+        dispatch(selectSong(songData, index));
+      } else {
+        dispatch(receiveTrackStream());
+        dispatch(onPushMessage({
+          type: 'error',
+          msg: 'Error in loading of song data stream'
+        }));
+        dispatch(onErrorTrackID(songData.id));
+      }
     });
   }
 }
 
-function setLoadingStream () {
+function setLoadingStream (songId) {
   return {
-    type: LOADING_TRACK_STREAM
+    type: LOADING_TRACK_STREAM,
+    payload: songId
   };
 }
 
-function receiveTrackStream (url) {
+function receiveTrackStream () {
   return {
-    type: RECEIVE_TRACK_STREAM,
-    payload: url
+    type: RECEIVE_TRACK_STREAM
   };
 }

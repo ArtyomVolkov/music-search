@@ -13,7 +13,8 @@ const defaultState = {
   playList: null,
   soundIndex: -1,
   trackIdError: null,
-  streamLoading: false
+  streamLoading: false,
+  streamId: null
 };
 
 export default function player (state = defaultState, action) {
@@ -42,16 +43,14 @@ export default function player (state = defaultState, action) {
 
     case LOADING_TRACK_STREAM:
       return Object.assign({}, state, {
-        streamLoading: true
+        streamLoading: true,
+        streamId: action.payload
       });
 
     case RECEIVE_TRACK_STREAM:
-      const songData = state.songData;
-      // mute object
-      songData.stream_url = action.payload;
-
       return Object.assign({}, state, {
-        songData: songData
+        streamLoading: false,
+        streamId: null
       });
 
     default:

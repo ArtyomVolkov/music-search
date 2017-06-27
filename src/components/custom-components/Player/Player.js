@@ -44,7 +44,9 @@ class Player extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.setSongData(nextProps.player);
+    if (!nextProps.player.streamLoading) {
+      this.setSongData(nextProps.player);
+    }
   }
 
   setSongData (newSongData) {
@@ -113,11 +115,11 @@ class Player extends Component {
   nextSong (index) {
     const { playerActions } = this.props;
 
-    if (!index || index < 0) {
+    if (index < 0) {
       return;
     }
-    // TODO: future functionality
-    //playerActions.setNextSong(index);
+
+    playerActions.playNext(index);
   }
 
   onChangePlayerAction = (name) => {
