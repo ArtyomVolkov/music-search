@@ -2,9 +2,11 @@
 import { FETCH_USER, AUTHORIZED, UNAUTHORIZED } from './index';
 // endpoints
 import { fetchUser } from '../endpoints/sound-cloud-api';
-import { authUser } from '../endpoints/aws-api';
+import { authUser, refreshAuth } from '../endpoints/aws-api';
 // utils
 import { setSessionData, getSessionData, clearSessionData } from '../utils/commons';
+
+const UNAUTHORIZED_CODE = 401;
 
 export function getUser () {
   return function (dispatch) {
@@ -25,11 +27,23 @@ export function checkAuthUser () {
   return function (dispatch) {
     const sessionData = getSessionData();
 
-    if (sessionData.accessToken && sessionData.username) {
+    // check refreshToken is exists and is valid
+    if (!sessionData.refreshToken) {
+      return;
+    }
+
+    refreshAuth({refreshToken: sessionData.refreshToken})
+    .then((resp) => {
       dispatch(authorized({
         username: sessionData.username
       }));
-    }
+      setSessionData(Object.assign(resp.data));
+    })
+    .catch((err) => {
+      if (err.response.status === UNAUTHORIZED_CODE) {
+        dispatch(signOut());
+      }
+    });
   }
 }
 

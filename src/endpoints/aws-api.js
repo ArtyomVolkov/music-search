@@ -8,7 +8,9 @@ import {
   STREAM,
   SONG_MBID,
   USER_REGISTRATION,
-  USER_LOGIN
+  USER_LOGIN,
+  SOCIAL_LOGIN,
+  REFRESH_AUTH
 } from '../settings';
 
 export function searchByArtist (value) {
@@ -45,4 +47,12 @@ export function userRegistration (data) {
 
 export function authUser (credentials) {
   return axios.post(USER_LOGIN, credentials);
+}
+
+export function getSocialLogin(socialName) {
+  return axios.get(SOCIAL_LOGIN + socialName);
+}
+
+export function refreshAuth(data) {
+  return axios.post(REFRESH_AUTH, data);
 }

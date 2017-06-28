@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 // Components
 import NavigationBar from '../NavigationBar/NavigationBar';
 import UserSection from '../UserSection/UserSection';
-
 // Style
 import './AppBar.scss';
 
-class AppBar extends Component {
+class AppBar extends React.Component {
   render() {
     const {title} = this.props;
 

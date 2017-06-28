@@ -12,24 +12,35 @@
       padding: 0 15px;
 
       &:hover {
-        text-shadow: 2px 0 8px #00BCD4, 0 0 1em #ffffff;
         cursor: pointer;
       }
 
-      &.fa-google-plus-square {
-        color: #ea4335;
+      &.fa-google {
+        color: #1976d2;
+        &:hover {
+          text-shadow: 2px 0 8px #1976d2, 0 0 1em #ffffff;
+        }
       }
 
       &.fa-soundcloud {
         color: orangered;
+        &:hover {
+          text-shadow: 2px 0 8px orangered, 0 0 1em #ffffff;
+        }
       }
 
       &.fa-facebook-square {
-        color: #264285;;
+        color: #264285;
+        &:hover {
+          text-shadow: 2px 0 8px #264285, 0 0 1em #ffffff;
+        }
       }
 
       &.fa-vk {
         color: #4c75a3;
+        &:hover {
+          text-shadow: 2px 0 8px #4c75a3, 0 0 1em #ffffff;
+        }
       }
     }
   }

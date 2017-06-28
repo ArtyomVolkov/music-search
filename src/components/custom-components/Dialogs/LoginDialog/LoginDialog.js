@@ -3,6 +3,10 @@ import React from 'react';
 import { Dialog, TextField, FlatButton, RaisedButton, Checkbox, Toggle } from 'material-ui';
 // Services
 import AuthService from '../../../../services/AuthService/AuthService';
+//Services
+import DIALOG_SERVICE from '../../../../services/DialogService/DialogService';
+// endpoints
+import {getSocialLogin} from '../../../../endpoints/aws-api';
 // Style
 import './LoginDialog.scss';
 
@@ -14,6 +18,10 @@ class LoginDialog extends React.Component {
   }
 
   initDialogData () {
+    this.state = {
+      social: false
+    };
+
     this.dialog = {
       title: 'Login',
       style: {
@@ -21,7 +29,7 @@ class LoginDialog extends React.Component {
       },
       data: {},
       actionButtons: [
-        <FlatButton
+         <FlatButton
           label="Cancel"
           primary={false}
           onTouchTap={this.onCloseDialog}
@@ -32,10 +40,6 @@ class LoginDialog extends React.Component {
           onTouchTap={this.onLoginUser}
         />
       ]
-    };
-
-    this.state = {
-      social: false
     };
   }
 
@@ -62,7 +66,15 @@ class LoginDialog extends React.Component {
   };
 
   onSignIn =()=> {
+    this.onCloseDialog();
+    DIALOG_SERVICE.onOpen('sign-in', {});
   };
+
+  onOpenSocialLogin (name) {
+    getSocialLogin(name).then((resp) => {
+      window.open(resp.data, name, 'width=500,height=400');
+    });
+  }
 
   render () {
     const { dialog, state } = this;
@@ -80,7 +92,15 @@ class LoginDialog extends React.Component {
           </div>
         }
         contentStyle={dialog.style}
-        actions={dialog.actionButtons}
+        actions={
+          state.social
+            ? [<FlatButton
+                label="Cancel"
+                primary={true}
+                onTouchTap={this.onCloseDialog}
+              />]
+            : dialog.actionButtons
+        }
         open={true}
         modal={false}>
         <div className="login-dialog-content">
@@ -113,9 +133,18 @@ class LoginDialog extends React.Component {
           {
             state.social &&
             <div className="social-login">
-              <i className="fa fa-google-plus-square"/>
-              <i className="fa fa-facebook-square"/>
-              <i className="fa fa-vk" />
+              <i
+                className="fa fa-google"
+                onClick={this.onOpenSocialLogin.bind(this, 'google')}
+              />
+              <i
+                className="fa fa-facebook-square"
+                onClick={this.onOpenSocialLogin.bind(this, 'facebook')}
+              />
+              <i
+                className="fa fa-vk"
+                onClick={this.onOpenSocialLogin.bind(this, 'vk')}
+              />
               <i className="fa fa-soundcloud"/>
             </div>
           }
