@@ -14,8 +14,7 @@ import Search from './components/pages/Search';
 import Artist from './components/pages/Artist';
 import RecentActivity from './components/pages/RecentActivity';
 import PlayLists from './components/pages/PlayLists';
-injectTapEventPlugin();
-
+import Auth from './components/pages/Auth';
 render(
   <MuiThemeProvider>
     <Provider store={STORE}>
@@ -26,6 +25,7 @@ render(
           <Route path="artist/:id" components={{ content: Artist, header: Header, footer: Footer }}/>
           <Route path="recent-activity" components={{ content: RecentActivity, header: Header, footer: Footer }}/>
           <Route path="play-lists" components={{ content: PlayLists, header: Header, footer: Footer }}/>
+          <Route path="auth/:social/:authentication*" components={{ content: Auth, header: Header, footer: Footer }}/>
         </Route>
         <Redirect path="*" to="search"/>
       </Router>
@@ -33,3 +33,5 @@ render(
   </MuiThemeProvider>,
   document.getElementById('app')
 );
+
+injectTapEventPlugin();
