@@ -10,7 +10,8 @@ import {
   USER_REGISTRATION,
   USER_LOGIN,
   SOCIAL_LOGIN,
-  REFRESH_AUTH
+  REFRESH_AUTH,
+  COUNTRIES
 } from '../settings';
 
 export function searchByArtist (value) {
@@ -55,4 +56,8 @@ export function getSocialLogin(socialName) {
 
 export function refreshAuth(data) {
   return axios.post(REFRESH_AUTH, data);
+}
+
+export function getCountries () {
+  return axios.get(COUNTRIES);
 }

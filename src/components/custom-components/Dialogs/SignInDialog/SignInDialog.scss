@@ -1,0 +1,22 @@
+.sign-in-container {
+  position: relative;
+  overflow: hidden;
+
+  .fields {
+    padding: 0 25px;
+  }
+
+  .spinner-wrapper {
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: #e5e5e5;
+
+    .spinner {
+      position: fixed;
+      bottom: calc(50% - 40px);
+      left: calc(50% - 40px);
+    }
+  }
+}

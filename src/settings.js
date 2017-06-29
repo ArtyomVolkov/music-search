@@ -14,6 +14,7 @@ export const USER_REGISTRATION = `${SERVER_URL}/registrations/users`;
 export const USER_LOGIN = `${SERVER_URL}/authentication`;
 export const SOCIAL_LOGIN = `${SERVER_URL}/redirects/`;
 export const REFRESH_AUTH = `${SERVER_URL}/refresh-authentication`;
+export const COUNTRIES = `${SERVER_URL}/countries`;
 
 // Search Music
 export const SEARCH_ARTIST = `${SERVER_URL}/search/artist`;

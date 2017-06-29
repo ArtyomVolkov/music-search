@@ -1,12 +1,12 @@
 import React from 'react';
 // MU components
-import { Dialog, TextField, FlatButton, RaisedButton, Checkbox, Toggle } from 'material-ui';
+import { Dialog, TextField, FlatButton, RaisedButton, Checkbox, Toggle, CircularProgress } from 'material-ui';
 // Services
 import AuthService from '../../../../services/AuthService/AuthService';
 //Services
 import DIALOG_SERVICE from '../../../../services/DialogService/DialogService';
 // endpoints
-import {getSocialLogin} from '../../../../endpoints/aws-api';
+import {getSocialLogin, authUser} from '../../../../endpoints/aws-api';
 // Style
 import './LoginDialog.scss';
 
@@ -19,13 +19,18 @@ class LoginDialog extends React.Component {
 
   initDialogData () {
     this.state = {
-      social: false
+      social: false,
+      loading: false,
+      errors: {}
     };
 
     this.dialog = {
       title: 'Login',
       style: {
         width: '450px'
+      },
+      bodyStyle: {
+        padding: 0
       },
       data: {},
       actionButtons: [
@@ -48,8 +53,24 @@ class LoginDialog extends React.Component {
   };
 
   onLoginUser = () => {
-    AuthService.authUser(this.dialog.data);
-    this.props.onClose();
+    this.setState({
+      loading: true
+    });
+    authUser(this.dialog.data).then((resp) => {
+      AuthService.authUser(Object.assign(resp.data, {username: this.dialog.data.username}));
+      this.setState({
+        loading: false
+      });
+      this.props.onClose();
+    }).catch((err) => {
+      this.setState({
+        loading: false,
+        errors: {
+          username: 'Incorrect username or password',
+          password: 'Incorrect username or password'
+        }
+      });
+    });
   };
 
   onChangeFieldValue (key, e, value) {
@@ -92,6 +113,7 @@ class LoginDialog extends React.Component {
           </div>
         }
         contentStyle={dialog.style}
+        bodyStyle={dialog.bodyStyle}
         actions={
           state.social
             ? [<FlatButton
@@ -111,16 +133,16 @@ class LoginDialog extends React.Component {
                 floatingLabelText="Email"
                 onChange={this.onChangeFieldValue.bind(this, 'username')}
                 fullWidth={true}
+                errorText={state.errors.username}
                 hintText="type email address"/>
-              <br />
               <TextField
                 hintText="Password"
                 onChange={this.onChangeFieldValue.bind(this, 'password')}
                 fullWidth={true}
+                errorText={state.errors.password}
                 floatingLabelText="Password"
                 type="password"
               />
-              <br />
               <Checkbox label="Remember me"/>
               <br />
               <RaisedButton
@@ -146,6 +168,14 @@ class LoginDialog extends React.Component {
                 onClick={this.onOpenSocialLogin.bind(this, 'vk')}
               />
               <i className="fa fa-soundcloud"/>
+            </div>
+          }
+          {
+            state.loading &&
+            <div className="spinner-wrapper">
+              <div className="spinner">
+                <CircularProgress size={60} thickness={7}/>
+              </div>
             </div>
           }
         </div>

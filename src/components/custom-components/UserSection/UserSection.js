@@ -68,9 +68,9 @@ class UserSection extends React.Component {
       <div className="user-data">
         {
           !auth.authorization &&
-          <div className="default-user">
+          <div className="default-user" onClick={this.onAction.bind(this, 'open_login')}>
             <i className="fa fa-user-circle-o" />
-            <span onClick={this.onAction.bind(this, 'open_login')}>Login</span>
+            <span>Login</span>
           </div>
         }
         {auth.authorization && <UserDetails user={auth.user} onAction={this.onAction}/>}

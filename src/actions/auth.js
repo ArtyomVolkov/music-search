@@ -2,7 +2,7 @@
 import { FETCH_USER, AUTHORIZED, UNAUTHORIZED } from './index';
 // endpoints
 import { fetchUser } from '../endpoints/sound-cloud-api';
-import { authUser, refreshAuth } from '../endpoints/aws-api';
+import { refreshAuth } from '../endpoints/aws-api';
 // utils
 import { setSessionData, getSessionData, clearSessionData } from '../utils/commons';
 
@@ -47,16 +47,12 @@ export function checkAuthUser () {
   }
 }
 
-export function login (credentials) {
+export function onAuthorized (credentials) {
   return function (dispatch) {
-    authUser(credentials).then((resp) => {
-      dispatch(authorized({
-        username: credentials.username
-      }));
-      setSessionData(Object.assign(resp.data, { username: credentials.username }));
-    }).catch((err) => {
-      console.log(err);
-    });
+    dispatch(authorized({
+      username: credentials.username
+    }));
+    setSessionData(credentials);
   }
 }
 

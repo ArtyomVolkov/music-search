@@ -1,5 +1,11 @@
 .login-dialog-content {
-  margin-top: 15px;
+  margin-top: 5px;
+  position: relative;
+  overflow: hidden;
+
+  .login-default {
+    padding: 0 25px;
+  }
 
   .social-login {
     display: flex;
@@ -42,6 +48,20 @@
           text-shadow: 2px 0 8px #4c75a3, 0 0 1em #ffffff;
         }
       }
+    }
+  }
+
+  .spinner-wrapper {
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: #e5e5e5;
+
+    .spinner {
+      position: fixed;
+      bottom: calc(50% - 40px);
+      left: calc(50% - 40px);
     }
   }
 }
