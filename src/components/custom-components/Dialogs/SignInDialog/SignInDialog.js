@@ -3,6 +3,8 @@ import React from 'react';
 import { Dialog, DatePicker, TextField, FlatButton, SelectField, MenuItem, CircularProgress } from 'material-ui';
 // Endpoints
 import { getCountries, userRegistration } from '../../../../endpoints/aws-api';
+// utils
+import { dateTimeFormat } from '../../../../utils/parsers';
 // Styles
 import './SignInDialog.scss';
 
@@ -71,6 +73,10 @@ class SignInDialog extends React.Component {
         });
         break;
 
+      case 'birthDate':
+        this.dialog.formData[ key ] = dateTimeFormat(value);
+        break;
+
       default :
         this.dialog.formData[ key ] = value;
         break;
@@ -90,7 +96,7 @@ class SignInDialog extends React.Component {
     }).catch((err) => {
       const errors = {};
       err.response.data.errors.map((error) => {
-        errors[error.field] = error.defaultMessage;
+        errors[ error.field ] = error.defaultMessage;
       });
       this.setState({
         loading: false,
@@ -144,6 +150,10 @@ class SignInDialog extends React.Component {
               disableYearSelection={false}
               onChange={this.onChangeField.bind(this, 'birthDate')}
             />
+            {
+              state.errors.birthDate &&
+              <div className="error-text">{state.errors.birthDate}</div>
+            }
             <TextField
               floatingLabelText="Phone"
               hintText={'format: 000-123-4567'}

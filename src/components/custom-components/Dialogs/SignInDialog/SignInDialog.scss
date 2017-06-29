@@ -19,4 +19,12 @@
       left: calc(50% - 40px);
     }
   }
+
+  .error-text {
+    color: #f44336;
+    font-size: 12px;
+    border-top: 2px solid #f44336;
+    margin-top: -8px;
+    padding-top: 4px;
+  }
 }

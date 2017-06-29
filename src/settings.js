@@ -30,6 +30,7 @@ export const SONG_MBID = `${SERVER_URL}/stream/song`;
 // Other
 export const NO_DATA = 'N/A';
 export const MESSAGE_DURATION_TIME = 3000;
+export const DATE_FORMAT = 'YYYY-MM-DD';
 // Player
 export const DEFAULT_VOLUME = 0.7;
 export const AUTO_UPDATE_TRACK_BAR = 200; // ms
