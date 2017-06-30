@@ -98,6 +98,7 @@ class SearchBar extends React.Component {
       queryParams.push({key: 'type', value: type});
     }
 
+    console.log(this.props);
     // set query params
     URL_Service.setQueryParams(queryParams);
     actions.searchBy(searchTerm, type);

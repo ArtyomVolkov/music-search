@@ -1,4 +1,5 @@
-// TODO: Rewrite this module
+import { browserHistory } from 'react-router';
+
 export const URL_Service = {
   queryParams: null,
   setQueryParam(key, value) {
@@ -13,11 +14,14 @@ export const URL_Service = {
       ? params.queryParams.push({ key: key, value: value })
       : params.queryParams[ paramIndex ].value = value;
 
-    document.location.hash = params.hash + _stringifyQueryParams(params.queryParams);
+    browserHistory.push({
+      search: _stringifyQueryParams(params.queryParams)
+    });
   },
   setQueryParams(params) {
-    // refresh page
-    document.location.search = _stringifyQueryParams(params);
+    browserHistory.push({
+      search: _stringifyQueryParams(params)
+    });
   },
   getQueryParam(name) {
     return _parseQueryParams().queryParams.find((item) => item.key === name);
