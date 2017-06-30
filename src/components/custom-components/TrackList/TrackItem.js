@@ -54,7 +54,7 @@ class TrackItem extends React.Component {
       <div className={`track-item ${active} ${error}`}>
         <ListItem
           disabled={false}
-          onTouchStart={this.onPlaySong.bind(this, indexItem)}
+          onTouchTap={this.onPlaySong.bind(this, indexItem)}
           primaryText={
             <div className="song-info">
               <span className="singer">{track.singer}</span>

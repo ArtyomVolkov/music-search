@@ -3,9 +3,12 @@ const path = require("path");
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const extractCSS = new ExtractTextPlugin('common.css');
 
+const HOST = 'localhost';
+const PORT = '3000';
 // ENV vars
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const ENV_PROD = NODE_ENV === 'production';
@@ -75,13 +78,27 @@ module.exports = {
   devtool: "inline-source-map",
   output: {
     filename: 'main.min.js',
-    path: path.join(__dirname, '/build')
+    path: path.resolve('./build'),
+    publicPath: '/'
   },
   resolve: {
     extensions: [ '.js', '.scss' ],
     modules: [
       path.resolve(__dirname, 'node_modules')
     ],
+  },
+  devServer: {
+    contentBase: './build',
+    hot: true,
+    inline: true,
+    quiet: false,
+    noInfo: false,
+    historyApiFallback: true,
+    host: HOST,
+    port: PORT,
+    stats: {
+      colors: true
+    }
   },
   module: MODULE,
   plugins: PLUGINS,

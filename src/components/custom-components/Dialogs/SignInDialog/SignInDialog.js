@@ -126,6 +126,13 @@ class SignInDialog extends React.Component {
               fullWidth={true}
             />
             <TextField
+              floatingLabelText="Password"
+              errorText={state.errors.password}
+              type="password"
+              onChange={this.onChangeField.bind(this, 'password')}
+              fullWidth={true}
+            />
+            <TextField
               floatingLabelText="First Name"
               errorText={state.errors.firstName}
               onChange={this.onChangeField.bind(this, 'firstName')}
@@ -135,13 +142,6 @@ class SignInDialog extends React.Component {
               floatingLabelText="Last Name"
               errorText={state.errors.lastName}
               onChange={this.onChangeField.bind(this, 'lastName')}
-              fullWidth={true}
-            />
-            <TextField
-              floatingLabelText="Password"
-              errorText={state.errors.password}
-              type="password"
-              onChange={this.onChangeField.bind(this, 'password')}
               fullWidth={true}
             />
             <DatePicker

@@ -1,17 +1,17 @@
-import { hashHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 
 const RouterService = {
   navigate(page){
-    hashHistory.push(page);
+    browserHistory.push(page);
   },
   goBack() {
-    hashHistory.goBack();
+    browserHistory.goBack();
   },
   forward() {
-    hashHistory.goForward();
+    browserHistory.goForward();
   },
   getCurrentPageName() {
-    return hashHistory.getCurrentLocation().pathname;
+    return browserHistory.getCurrentLocation().pathname;
   }
 };
 

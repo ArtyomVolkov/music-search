@@ -2,7 +2,7 @@ import { render } from 'react-dom';
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Provider } from 'react-redux';
-import { Router, Route, Redirect, IndexRedirect, hashHistory } from 'react-router';
+import { Router, Route, Redirect, IndexRedirect, browserHistory } from 'react-router';
 import STORE from './redux-store/index';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 // web components
@@ -15,17 +15,20 @@ import Artist from './components/pages/Artist';
 import RecentActivity from './components/pages/RecentActivity';
 import PlayLists from './components/pages/PlayLists';
 import Auth from './components/pages/Auth';
+
+injectTapEventPlugin();
+
 render(
   <MuiThemeProvider>
     <Provider store={STORE}>
-      <Router history={hashHistory}>
+      <Router history={browserHistory}>
         <Route path="/" component={Page}>
-          <IndexRedirect to="/search"/>
+          <IndexRedirect to="search"/>
           <Route path="search" components={{ content: Search, header: Header, footer: Footer }}/>
           <Route path="artist/:id" components={{ content: Artist, header: Header, footer: Footer }}/>
           <Route path="recent-activity" components={{ content: RecentActivity, header: Header, footer: Footer }}/>
           <Route path="play-lists" components={{ content: PlayLists, header: Header, footer: Footer }}/>
-          <Route path="auth/:social/:authentication*" components={{ content: Auth, header: Header, footer: Footer }}/>
+          <Route path="/auth/:social/:authentication*" components={{ content: Auth, header: Header, footer: Footer }} />
         </Route>
         <Redirect path="*" to="search"/>
       </Router>
@@ -33,5 +36,3 @@ render(
   </MuiThemeProvider>,
   document.getElementById('app')
 );
-
-injectTapEventPlugin();
