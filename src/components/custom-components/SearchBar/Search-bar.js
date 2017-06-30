@@ -88,9 +88,18 @@ class SearchBar extends React.Component {
 
   searchMusic (searchTerm, type) {
     const { actions } = this.props;
+    const queryParams = [];
 
-    URL_Service.setQueryParam('searchTerm', searchTerm);
-    URL_Service.setQueryParam('type', type);
+    if (searchTerm) {
+      queryParams.push({key: 'searchTerm', value: searchTerm});
+    }
+
+    if (type) {
+      queryParams.push({key: 'type', value: type});
+    }
+
+    // set query params
+    URL_Service.setQueryParams(queryParams);
     actions.searchBy(searchTerm, type);
   }
 

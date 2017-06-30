@@ -15,6 +15,10 @@ export const URL_Service = {
 
     document.location.hash = params.hash + _stringifyQueryParams(params.queryParams);
   },
+  setQueryParams(params) {
+    // refresh page
+    document.location.search = _stringifyQueryParams(params);
+  },
   getQueryParam(name) {
     return _parseQueryParams().queryParams.find((item) => item.key === name);
   },
@@ -24,20 +28,21 @@ export const URL_Service = {
 };
 
 function _parseQueryParams () {
-  const { hash } = document.location;
-  const queryIndex = hash.indexOf('?');
+  const { search } = document.location;
+  const queryIndex = search.indexOf('?');
+  console.log(search);
   const params = {
     hash: '',
     queryParams: []
   };
 
   if (queryIndex === -1) {
-    params.hash = hash.substring(0, hash.length);
+    params.hash = search.substring(0, search.length);
     return params;
   }
 
-  params.hash = hash.substring(0, queryIndex);
-  hash.substring(queryIndex + 1).split('&').map((param) => {
+  params.hash = search.substring(0, queryIndex);
+  search.substring(queryIndex + 1).split('&').map((param) => {
     const value = param.split('=');
     params.queryParams.push({ key: value[ 0 ], value: value[ 1 ] });
   });

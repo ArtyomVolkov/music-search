@@ -7,8 +7,7 @@
   "scripts": {
     "build-prod": "set NODE_ENV=production&& webpack --progress",
     "build-dev": "set NODE_ENV=development&& webpack --progress",
-    "start": "webpack-dev-server --port 3000 --content-base src/ --hot --host=0.0.0.0",
-    "server:dev": "webpack-dev-server --hot --inline",
+    "start": "webpack-dev-server --port 3000 --hot --host=0.0.0.0",
     "test": "jest"
   },
   "dependencies": {
