@@ -36,23 +36,19 @@ class SearchBar extends React.Component {
   }
 
   parseQueryParams() {
-    this.searchValue = '';
-    URL_Service.getQueryParams().map((param) => {
-      if (param.key === 'searchTerm' && param.value) {
-        this.searchValue = param.value;
-        return
-      }
-      if (param.key === 'type' && param.value) {
-        const filter = FILTER_TYPES.find((filter) => filter.value === param.value);
+    const queryParams = URL_Service.getQueryParams();
+    this.searchValue = queryParams['searchTerm'] || '';
 
-        if (filter) {
-          this.state.searchType = param.value;
-          this.state.filterIndex = filter.index;
-        } else {
-          this.state.searchType = FILTER_TYPES[0].value; // set by default
-        }
+    if (queryParams.type) {
+      const filter = FILTER_TYPES.find((filter) => filter.value === queryParams.type);
+
+      if (filter) {
+        this.state.searchType = queryParams.type;
+        this.state.filterIndex = filter.index;
+      } else {
+        this.state.searchType = FILTER_TYPES[0].value; // set by default
       }
-    });
+    }
   }
 
   componentDidMount () {
@@ -98,7 +94,6 @@ class SearchBar extends React.Component {
       queryParams.push({key: 'type', value: type});
     }
 
-    console.log(this.props);
     // set query params
     URL_Service.setQueryParams(queryParams);
     actions.searchBy(searchTerm, type);

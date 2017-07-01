@@ -24,10 +24,10 @@ export const URL_Service = {
     });
   },
   getQueryParam(name) {
-    return _parseQueryParams().queryParams.find((item) => item.key === name);
+    return browserHistory.getCurrentLocation().query[name];
   },
   getQueryParams() {
-    return _parseQueryParams().queryParams;
+    return browserHistory.getCurrentLocation().query;
   },
 };
 

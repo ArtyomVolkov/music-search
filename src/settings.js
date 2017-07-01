@@ -6,7 +6,7 @@ export const CLOUD_API_TRACKS = `https://api.soundcloud.com/tracks/?client_id=${
 export const CLOUD_API_PLAY_LISTS = `https://api.soundcloud.com/users/${USER_ID}/playlists?client_id=${CLIENT_ID}`;
 
 // AWS api
-const SERVER_URL = 'http://ec2-52-14-232-217.us-east-2.compute.amazonaws.com:9999';
+export const SERVER_URL = 'http://ec2-52-14-232-217.us-east-2.compute.amazonaws.com:9999';
 export const ARTIST_SEARCH = `${SERVER_URL}/artist/search`;
 export const ARTIST_DATA = `${SERVER_URL}/artist`;
 // Auth

@@ -1,4 +1,6 @@
 import React from 'react';
+// style
+import './../../styles/commons.scss';
 
 class NotFound extends React.Component {
   constructor (props) {
@@ -7,7 +9,7 @@ class NotFound extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="not-found">
         <h1>404 PAGE NOT FOUND</h1>
       </div>
     )

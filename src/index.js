@@ -25,14 +25,13 @@ render(
       <Router history={browserHistory}>
         <Route path="/" component={Page}>
           <IndexRedirect to="search"/>
-          <Route path="not-found" components={{ content: NotFound, header: Header, footer: Footer }}/>
           <Route path="search" components={{ content: Search, header: Header, footer: Footer }}/>
           <Route path="artist/:id" components={{ content: Artist, header: Header, footer: Footer }}/>
           <Route path="recent-activity" components={{ content: RecentActivity, header: Header, footer: Footer }}/>
           <Route path="play-lists" components={{ content: PlayLists, header: Header, footer: Footer }}/>
-          <Route path="/:social/:authentication*" components={{ content: Auth, header: Header, footer: Footer }} />
+          <Route path="/:social/authentication*" components={{ content: Auth, header: Header, footer: Footer }} />
+          <Route path="*" components={{ content: NotFound, header: Header, footer: Footer }}/>
         </Route>
-        <Redirect path="*" to="not-found"/>
       </Router>
     </Provider>
   </MuiThemeProvider>,

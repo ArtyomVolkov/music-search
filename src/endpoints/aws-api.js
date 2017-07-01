@@ -11,6 +11,7 @@ import {
   USER_LOGIN,
   SOCIAL_LOGIN,
   REFRESH_AUTH,
+  SERVER_URL,
   COUNTRIES
 } from '../settings';
 
@@ -42,20 +43,27 @@ export function getSongStreamById (songId) {
   return axios.get(`${STREAM}/${songId}`);
 }
 
+/*
+ * Authorization
+ */
 export function userRegistration (data) {
   return axios.post(USER_REGISTRATION, data);
 }
-
 export function authUser (credentials) {
   return axios.post(USER_LOGIN, credentials);
 }
-
 export function getSocialLogin(socialName) {
   return axios.get(SOCIAL_LOGIN + socialName);
 }
-
 export function refreshAuth(data) {
   return axios.post(REFRESH_AUTH, data);
+}
+export function socialAuthorization(socialName, code) {
+  return axios.get(`${SERVER_URL}/${socialName}/authentication`, {
+    params: {
+      code: code
+    }
+  });
 }
 
 export function getCountries () {
