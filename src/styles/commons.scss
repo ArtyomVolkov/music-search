@@ -1,3 +1,18 @@
 .not-found {
   text-align: center;
 }
+
+.track-item-action-icons {
+  .fa {
+    cursor: pointer;
+    font-size: 24px;
+  }
+
+  .fa-list-alt {
+    color: #FF5722;
+  }
+
+  .fa-star {
+    color: #9C27B0;
+  }
+}

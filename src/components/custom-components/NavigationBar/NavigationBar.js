@@ -5,45 +5,49 @@ import RouterService from '../../../services/RouterService/RouterService';
 import './NavigationBar.scss';
 
 class NavigationBar extends React.Component {
-  constructor (props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      currentPage: RouterService.getCurrentPageName()
-    };
-  }
+		this.state = {
+			currentPage: RouterService.getCurrentPageName()
+		};
+	}
 
-  onNavigateTo (page) {
-    const currentPageName = RouterService.getCurrentPageName();
+	onNavigateTo(page) {
+		const currentPageName = RouterService.getCurrentPageName();
 
-    if (currentPageName !== page) {
-      RouterService.navigate(page);
-      this.setState({
-        currentPage: page
-      });
-    }
-  }
+		if (currentPageName !== page) {
+			RouterService.navigate(page);
+			this.setState({
+				currentPage: page
+			});
+		}
+	}
 
-  render () {
-    const { currentPage } = this.state;
+	render() {
+		const {currentPage} = this.state;
 
-    return (
-      <div className="nav-bar">
-        <i className={`fa fa-search ${currentPage === '/search' ? 'active' : ''}`}
-           onClick={this.onNavigateTo.bind(this, '/search')}>
-          <span className="icon-title">Search</span>
-        </i>
-        <i className={`fa fa-list-alt ${currentPage === '/play-lists' ? 'active' : ''}`}
-           onClick={this.onNavigateTo.bind(this, '/play-lists')}>
-          <span className="icon-title">Playlists</span>
-        </i>
-        <i className={`fa fa-play-circle-o ${currentPage === '/recent-activity' ? 'active' : ''}`}
-           onClick={this.onNavigateTo.bind(this, '/recent-activity')}>
-          <span className="icon-title">Recent Activity</span>
-        </i>
-      </div>
-    )
-  }
+		return (
+			<div className="nav-bar">
+				<i className={`fa fa-search ${currentPage === '/search' ? 'active' : ''}`}
+					 onClick={this.onNavigateTo.bind(this, '/search')}>
+					<span className="icon-title">Search</span>
+				</i>
+				<i className={`fa fa-list-alt ${currentPage === '/play-lists' ? 'active' : ''}`}
+					 onClick={this.onNavigateTo.bind(this, '/play-lists')}>
+					<span className="icon-title">Playlists</span>
+				</i>
+				<i className={`fa fa-star ${currentPage === '/favorites' ? 'active' : ''}`}
+					 onClick={this.onNavigateTo.bind(this, '/favorites')}>
+					<span className="icon-title">Favorites</span>
+				</i>
+				<i className={`fa fa-line-chart ${currentPage === '/statistic' ? 'active' : ''}`}
+					 onClick={this.onNavigateTo.bind(this, '/statistic')}>
+					<span className="icon-title">Statistic</span>
+				</i>
+			</div>
+		)
+	}
 }
 
 export default NavigationBar;

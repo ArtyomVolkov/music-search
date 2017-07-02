@@ -31,6 +31,8 @@ export const SONG_MBID = `${SERVER_URL}/stream/song`;
 export const NO_DATA = 'N/A';
 export const MESSAGE_DURATION_TIME = 3000;
 export const DATE_FORMAT = 'YYYY-MM-DD';
+// Drawer
+export const LOGO_APP_URL = 'http://findicons.com/files/icons/1198/agua_onyx_folders/128/music_folder_badged.png';
 // Player
 export const DEFAULT_VOLUME = 0.7;
 export const AUTO_UPDATE_TRACK_BAR = 200; // ms

@@ -1,6 +1,4 @@
 import React from 'react';
-// style
-import './../../styles/commons.scss';
 
 class NotFound extends React.Component {
   constructor (props) {

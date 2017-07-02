@@ -10,13 +10,26 @@
   border-bottom: 4px solid #515151;
 
   .logo-section {
-    margin-right: 30px;
+    margin-right: 10px;
 
-    .fa-music {
-      font-size: 24px;
-      padding: 12px;
-      color: #7dca38;
+    .fa-cog {
+      font-size: 30px;
+      padding: 5px;
+      color: #c2c2c2;
+      margin-right: 15px;
+
+      &:hover {
+        color: #898989;
+        cursor: pointer;
+      }
+
+      &.active {
+        transition-duration: 0.4s;
+        transition-property: transform;
+        transform: rotate(45deg);
+      }
     }
+
     .app-title {
       color: #7dca38;
       font-size: 24px;
