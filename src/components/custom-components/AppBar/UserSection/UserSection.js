@@ -2,11 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // Actions
-import * as authActions from '../../../actions/auth';
+import * as authActions from '../../../../actions/auth';
 // Components
 import UserDetails from './UserDetails/UserDetails';
 //Services
-import DIALOG_SERVICE from '../../../services/DialogService/DialogService';
+import DIALOG_SERVICE from '../../../../services/DialogService/DialogService';
+import RouterService from '../../../../services/RouterService/RouterService';
 // Styles
 import './UserSection.scss';
 
@@ -59,6 +60,7 @@ class UserSection extends React.Component {
 
   onSignOut =()=> {
     this.props.authActions.signOut();
+    RouterService.navigate('/search');
   };
 
   render () {

@@ -1,6 +1,6 @@
 import React from 'react';
 // Settings
-import {USER_IMG_DEFAULT} from '../../../../settings';
+import {USER_IMG_DEFAULT} from '../../../../../settings';
 // Styles
 import './UserDetails.scss';
 

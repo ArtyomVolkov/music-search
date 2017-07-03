@@ -19,8 +19,8 @@ class Auth extends React.Component {
 
   render() {
     return (
-      <div className="auth">
-        <h2>Social Authorization Success</h2>
+      <div className="authorization-content">
+        <h1>Social Authorization</h1>
       </div>
     )
   }
