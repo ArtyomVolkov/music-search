@@ -93,9 +93,24 @@ class LoginDialog extends React.Component {
 
   onOpenSocialLogin (name) {
     getSocialLogin(name).then((resp) => {
-      window.open(resp.data, name, 'width=500,height=400');
+      this.socialWindow = window.open(resp.data, name, 'width=500,height=400');
+      this.checkCookieInterval();
+      DIALOG_SERVICE.onClose('sign-in');
     });
   }
+
+  checkCookieInterval =()=> {
+    this.checkInterval = setInterval(()=> {
+      if (this.socialWindow.closed) {
+        clearInterval(this.checkInterval);
+        return;
+      }
+
+      if (AuthService.checkSocialCookie()) {
+        this.socialWindow.close();
+      }
+    }, 1000);
+  };
 
   render () {
     const { dialog, state } = this;

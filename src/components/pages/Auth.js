@@ -13,14 +13,15 @@ class Auth extends React.Component {
     };
 
     if (auth.code && auth.socialName) {
-      console.log(auth.socialName, auth.code);
-      AuthService.socialAuth(auth.socialName, auth.code);
+      AuthService.setSocialCookie(auth.socialName, auth.code);
     }
   }
 
   render() {
     return (
-      <div className="auth">Social Authorization</div>
+      <div className="auth">
+        <h2>Social Authorization Success</h2>
+      </div>
     )
   }
 }
