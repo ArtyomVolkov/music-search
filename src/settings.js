@@ -35,8 +35,10 @@ export const DATE_FORMAT = 'YYYY-MM-DD';
 export const LOGO_APP_URL = 'http://findicons.com/files/icons/1198/agua_onyx_folders/128/music_folder_badged.png';
 // Player
 export const DEFAULT_VOLUME = 0.7;
+export const PLAY_NEXT = true;
 export const AUTO_UPDATE_TRACK_BAR = 200; // ms
-export const TRACK_LIMIT = 20;
 export const SONG_IMG_URL = 'http://findicons.com/files/icons/2455/web_icons/48/music.png';
+// Search
+export const TRACK_LIMIT = 20;
 // User Section
 export const USER_IMG_DEFAULT = 'https://thumbs.dreamstime.com/t/human-head-headphones-vector-illustration-63700471.jpg';

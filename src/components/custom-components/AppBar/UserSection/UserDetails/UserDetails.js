@@ -1,6 +1,10 @@
 import React from 'react';
+// M-UI components
+import {Popover} from 'material-ui';
 // Settings
 import {USER_IMG_DEFAULT} from '../../../../../settings';
+// Services
+import Settings_SRV from '../../../../../services/AppSettings/AppSettings';
 // Styles
 import './UserDetails.scss';
 
@@ -9,10 +13,24 @@ class UserDetails extends React.Component {
     super(props);
 
     this.state = {
-      showDetails: false
+      showDetails: false,
+      Messages: Settings_SRV.getValue('account', 'showMessages'),
+      Friends: Settings_SRV.getValue('account', 'showFriends')
     };
+    this.anchorEl = null;
+  }
 
-    this.detailItems = [
+  onToggleDetails = (e) => {
+    const { showDetails } = this.state;
+
+    this.anchorEl = e.currentTarget;
+    this.setState({
+      showDetails: !showDetails
+    });
+  };
+
+  getDetailItems() {
+    return [
       {
         name: 'Profile',
         action: 'open_profile',
@@ -22,13 +40,15 @@ class UserDetails extends React.Component {
         name: 'Friends',
         action: 'open_friends',
         icon: 'fa-users',
-        number: 0
+        number: 0,
+        hidden: !Settings_SRV.getValue('account', 'showFriends')
       },
       {
         name: 'Messages',
         action: 'open_messages',
         icon: 'fa-envelope-open',
-        number: 0
+        number: 0,
+        hidden: !Settings_SRV.getValue('account', 'showMessages')
       },
       {
         name: 'Likes',
@@ -50,42 +70,51 @@ class UserDetails extends React.Component {
     ];
   }
 
-  onToggleDetails = (e) => {
-    const { showDetails } = this.state;
-
-    this.setState({
-      showDetails: !showDetails
-    });
-  };
-
   onCallAction (name) {
     const { onAction } = this.props;
 
     if (onAction) {
       onAction(name);
     }
+    this.onClosePopOver();
   }
+
+  onClosePopOver =()=> {
+    this.setState({
+      showDetails: false
+    });
+  };
 
   render () {
     const { user } = this.props;
     const { showDetails } = this.state;
-    const { detailItems } = this;
 
     return (
-      <div className="user-details" onClick={this.onToggleDetails}>
-        <div className="avatar">
-          <img src={user.avatar_url || USER_IMG_DEFAULT} alt="avatar"/>
+      <div className="user-details">
+        <div className="content" onClick={this.onToggleDetails}>
+          <div className="avatar">
+            <img src={user.avatar_url || USER_IMG_DEFAULT} alt="avatar"/>
+          </div>
+          <div className="user-name">
+            <span>{user.username}</span>
+          </div>
+          <div className="user-notifications">
+            <i className="fa fa-bell" />
+          </div>
         </div>
-        <div className="user-name">
-          <span>{user.username}</span>
-        </div>
-        <div className="user-notifications">
-          <i className="fa fa-bell" />
-        </div>
-        {
-          showDetails &&
+        <Popover
+          open={showDetails}
+          anchorEl={this.anchorEl}
+          style={{background: 'black'}}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          onRequestClose={this.onClosePopOver}
+        >
           <div className="details">
-            {detailItems.map((item, index) => {
+            {this.getDetailItems().map((item, index) => {
+              if (item.hidden) {
+                return false;
+              }
               return (
                 <div
                   className="details-item"
@@ -98,7 +127,7 @@ class UserDetails extends React.Component {
               )
             })}
           </div>
-        }
+        </Popover>
       </div>
     )
   }

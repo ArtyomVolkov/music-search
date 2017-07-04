@@ -28,7 +28,8 @@
   .fa-play-circle, .fa-pause-circle {
     font-size: 38px;
     color: #FF9800;
-
+    transition-duration: 0.4s;
+    transition-property: color;
     &:hover {
       color: #db6844;
     }

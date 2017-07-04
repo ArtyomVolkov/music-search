@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // Actions
@@ -12,8 +12,9 @@ import Timer from './Timer/Timer';
 import Volume from './Volume/Volume';
 // Services
 import MSG_SRV from '../../../services/MessageService/MessageService';
+import Settings_SRV from '../../../services/AppSettings/AppSettings';
 // Settings & Utils
-import { SONG_IMG_URL, DEFAULT_VOLUME } from '../../../settings';
+import { SONG_IMG_URL } from '../../../settings';
 
 // Style
 import './Player.scss';
@@ -27,7 +28,7 @@ import './Player.scss';
     playListActions: bindActionCreators(playListActions, dispatch)
   })
 )
-class Player extends Component {
+class Player extends React.Component {
   constructor (props) {
     super(props);
 
@@ -75,9 +76,8 @@ class Player extends Component {
     const { audioEl } = this;
 
     audioEl.el.src = audio.stream_url;
-    audioEl.el.volume = DEFAULT_VOLUME;
     audioEl.duration = audio.duration;
-
+    audioEl.el.volume = Settings_SRV.getValue('player', 'volume');
     this.setAudioHandlers();
   }
 
@@ -109,7 +109,9 @@ class Player extends Component {
   }
 
   onEndTrack = () => {
-    this.nextSong(this.props.player.soundIndex + 1);
+    if (Settings_SRV.getValue('player', 'playNext')) {
+      this.nextSong(this.props.player.soundIndex + 1);
+    }
   };
 
   nextSong (index) {
@@ -199,7 +201,7 @@ class Player extends Component {
             </div>
           </div>
           <Timer value={player.songData.duration * 1000}/>
-          <Volume audioEl={audioEl.el}/>
+          <Volume audioEl={audioEl.el} />
           {player.playList && <PlayListDialog />}
         </div>
       </div>

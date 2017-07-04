@@ -2,8 +2,8 @@ import React from 'react';
 // M-UI components
 import Slider from 'material-ui/Slider';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-// Settings
-import { AUTO_UPDATE_TRACK_BAR } from '../../../../settings';
+// Services
+import Settings_SRV from '../../../../services/AppSettings/AppSettings';
 // Styles
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './TrackBar.scss';
@@ -26,7 +26,7 @@ class TrackBar extends React.Component {
     };
 
     // instead of ontimeupdate (DOM audio handler)
-    this.interval = setInterval(this.updateTrackBar, AUTO_UPDATE_TRACK_BAR);
+    this.interval = setInterval(this.updateTrackBar, Settings_SRV.getValue('player', 'updateTrackBar'));
   }
 
   componentWillReceiveProps (nextProps) {
@@ -37,7 +37,10 @@ class TrackBar extends React.Component {
     }
 
     if (!this.interval) {
-      this.interval = setInterval(this.updateTrackBar, AUTO_UPDATE_TRACK_BAR);
+      this.interval = setInterval(
+        this.updateTrackBar,
+        Settings_SRV.getValue('player', 'updateTrackBar')
+      );
     }
   }
 

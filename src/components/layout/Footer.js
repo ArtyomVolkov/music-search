@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 // Components
 import Player from '../custom-components/Player/Player';
 // Style
 import './Footer.scss';
 
-class Footer extends Component {
+class Footer extends React.Component {
   constructor(props) {
     super(props);
   }

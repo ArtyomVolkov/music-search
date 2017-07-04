@@ -2,6 +2,7 @@
   .app-logo {
     display: flex;
     align-items: center;
+    background: #FF9800;
     padding: 10px;
 
     img {
@@ -12,13 +13,14 @@
 
     .title {
       font-size: 22px;
-      color: #535353;
+      color: #0d0d0d;
     }
   }
 
   .topic {
     padding: 15px;
-    background: #8bc34a;
+    background: #8BC34A;
+    color: black;
 
     .fa {
       margin-right: 15px;
@@ -27,6 +29,25 @@
   }
 
   .option-item {
-    padding: 12px 0;
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 25px;
+    padding: 12px 10px 12px 30px;
+    color: #afafaf;
+    border-bottom: 1px solid #595959;
+
+    &:hover {
+      background: #404040;
+    }
+
+    .fixed-width {
+      width: 190px;
+    }
+
+    .fa {
+      position: absolute;
+      left: 8px;
+    }
   }
 }
