@@ -11,7 +11,14 @@
   border-bottom: 4px solid #515151;
 
   .logo-section {
+    display: flex;
+    align-items: center;
     margin-right: 10px;
+    flex: 0.25;
+
+    img {
+      width: 50px;
+    }
 
     .fa-cog {
       font-size: 30px;
@@ -34,7 +41,8 @@
     .app-title {
       color: #7dca38;
       font-size: 24px;
-      padding: 0 5px;
+      padding: 0 10px;
+      margin-top: 15px;
     }
   }
 
@@ -43,6 +51,6 @@
   }
 
   .user-section {
-    flex: 0.5;
+    width: 250px;
   }
 }

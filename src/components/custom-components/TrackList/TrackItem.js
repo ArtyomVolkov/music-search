@@ -9,6 +9,8 @@ import * as system from '../../../actions/system';
 import { IconMenu, MenuItem, IconButton, CircularProgress } from 'material-ui';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { ListItem } from 'material-ui/List';
+// Services
+import DIALOG_SERVICE from '../../../services/DialogService/DialogService';
 // Style
 import './TrackItem.scss';
 
@@ -25,6 +27,10 @@ import './TrackItem.scss';
 class TrackItem extends React.Component {
   constructor (props) {
     super(props);
+
+    this.state = {
+      openActions: false
+    };
   }
 
   onPlaySong (index) {
@@ -45,17 +51,33 @@ class TrackItem extends React.Component {
     playerActions.playNext(index);
   }
 
-  onSubActions (name, e) {
-    const {track} = this.props;
+  onToggleActions = () => {
+    this.setState({
+      openActions: !this.state.openActions
+    });
+  };
 
-    switch (name) {
-      case 'on-download':
-        window.open(track.stream_url, '_self');
-        break;
+  onDownloadTrack = () => {
+    const { track } = this.props;
 
-      default :break;
+    this.onToggleActions();
+    if (track.stream_url) {
+      window.open(track.stream_url, '_self');
     }
-  }
+
+  };
+
+  toPlayList = () => {
+    const { track } = this.props;
+
+    this.onToggleActions();
+    DIALOG_SERVICE.onOpen('to-playlist', track);
+  };
+
+  toFavorite = () => {
+    const { track } = this.props;
+    this.onToggleActions();
+  };
 
   render () {
     const { player, track, indexItem } = this.props;
@@ -76,6 +98,8 @@ class TrackItem extends React.Component {
           }
           rightIconButton={
             <IconMenu
+              onRequestChange={this.onToggleActions}
+              open={this.state.openActions}
               iconButtonElement={
                 <IconButton
                   touch={true}
@@ -86,16 +110,16 @@ class TrackItem extends React.Component {
               <div className="track-item-action-icons">
                 <MenuItem
                   leftIcon={<i className="fa fa-list-alt"/>}
-                  onTouchTap={this.onSubActions.bind(this, 'to-playlist')}
+                  onTouchTap={this.toPlayList}
                 >Add to playlist</MenuItem>
                 <MenuItem
                   leftIcon={<i className="fa fa-star"/>}
-                  onTouchTap={this.onSubActions.bind(this, 'to-favorite')}
+                  onTouchTap={this.toFavorite}
                 >Add to favorite</MenuItem>
                 <MenuItem
                   leftIcon={<i className="fa fa-download"/>}
                   disabled={error || !active}
-                  onTouchTap={this.onSubActions.bind(this, 'on-download')}
+                  onTouchTap={this.onDownloadTrack}
                 >Download</MenuItem>
               </div>
             </IconMenu>

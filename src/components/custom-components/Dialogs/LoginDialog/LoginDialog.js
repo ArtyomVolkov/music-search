@@ -3,7 +3,6 @@ import React from 'react';
 import { Dialog, TextField, FlatButton, RaisedButton, Checkbox, Toggle, CircularProgress } from 'material-ui';
 // Services
 import AuthService from '../../../../services/AuthService/AuthService';
-//Services
 import DIALOG_SERVICE from '../../../../services/DialogService/DialogService';
 // endpoints
 import {getSocialLogin, authUser} from '../../../../endpoints/aws-api';

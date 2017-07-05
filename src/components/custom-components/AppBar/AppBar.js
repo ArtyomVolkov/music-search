@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import NavigationBar from './NavigationBar/NavigationBar';
 import UserSection from './UserSection/UserSection';
 import DrawerCustom from './Drawer/Drawer';
+// settings
+import { LOGO_APP_URL } from '../../../settings';
 // Style
 import './AppBar.scss';
 
@@ -50,6 +52,7 @@ class AppBar extends React.Component {
           {
             auth.authorization && <i className="fa fa-cog" ref={'settings'} onClick={this.onToggleDrawer}/>
           }
+          <img src={LOGO_APP_URL} alt="app-logo"/>
           <span className="app-title">{title}</span>
         </div>
         <div className="nav-section">

@@ -44,19 +44,4 @@
     height: 100%;
     background: rgba(225, 225, 225, 0.5);
   }
-
-  .song-info {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    .singer {
-      font-weight: 600;
-    }
-
-    .divider {
-      padding: 0 4px;
-    }
-  }
 }
