@@ -71,7 +71,7 @@ class TrackItem extends React.Component {
     const { track } = this.props;
 
     this.onToggleActions();
-    DIALOG_SERVICE.onOpen('to-playlist', track);
+    DIALOG_SERVICE.onOpen('to-playlist', {tracks: [track]});
   };
 
   toFavorite = () => {

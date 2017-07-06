@@ -27,16 +27,33 @@ class IncludeTracks extends React.Component {
         background: '#efefef'
       }
     };
+    this.state = {
+      selectedTrackIds: props.tracks.map((track) => track.fileId)
+    };
+  }
+
+  onToggleTracks (id) {
+    const {selectedTrackIds} = this.state;
+    const trackIndex = selectedTrackIds.indexOf(id);
+
+    trackIndex === -1 ? selectedTrackIds.push(id) : selectedTrackIds.splice(trackIndex, 1);
+    this.setState({
+      selectedTrackIds: selectedTrackIds
+    });
+    this.props.onChange(selectedTrackIds);
   }
 
   render () {
-    const { styles } = this;
-    const { tracks } = this.props;
+    const { styles, state } = this;
+    const { tracks, limit } = this.props;
 
     return (
-      <div className="tracks">
+      <div className="tracks-container">
         <List style={styles.list}>
-          <Subheader style={styles.subHeader}>Tracks for include (1)</Subheader>
+          <Subheader style={styles.subHeader}>
+            <span>Tracks for include ({state.selectedTrackIds.length})</span>
+            {limit && <span className="limit">Limit 10 tracks</span>}
+          </Subheader>
           {
             tracks.map((track, index) => {
               return (
@@ -44,6 +61,7 @@ class IncludeTracks extends React.Component {
                   key={index}
                   style={styles.listItem}
                   innerDivStyle={styles.listItemInnerDiv}
+                  onTouchTap={this.onToggleTracks.bind(this, track.fileId)}
                   primaryText={
                     <div className="song-info">
                       <span className="singer">{track.singer}</span>
@@ -52,7 +70,7 @@ class IncludeTracks extends React.Component {
                     </div>
                   }
                   leftAvatar={
-                    <Checkbox defaultChecked={true}/>
+                    <Checkbox checked={state.selectedTrackIds.indexOf(track.fileId) !== -1}/>
                   }
                 />
               );
