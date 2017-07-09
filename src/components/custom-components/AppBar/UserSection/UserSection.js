@@ -8,6 +8,7 @@ import UserDetails from './UserDetails/UserDetails';
 //Services
 import DIALOG_SERVICE from '../../../../services/DialogService/DialogService';
 import RouterService from '../../../../services/RouterService/RouterService';
+import SocialAuthService from '../../../../services/AuthService/SocialAuthService';
 // Styles
 import './UserSection.scss';
 
@@ -27,10 +28,7 @@ class UserSection extends React.Component {
       dialogData: null,
       isOpenDialog: false
     };
-
-    props.authActions.checkAuthUser();
   }
-
 
   onAction = (name) => {
     switch (name) {
@@ -59,8 +57,14 @@ class UserSection extends React.Component {
   }
 
   onSignOut =()=> {
-    this.props.authActions.signOut();
+    const {authActions, auth} = this.props;
+
     RouterService.navigate('/search');
+    if (auth.user.fromSocial) {
+      SocialAuthService[auth.user.fromSocial].onSignOut();
+      return;
+    }
+    authActions.signOut();
   };
 
   render () {

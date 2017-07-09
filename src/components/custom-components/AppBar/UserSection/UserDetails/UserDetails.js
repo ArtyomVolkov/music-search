@@ -93,7 +93,7 @@ class UserDetails extends React.Component {
       <div className="user-details">
         <div className="content" onClick={this.onToggleDetails}>
           <div className="avatar">
-            <img src={user.avatar_url || USER_IMG_DEFAULT} alt="avatar"/>
+            <img src={user.imageURL || USER_IMG_DEFAULT} alt="avatar"/>
           </div>
           <div className="user-name">
             <span>{user.username}</span>

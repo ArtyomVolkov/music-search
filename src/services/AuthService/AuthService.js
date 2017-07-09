@@ -1,59 +1,33 @@
 import STORE from '../../redux-store/index';
 // endpoints
-import { socialAuthorization } from './../../endpoints/aws-api';
-import { onAuthorized, signOut } from '../../actions/auth';
-import { showSpinner, hideSpinner, onPushMessage } from '../../actions/system';
+import { onAuthorized, signOut, checkAuthUser } from '../../actions/auth';
+import {getCookie} from '../../utils/commons';
 
 // Service Adapter
 const AuthService = {
+  checkBasicAuth() {
+    STORE.dispatch(checkAuthUser())
+  },
   authUser(data) {
     STORE.dispatch(onAuthorized(data));
   },
   signOut() {
     STORE.dispatch(signOut());
   },
-  socialAuth(socialName, code) {
-    STORE.dispatch(showSpinner());
-    socialAuthorization(socialName, code)
-      .then((resp) => {
-        STORE.dispatch(hideSpinner());
-        STORE.dispatch(
-          onAuthorized(
-            Object.assign(resp.data, { username: 'social user' })
-          )
-        );
-      })
-      .catch((err) => {
-        STORE.dispatch(hideSpinner());
-        STORE.dispatch(onPushMessage({
-          type: 'error',
-          msg: 'Social authorization error'
-        }));
-      });
-  },
-  setSocialCookie(socialName, code) {
-    document.cookie = `${socialName}=${code};path=/`;
-  },
-  getCookie(name) {
-    const matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[ 1 ]) : undefined;
-  },
   checkSocialCookie() {
-    const googleCode = this.getCookie('google');
+    const googleCode = getCookie('google');
     if (googleCode) {
       this.socialAuth('google', googleCode);
       return true;
     }
 
-    const facebookCode = this.getCookie('facebook');
+    const facebookCode = getCookie('facebook');
     if (facebookCode) {
       this.socialAuth('facebook', facebookCode);
       return true;
     }
 
-    const vkCode = this.getCookie('vk');
+    const vkCode = getCookie('vk');
     if (vkCode) {
       this.socialAuth('vk', vkCode);
       return true;

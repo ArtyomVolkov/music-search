@@ -15,7 +15,17 @@ export const USER_LOGIN = `${SERVER_URL}/authentication`;
 export const SOCIAL_LOGIN = `${SERVER_URL}/redirects/`;
 export const REFRESH_AUTH = `${SERVER_URL}/refresh-authentication`;
 export const COUNTRIES = `${SERVER_URL}/countries`;
-
+// Social AUTH config
+export const SOCIAL_AUTH_CONFIG = {
+  vk: {
+    appId: '6081850',
+    secret: 'eSzJuWX4pC6yGABONqtE'
+  },
+  google: {
+    appId: '737760204259-lohfeoudb15s2bjfh61ek7bssf6npmv3.apps.googleusercontent.com',
+    secret: 'W3AU2StLs7wQJYf08X0OYk-3'
+  }
+};
 // Search Music
 export const SEARCH_ARTIST = `${SERVER_URL}/search/artist`;
 export const SEARCH_GENRE = `${SERVER_URL}/search/genre`;

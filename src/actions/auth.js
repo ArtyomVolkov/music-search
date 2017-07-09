@@ -37,7 +37,7 @@ export function checkAuthUser () {
       dispatch(authorized({
         username: sessionData.username
       }));
-      setSessionData(Object.assign(resp.data));
+      setSessionData(resp.data);
     })
     .catch((err) => {
       if (err.response.status === UNAUTHORIZED_CODE) {
@@ -47,12 +47,10 @@ export function checkAuthUser () {
   }
 }
 
-export function onAuthorized (credentials) {
+export function onAuthorized (data) {
   return function (dispatch) {
-    dispatch(authorized({
-      username: credentials.username
-    }));
-    setSessionData(credentials);
+    dispatch(authorized(data.user));
+    setSessionData(Object.assign(data.tokens || {}, {username: data.user.username}));
   }
 }
 

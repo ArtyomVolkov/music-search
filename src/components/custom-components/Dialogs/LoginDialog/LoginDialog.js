@@ -1,11 +1,14 @@
 import React from 'react';
 // MU components
-import { Dialog, TextField, FlatButton, RaisedButton, Checkbox, Toggle, CircularProgress } from 'material-ui';
+import { Dialog, TextField, FlatButton, RaisedButton, Checkbox, CircularProgress } from 'material-ui';
 // Services
 import AuthService from '../../../../services/AuthService/AuthService';
 import DIALOG_SERVICE from '../../../../services/DialogService/DialogService';
+import SocialAuthService from '../../../../services/AuthService/SocialAuthService';
 // endpoints
-import {getSocialLogin, authUser} from '../../../../endpoints/aws-api';
+import { authUser } from '../../../../endpoints/aws-api';
+// utils
+import {setCookie} from '../../../../utils/commons';
 // Style
 import './LoginDialog.scss';
 
@@ -18,7 +21,6 @@ class LoginDialog extends React.Component {
 
   initDialogData () {
     this.state = {
-      social: false,
       loading: false,
       errors: {}
     };
@@ -33,12 +35,12 @@ class LoginDialog extends React.Component {
       },
       data: {},
       actionButtons: [
-         <FlatButton
+        <FlatButton
           label="Cancel"
           primary={false}
           onTouchTap={this.onCloseDialog}
         />,
-        <FlatButton
+        <RaisedButton
           label="Login"
           primary={true}
           onTouchTap={this.onLoginUser}
@@ -56,9 +58,14 @@ class LoginDialog extends React.Component {
       loading: true
     });
     authUser(this.dialog.data).then((resp) => {
-      AuthService.authUser(Object.assign(resp.data, {username: this.dialog.data.username}));
       this.setState({
         loading: false
+      });
+      AuthService.authUser({
+        user: {
+          username: this.dialog.data.username
+        },
+        tokens: resp.data
       });
       this.props.onClose();
     }).catch((err) => {
@@ -79,111 +86,82 @@ class LoginDialog extends React.Component {
     this.dialog.data[ key ] = value;
   }
 
-  onChangeLoginType = () => {
-    this.setState({
-      social: !this.state.social
-    });
-  };
-
-  onSignIn =()=> {
+  onSignIn = () => {
     this.onCloseDialog();
     DIALOG_SERVICE.onOpen('sign-in', {});
   };
 
   onOpenSocialLogin (name) {
-    getSocialLogin(name).then((resp) => {
-      this.socialWindow = window.open(resp.data, name, 'width=500,height=400');
-      this.checkCookieInterval();
-      DIALOG_SERVICE.onClose('sign-in');
+    if (!SocialAuthService[name]) {
+      return;
+    }
+    SocialAuthService[name].onSignIn().then((authData) => {
+      AuthService.authUser({
+        user: {
+          username: authData.w3.getName(),
+          imageURL: authData.w3.getImageUrl(),
+          fromSocial: name
+        },
+        tokens: {
+          refreshToken: authData.Zi.id_token,
+          accessToken: authData.Zi.access_token
+        }
+      });
+      setCookie('_SAN', name);
+      this.props.onClose();
     });
   }
-
-  checkCookieInterval =()=> {
-    this.checkInterval = setInterval(()=> {
-      if (this.socialWindow.closed) {
-        clearInterval(this.checkInterval);
-        return;
-      }
-
-      if (AuthService.checkSocialCookie()) {
-        this.socialWindow.close();
-      }
-    }, 1000);
-  };
 
   render () {
     const { dialog, state } = this;
 
     return (
       <Dialog
-        title={
-          <div>
-            <Toggle
-              onToggle={this.onChangeLoginType}
-              label={'Social Login'}
-              defaultToggled={false}
-              labelPosition="right"
-            />
-          </div>
-        }
+        title={'Login'}
         contentStyle={dialog.style}
         bodyStyle={dialog.bodyStyle}
-        actions={
-          state.social
-            ? [<FlatButton
-                label="Cancel"
-                primary={true}
-                onTouchTap={this.onCloseDialog}
-              />]
-            : dialog.actionButtons
-        }
+        actions={dialog.actionButtons}
         open={true}
         modal={false}>
         <div className="login-dialog-content">
-          {
-            !state.social &&
-            <div className="login-default">
-              <TextField
-                floatingLabelText="Email"
-                onChange={this.onChangeFieldValue.bind(this, 'username')}
-                fullWidth={true}
-                errorText={state.errors.username}
-                hintText="type email address"/>
-              <TextField
-                hintText="Password"
-                onChange={this.onChangeFieldValue.bind(this, 'password')}
-                fullWidth={true}
-                errorText={state.errors.password}
-                floatingLabelText="Password"
-                type="password"
-              />
-              <Checkbox label="Remember me"/>
-              <br />
-              <RaisedButton
-                label="Sign IN"
-                primary={true}
-                onTouchTap={this.onSignIn}
-              />
-            </div>
-          }
-          {
-            state.social &&
-            <div className="social-login">
-              <i
-                className="fa fa-google"
-                onClick={this.onOpenSocialLogin.bind(this, 'google')}
-              />
-              <i
-                className="fa fa-facebook-square"
-                onClick={this.onOpenSocialLogin.bind(this, 'facebook')}
-              />
-              <i
-                className="fa fa-vk"
-                onClick={this.onOpenSocialLogin.bind(this, 'vk')}
-              />
-              <i className="fa fa-soundcloud"/>
-            </div>
-          }
+          <div className="login-default">
+            <RaisedButton
+              label="Sign UP"
+              backgroundColor="#3f51b5"
+              labelColor={'white'}
+              fullWidth={true}
+              onTouchTap={this.onSignIn}
+            />
+            <TextField
+              floatingLabelText="Email"
+              onChange={this.onChangeFieldValue.bind(this, 'username')}
+              fullWidth={true}
+              errorText={state.errors.username}
+              hintText="type email address"/>
+            <TextField
+              hintText="Password"
+              onChange={this.onChangeFieldValue.bind(this, 'password')}
+              fullWidth={true}
+              errorText={state.errors.password}
+              floatingLabelText="Password"
+              type="password"
+            />
+            <Checkbox label="Remember me"/>
+            <br />
+          </div>
+          <div className="social-login">
+            <i
+              className="fa fa-google"
+              onClick={this.onOpenSocialLogin.bind(this, 'google')}
+            />
+            <i
+              className="fa fa-facebook-square"
+            />
+            <i
+              className="fa fa-vk"
+            />
+            <i className="fa fa-soundcloud"/>
+          </div>
           {
             state.loading &&
             <div className="spinner-wrapper">
