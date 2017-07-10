@@ -9,8 +9,10 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './TrackBar.scss';
 const MUI_Theme = getMuiTheme({
   slider: {
-    selectionColor: '#7dca38',
-    rippleColor: '#68ca4c',
+    selectionColor: '#ff9800',
+    rippleColor: '#ff9800',
+    trackColor: 'transparent',
+    trackColorSelected: 'transparent',
     handleSizeActive: 16,
     handleSize: 14,
     trackSize: 4
@@ -58,12 +60,33 @@ class TrackBar extends React.Component {
     });
   };
 
+  getBufferedAudioValue (audioEl) {
+    let value = '0%';
+
+    if (!audioEl.buffered.length) {
+      return value;
+    }
+
+    if (audioEl.duration > 0) {
+      for (let i = 0; i < audioEl.buffered.length; i++) {
+        if (audioEl.buffered.start(audioEl.buffered.length - 1 - i) < audioEl.currentTime) {
+          value = (audioEl.buffered.end(audioEl.buffered.length - 1 - i) / audioEl.duration);
+          break;
+        }
+      }
+    }
+    return value * 100 + '%';
+  }
+
   render () {
     const { audioEl } = this.props;
     const { currentTime } = this.state;
 
     return (
       <div className="track-bar">
+        <div className="progress-section">
+          <div className="buffered" style={{ width: this.getBufferedAudioValue(audioEl)}}></div>
+        </div>
         <MuiThemeProvider muiTheme={MUI_Theme}>
           <Slider
             className="time-bar"

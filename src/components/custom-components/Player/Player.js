@@ -115,13 +115,13 @@ class Player extends React.Component {
   };
 
   nextSong (index) {
-    const { playerActions } = this.props;
+    const { playerActions, player } = this.props;
 
     if (index < 0) {
       return;
     }
 
-    playerActions.playNext(index);
+    playerActions.playNext(index, !!player.playList ? 'playlist-track' : 'track');
   }
 
   onChangePlayerAction = (name) => {

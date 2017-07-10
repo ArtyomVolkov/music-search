@@ -34,7 +34,7 @@ class Artist extends Component {
     return (
       <div>
         <ArtistSection artistId={params.id}/>
-        {artistData.tracks && <TrackList tracks={artistData.tracks} artistId={params.id} />}
+        {artistData.tracks && <TrackList tracks={artistData.tracks} type={'track'} />}
       </div>
     )
   }

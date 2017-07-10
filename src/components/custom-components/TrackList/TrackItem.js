@@ -34,9 +34,9 @@ class TrackItem extends React.Component {
   }
 
   onPlaySong (index) {
-    const { playerActions, systemActions, player } = this.props;
+    const { playerActions, systemActions, player, type, track } = this.props;
 
-    if (player.songData && index === player.soundIndex) {
+    if (player.songData && player.songData.id === track.id) {
       if (player.songData.id === player.trackIdError) {
         systemActions.onPushMessage({
           type: 'error',
@@ -48,7 +48,7 @@ class TrackItem extends React.Component {
       playerActions.onTogglePlay();
       return;
     }
-    playerActions.playNext(index);
+    playerActions.playNext(index, type);
   }
 
   onToggleActions = () => {
@@ -126,8 +126,7 @@ class TrackItem extends React.Component {
           }
           leftAvatar={
             <div>
-              <i className={`fa ${player.soundIndex === indexItem && player.play
-                ? 'fa-pause-circle' : 'fa-play-circle'}`}/>
+              <i className={`fa ${player.play && active ? 'fa-pause-circle' : 'fa-play-circle'}`} />
             </div>
           }
         />

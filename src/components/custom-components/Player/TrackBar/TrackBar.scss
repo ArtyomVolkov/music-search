@@ -5,4 +5,18 @@
   .time-bar {
     width: 100%;
   }
+
+  .progress-section {
+    position: absolute;
+    width: 99%;
+    height: 4px;
+    top: 10px;
+    background: #979797;
+
+    .buffered {
+      background: #651c05;
+      width: 90%;
+      height: 4px;
+    }
+  }
 }

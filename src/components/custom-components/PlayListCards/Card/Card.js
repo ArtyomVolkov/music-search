@@ -26,6 +26,10 @@ class Card extends Component {
     this.props.onAction('play');
   };
 
+  onOpenPlayList =()=> {
+    console.log(this.props.data);
+  };
+
   render () {
     const { title, subTitle, media, active, player } = this.props;
 
@@ -38,11 +42,11 @@ class Card extends Component {
           <div className="sub-title">
             <span>{subTitle}</span>
           </div>
+          <i className="fa fa-external-link" onClick={this.onOpenPlayList} />
         </div>
         <div className="card-body">
           <img src={media}/>
           <i className={`fa ${active && player.play ? 'fa-pause-circle' : 'fa-play-circle'}`}
-             aria-hidden="true"
              onClick={this.onTogglePlay}/>
           <div className="shadow-wrap"/>
         </div>

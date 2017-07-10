@@ -30,7 +30,7 @@ class PlayListCards extends Component {
     this.props.playListActions.getPlayLists();
   }
 
-  onCallAction (index, actionName) {
+  onCallAction (index) {
     const { playLists, playListActions, playerActions, playList } = this.props;
     const tracks = playLists.data[index].tracks;
 
@@ -38,7 +38,7 @@ class PlayListCards extends Component {
       playListActions.setActivePlaylist(index);
       playerActions.setPlayListData(tracks);
       // select first song to play
-      playerActions.selectSong(tracks[0], 0);
+      playerActions.selectSong(tracks[0], 0, 'playlist-track');
       return;
     }
 
@@ -58,9 +58,10 @@ class PlayListCards extends Component {
               <div key={index} className="card-item">
                 <Card
                   active={playList && playLists.activeIndex === index}
-                  title={list.title}
-                  subTitle={`${list.track_count} ${list.track_count > 1 ? 'tracks' : 'track'}`}
-                  media={replaceStringURL(list.artwork_url || list.tracks[ 0 ].artwork_url, 'large', 'crop')}
+                  data={list}
+                  title={list.name}
+                  subTitle={`${list.tracks.length} ${list.tracks.length > 1 ? 'tracks' : 'track'}`}
+                  media={list.image}
                   onAction={this.onCallAction.bind(this, index)}
                 />
               </div>

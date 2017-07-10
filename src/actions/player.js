@@ -10,11 +10,41 @@ import {
 // endpoints
 import { getSongStreamById } from '../endpoints/aws-api';
 // other actions
-import { onPushMessage } from './system';
+import { onPushMessage, showSpinner, hideSpinner } from './system';
 
-export function selectSong (songData, index) {
-  return function (dispatch) {
-    dispatch(setSong({ index, songData }));
+export function selectSong (songData, index, type) {
+  return function (dispatch, getState) {
+    const state = getState();
+    const showGlobalSpinner = type !== 'track' && (!state.playlists || !state.playlists.showPlayList);
+    // check song data stream URL
+    if (songData.stream_url) {
+      dispatch(setSong({ index, songData }));
+      return;
+    }
+
+    if (showGlobalSpinner) {
+      dispatch(showSpinner());
+    }
+    // load stream URL
+    dispatch(setLoadingStream(songData.id));
+    getSongStreamById(songData.id).then((resp) => {
+      dispatch(receiveTrackStream(resp.data));
+
+      if (showGlobalSpinner) {
+        dispatch(hideSpinner());
+      }
+
+      if (!resp.data) {
+        dispatch(onErrorTrackID(songData.id));
+        dispatch(onPushMessage({
+          type: 'error',
+          msg: 'Error in loading of song data stream'
+        }));
+        return;
+      }
+      songData.stream_url = resp.data;
+      dispatch(setSong({ index, songData }));
+    });
   }
 }
 
@@ -63,31 +93,31 @@ function setErrorTrackId (trackId) {
   };
 }
 
-export function playNext (index) {
+export function playNext (index, type = 'track') {
   return function (dispatch, getState) {
     const state = getState();
-    const searchResults = state.searchResults;
+    let songData = null;
 
-    if (searchResults.type !== 'TRACK' || !searchResults.data.length) {
-      return;
+    switch (type) {
+      case 'track':
+        const tracks = state.searchResults.data || [];
+        songData = tracks[ index ] || tracks[ 0 ];
+        // clear playlist data
+        dispatch(setPlayListData(null));
+        break;
+
+      case 'playlist-track':
+        const playListTracks = state.player.playList || [];
+        songData = playListTracks[ index ] || playListTracks[ 0 ];
+        break;
+
+      default:
+        break;
     }
-    const songData = searchResults.data[ index ] || searchResults.data[ 0 ];
 
-    dispatch(setLoadingStream(songData.id));
-    getSongStreamById(songData.id).then((resp) => {
-      if (resp.data) {
-        songData.stream_url = resp.data;
-        dispatch(receiveTrackStream(resp.data));
-        dispatch(selectSong(songData, index));
-      } else {
-        dispatch(receiveTrackStream());
-        dispatch(onPushMessage({
-          type: 'error',
-          msg: 'Error in loading of song data stream'
-        }));
-        dispatch(onErrorTrackID(songData.id));
-      }
-    });
+    if (songData) {
+      dispatch(selectSong(songData, index, type));
+    }
   }
 }
 

@@ -6,7 +6,7 @@ import * as playerAction from '../../../../actions/player';
 // MU components
 import {Dialog} from 'material-ui';
 // Components
-import SongItems from '../../ArtistList/ArtistList';
+import TrackList from '../../TrackList/TrackList';
 // Styles
 import './PlayListDialog.scss';
 
@@ -32,20 +32,20 @@ class PlayListDialog extends Component {
   };
 
   render() {
-    const {showPlayList, songData, playLists} = this.props;
+    const {showPlayList, playLists} = this.props;
     const activePlayList = playLists.data[playLists.activeIndex];
 
     return (
       <Dialog
-        title={activePlayList.title}
+        title={activePlayList.name}
         modal={false}
         open={showPlayList}
         autoScrollBodyContent={true}>
         <div className="body-content">
-          <SongItems
-            songs={activePlayList.tracks}
-            songData={songData}
-            onAction={this.onCallAction}
+          <TrackList
+            subHeader={`Tracks (${activePlayList.tracks.length})`}
+            tracks={activePlayList.tracks}
+            type={'playlist-track'}
           />
         </div>
       </Dialog>

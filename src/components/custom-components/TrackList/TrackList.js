@@ -63,7 +63,7 @@ class TrackList extends React.Component {
   };
 
   render () {
-    const { artistId, subHeader } = this.props;
+    const { subHeader, type } = this.props;
     const { tracks, loading } = this.state;
     const { trackList } = this.style;
 
@@ -73,7 +73,7 @@ class TrackList extends React.Component {
           {!!subHeader && <Subheader style={trackList.subHeader}>{subHeader}</Subheader>}
           {
             tracks && tracks.map((track, index) => {
-              return (<TrackItem key={index} track={track} indexItem={index} artistId={artistId}/>);
+              return (<TrackItem key={index} track={track} indexItem={index} type={type} />);
             })
           }
         </List>

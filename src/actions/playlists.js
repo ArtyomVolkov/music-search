@@ -12,10 +12,21 @@ import { showSpinner, hideSpinner } from './system';
 export function getPlayLists () {
   return function (dispatch) {
     dispatch(showSpinner());
-    fetchPlayLists().then((response) => {
+    // TODO: get playLists from localStorage (temporary)
+    new Promise((res, rej) => {
+      try {
+        res(JSON.parse(window.localStorage.getItem('playlists')));
+      } catch (err) {
+        rej(err);
+      }
+    }).then((data) => {
       dispatch(hideSpinner());
-      dispatch(receivePlayLists(response.data));
+      dispatch(receivePlayLists(data));
     });
+    // fetchPlayLists().then((response) => {
+    //   dispatch(hideSpinner());
+    //   dispatch(receivePlayLists(response.data));
+    // });
   }
 }
 

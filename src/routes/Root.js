@@ -13,21 +13,22 @@ import PlayLists from '../components/pages/PlayLists';
 import Auth from '../components/pages/Auth';
 import Statistic from '../components/pages/Statistic';
 import NotFound from '../components/pages/NotFound';
+// Services
+import AuthService from '../services/AuthService/AuthService';
+import SocialAuthService from '../services/AuthService/SocialAuthService';
+import {getCookie} from '../utils/commons';
 // common styles
 import '../styles/commons.scss';
 
-function onEnter (store, nextState, replace) {
+function onEnter (store, nextState, replace, success) {
   const { auth } = store.getState();
 
   if (!auth.authorization) {
-    if (nextState.location.pathname === '/search') {
-      return;
-    }
-    // redirect on search page by default
-    replace({
-      pathname: '/search'
-    })
+    // TODO: special service for that
+    // check auth async
+    // callback()
   }
+  success();
 }
 
 function AppRoot ({ store }) {

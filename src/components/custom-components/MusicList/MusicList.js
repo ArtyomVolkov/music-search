@@ -60,7 +60,7 @@ class MusicList extends Component {
             <TrackList
               tracks={searchResults.data}
               subHeader={`Found tracks (${searchResults.data.length})`}
-              artistId={null}
+              type={'track'}
             />
           )
         }
