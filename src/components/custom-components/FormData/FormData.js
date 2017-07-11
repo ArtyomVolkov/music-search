@@ -43,27 +43,41 @@ class FormData extends React.Component {
   }
 
   toValidate (key, value, validation) {
-    if (!value && validation.required) {
-      this.state.errors[ key ] = 'Value is required';
-      this.setState({
-        errors: this.state.errors
-      });
-      return false;
+    for (let i = 0; i < validation.length; i++) {
+      // required
+      if (validation[i].key === 'required') {
+        if (value) {
+          delete this.state.errors[ key ];
+          continue;
+        } else {
+          this.state.errors[ key ] = validation[i].message;
+          break;
+        }
+      }
+      // minLength
+      if (validation[i].key === 'minLength') {
+        if (value.length < validation[i].value) {
+          this.state.errors[ key ] = validation[i].message;
+          break;
+        } else {
+          delete this.state.errors[ key ];
+          continue;
+        }
+      }
+      // reserved names
+      if (validation[i].key === 'reservedNames') {
+        if (validation[i].value.indexOf(value.trim()) !== -1) {
+          this.state.errors[ key ] = validation[i].message;
+          break;
+        } else {
+          delete this.state.errors[ key ];
+        }
+      }
     }
 
-    if (value.length < validation.minLength) {
-      this.state.errors[ key ] = `Min length must be more then ${validation.minLength - 1}`;
-      this.setState({
-        errors: this.state.errors
-      });
-      return false;
-    }
-
-    delete this.state.errors[ key ]; // clear error message
     this.setState({
       errors: this.state.errors
     });
-    return true;
   }
 
   render () {

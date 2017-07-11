@@ -143,6 +143,9 @@ class Player extends React.Component {
   };
 
   onChangeTimeBar = (value) => {
+    if (!value) {
+      return;
+    }
     this.audioEl.el.currentTime = value;
     this.setState({
       timeValue: value

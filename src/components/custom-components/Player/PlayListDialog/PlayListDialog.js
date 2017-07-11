@@ -38,7 +38,7 @@ class PlayListDialog extends Component {
     return (
       <Dialog
         title={activePlayList.name}
-        modal={false}
+        modal={true}
         open={showPlayList}
         autoScrollBodyContent={true}>
         <div className="body-content">

@@ -46,13 +46,26 @@ class ToPlayListDialog extends React.Component {
         left: 1
       }
     };
+
+    // TODO: custom storage
+    const playLists = window.localStorage.getItem('playlists');
+    this.playlists = playLists ? JSON.parse(playLists) : [];
     this.formData = [
       {
         key: 'name',
-        validation: {
-          required: true,
-          minLength: 3,
-        },
+        validation: [{
+          key: 'required',
+          value: true,
+          message: 'This value is required'
+        }, {
+          key: 'minLength',
+          value: 3,
+          message: 'Min length must be more then 2 symbols'
+        }, {
+          key: 'reservedNames',
+          value: this.playlists.map((item) => item.name),
+          message: 'Playlist with such name has already exists'
+        }],
         type: 'textField',
         label: 'New play list name'
       },
@@ -62,10 +75,6 @@ class ToPlayListDialog extends React.Component {
         label: 'Image URL'
       }
     ];
-
-    // TODO: custom storage
-    const playLists = window.localStorage.getItem('playlists');
-    this.playlists = playLists ? JSON.parse(playLists) : [];
     this.state = {
       loading: false,
       activeTab: this.playlists.length ? 'playlists' : 'add-new',
@@ -144,11 +153,10 @@ class ToPlayListDialog extends React.Component {
   };
 
   isDisabled () {
-    const { checkedPlayLists, trackIds, activeTab } = this.state;
-    const { formData } = this.dialog;
+    const { checkedPlayLists, trackIds, activeTab, validForm } = this.state;
 
     if (activeTab === 'add-new') {
-      return !(formData.name && formData.name.length) || !trackIds.length;
+      return !validForm || !trackIds.length;
     }
 
     return !checkedPlayLists.length || !trackIds.length;
