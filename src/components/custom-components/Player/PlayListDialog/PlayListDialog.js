@@ -25,11 +25,21 @@ class PlayListDialog extends Component {
     super(props);
   }
 
-  onCallAction = (name, song, index) => {
-    if (name === 'selectSong') {
-      this.props.playerAction.selectSong(song, index);
+  onAction = (actionName, track, index) => {
+    if (actionName === 'on-play') {
+      this.onPlayTrack(track, index);
     }
   };
+
+  onPlayTrack(track, index) {
+    const {songData, playerAction} = this.props;
+
+    if (track.id === songData.id) {
+      playerAction.onTogglePlay();
+      return;
+    }
+    playerAction.selectSong(track, index);
+  }
 
   render() {
     const {showPlayList, playLists} = this.props;
@@ -46,6 +56,7 @@ class PlayListDialog extends Component {
             subHeader={`Tracks (${activePlayList.tracks.length})`}
             tracks={activePlayList.tracks}
             type={'playlist-track'}
+            onAction={this.onAction}
           />
         </div>
       </Dialog>

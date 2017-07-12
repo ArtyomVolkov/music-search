@@ -1,16 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// actions
-import * as playerActions from '../../../actions/player';
-import * as artistActions from '../../../actions/artist';
-import * as system from '../../../actions/system';
 // M-UI components
-import { IconMenu, MenuItem, IconButton, CircularProgress } from 'material-ui';
+import { IconMenu, MenuItem, IconButton, CircularProgress, Divider } from 'material-ui';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { ListItem } from 'material-ui/List';
 // Services
-import DIALOG_SERVICE from '../../../services/DialogService/DialogService';
+import TRACK_ACTION_SERVICE from '../../../services/TrackActionService/TrackActionService';
 // Style
 import './TrackItem.scss';
 
@@ -18,11 +14,7 @@ import './TrackItem.scss';
   state => ({
     player: state.player
   }),
-  dispatch => ({
-    playerActions: bindActionCreators(playerActions, dispatch),
-    artistActions: bindActionCreators(artistActions, dispatch),
-    systemActions: bindActionCreators(system, dispatch)
-  })
+  dispatch => ({})
 )
 class TrackItem extends React.Component {
   constructor (props) {
@@ -34,21 +26,11 @@ class TrackItem extends React.Component {
   }
 
   onPlaySong (index) {
-    const { playerActions, systemActions, player, type, track } = this.props;
+    const { track, onAction } = this.props;
 
-    if (player.songData && player.songData.id === track.id) {
-      if (player.songData.id === player.trackIdError) {
-        systemActions.onPushMessage({
-          type: 'error',
-          msg: 'Error in audio stream'
-        });
-        return
-      }
-      // toggle play
-      playerActions.onTogglePlay();
-      return;
+    if (onAction) {
+      onAction('on-play', track, index);
     }
-    playerActions.playNext(index, type);
   }
 
   onToggleActions = () => {
@@ -60,29 +42,54 @@ class TrackItem extends React.Component {
   onDownloadTrack = () => {
     const { track } = this.props;
 
+    TRACK_ACTION_SERVICE.onDownload(track);
     this.onToggleActions();
-    if (track.stream_url) {
-      window.open(track.stream_url, '_self');
-    }
-
   };
 
   toPlayList = () => {
     const { track } = this.props;
 
+    TRACK_ACTION_SERVICE.toPlayList(track);
     this.onToggleActions();
-    DIALOG_SERVICE.onOpen('to-playlist', {tracks: [track]});
   };
 
   toFavorite = () => {
     const { track } = this.props;
+
+    TRACK_ACTION_SERVICE.toFavorite(track);
     this.onToggleActions();
   };
 
+  onSelectTrackAction (actionName) {
+    const { track, onAction } = this.props;
+
+    switch (actionName) {
+      case 'to-playlist':
+        this.toPlayList();
+        break;
+
+      case 'to-favorite':
+        this.toFavorite();
+        break;
+
+      case 'on-download':
+        this.onDownloadTrack();
+        break;
+
+      default:
+        if (onAction) {
+          onAction(actionName, track);
+        }
+        break;
+
+    }
+    this.onToggleActions();
+  }
+
   render () {
-    const { player, track, indexItem } = this.props;
+    const { player, track, indexItem, showActions, actionItems } = this.props;
     const active = player.songData && player.songData.id === track.id ? 'active' : '';
-    const error = (player.songData && !!active && player.songData.id === player.trackIdError) ? 'error' : '';
+    const error = track.id === player.trackIdError ? 'error' : '';
 
     return (
       <div className={`track-item ${active} ${error}`}>
@@ -97,6 +104,7 @@ class TrackItem extends React.Component {
             </div>
           }
           rightIconButton={
+            showActions &&
             <IconMenu
               onRequestChange={this.onToggleActions}
               open={this.state.openActions}
@@ -110,34 +118,40 @@ class TrackItem extends React.Component {
               <div className="track-item-action-icons">
                 <MenuItem
                   leftIcon={<i className="fa fa-list-alt"/>}
-                  onTouchTap={this.toPlayList}
+                  onTouchTap={this.onSelectTrackAction.bind(this, 'to-playlist')}
                 >Add to playlist</MenuItem>
                 <MenuItem
                   leftIcon={<i className="fa fa-star"/>}
-                  onTouchTap={this.toFavorite}
+                  onTouchTap={this.onSelectTrackAction.bind(this, 'to-favorite')}
                 >Add to favorite</MenuItem>
+                <Divider/>
                 <MenuItem
                   leftIcon={<i className="fa fa-download"/>}
-                  disabled={error || !active}
-                  onTouchTap={this.onDownloadTrack}
+                  disabled={!!error || !active}
+                  onTouchTap={this.onSelectTrackAction.bind(this, 'on-download')}
                 >Download</MenuItem>
+                {
+                  actionItems && actionItems.map((item, index) => {
+                    return (
+                      <div key={index}>
+                        {item.divider && <Divider/>}
+                        <MenuItem
+                          leftIcon={item.iconClass && <i className={item.iconClass}/>}
+                          onTouchTap={this.onSelectTrackAction.bind(this, item.action)}
+                        >{item.label}</MenuItem>
+                      </div>
+                    );
+                  })
+                }
               </div>
             </IconMenu>
           }
-          leftAvatar={
-            <div>
-              <i className={`fa ${player.play && active ? 'fa-pause-circle' : 'fa-play-circle'}`} />
-            </div>
-          }
+          leftAvatar={<i className={`fa ${player.play && active ? 'fa-pause-circle' : 'fa-play-circle'}`}/>}
         />
         {
           player.streamLoading && player.streamId === track.id &&
           <div className="spinner-wrapper">
-            <CircularProgress
-              size={45}
-              thickness={4}
-              color="#FF9800"
-              style={{ left: 10 }}
+            <CircularProgress size={45} thickness={4} color="#FF9800" style={{ left: 10 }}
             />
           </div>
         }

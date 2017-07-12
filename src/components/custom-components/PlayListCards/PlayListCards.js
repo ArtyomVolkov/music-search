@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // actions
@@ -6,8 +6,6 @@ import * as playlistActions from '../../../actions/playlists';
 import * as playerActions from '../../../actions/player';
 // Components
 import Card from './Card/Card';
-// utils
-import { replaceStringURL } from '../../../utils/parsers';
 // Styles
 import './PlayListCards.scss';
 
@@ -21,7 +19,7 @@ import './PlayListCards.scss';
     playerActions: bindActionCreators(playerActions, dispatch)
   })
 )
-class PlayListCards extends Component {
+class PlayListCards extends React.Component {
   constructor (props) {
     super(props);
   }
@@ -34,11 +32,11 @@ class PlayListCards extends Component {
     const { playLists, playListActions, playerActions, playList } = this.props;
     const tracks = playLists.data[index].tracks;
 
-    if (!playList || !playLists.activeIndex || playLists.activeIndex !== index) {
+    if (!playList || playLists.activeIndex !== index) {
       playListActions.setActivePlaylist(index);
       playerActions.setPlayListData(tracks);
       // select first song to play
-      playerActions.selectSong(tracks[0], 0, 'playlist-track');
+      playerActions.selectSong(tracks[0], 0, true);
       return;
     }
 
@@ -58,6 +56,7 @@ class PlayListCards extends Component {
               <div key={index} className="card-item">
                 <Card
                   active={playList && playLists.activeIndex === index}
+                  index={index}
                   data={list}
                   title={list.name}
                   subTitle={`${list.tracks.length} ${list.tracks.length > 1 ? 'tracks' : 'track'}`}

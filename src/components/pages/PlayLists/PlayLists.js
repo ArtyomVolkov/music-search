@@ -1,6 +1,6 @@
 import React from 'react';
 // components
-import PlayListCards from '../custom-components/PlayListCards/PlayListCards';
+import PlayListCards from '../../custom-components/PlayListCards/PlayListCards';
 
 class PlayLists extends React.Component {
 	constructor(props) {

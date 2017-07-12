@@ -5,6 +5,7 @@ import LoginDialog from './LoginDialog/LoginDialog';
 import ProfileDialog from './ProfileDialog/ProfileDialog';
 import SignInDialog from './SignInDialog/SignInDialog';
 import ToPlayListDialog from './ToPlayListDialog/ToPlayListDialog';
+import EditTrackDialog from './EditTrackDialog/EditTrackDialog';
 // Services
 import DIALOG_SERVICE from '../../../services/DialogService/DialogService';
 
@@ -39,6 +40,8 @@ class DialogAdapter extends React.Component {
         <SignInDialog onClose={this.onCloseDialog}/>}
         {dialog.name === 'to-playlist' && dialog.open &&
         <ToPlayListDialog onClose={this.onCloseDialog} data={dialog.data}/>}
+        {dialog.name === 'on-edit-track' && dialog.open &&
+        <EditTrackDialog onClose={this.onCloseDialog} data={dialog.data}/>}
       </div>
     )
   }

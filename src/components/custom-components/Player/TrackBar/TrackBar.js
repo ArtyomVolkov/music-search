@@ -9,8 +9,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './TrackBar.scss';
 const MUI_Theme = getMuiTheme({
   slider: {
-    selectionColor: '#ff9800',
-    rippleColor: '#ff9800',
+    selectionColor: '#FF5722',
+    rippleColor: '#FF5722',
     trackColor: 'transparent',
     trackColorSelected: 'transparent',
     handleSizeActive: 16,

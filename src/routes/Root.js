@@ -9,7 +9,8 @@ import Page from '../components/layout/Page';
 import Search from '../components/pages/Search';
 import Artist from '../components/pages/Artist';
 import Favorites from '../components/pages/Favorites';
-import PlayLists from '../components/pages/PlayLists';
+import PlayLists from '../components/pages/PlayLists/PlayLists';
+import PlayList from '../components/pages/PlayLists/PlayList';
 import Auth from '../components/pages/Auth';
 import Statistic from '../components/pages/Statistic';
 import NotFound from '../components/pages/NotFound';
@@ -47,6 +48,11 @@ function AppRoot ({ store }) {
           <Route
             path="play-lists"
             components={{ content: PlayLists, header: Header, footer: Footer }}
+            onEnter={onEnter.bind(null, store)}
+          />
+          <Route
+            path="play-lists/:id"
+            components={{ content: PlayList, header: Header, footer: Footer }}
             onEnter={onEnter.bind(null, store)}
           />
           <Route

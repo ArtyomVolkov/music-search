@@ -12,10 +12,8 @@ import { getSongStreamById } from '../endpoints/aws-api';
 // other actions
 import { onPushMessage, showSpinner, hideSpinner } from './system';
 
-export function selectSong (songData, index, type) {
-  return function (dispatch, getState) {
-    const state = getState();
-    const showGlobalSpinner = type !== 'track' && (!state.playlists || !state.playlists.showPlayList);
+export function selectSong (songData, index, showGlobalSpinner) {
+  return function (dispatch) {
     // check song data stream URL
     if (songData.stream_url) {
       dispatch(setSong({ index, songData }));
@@ -93,7 +91,7 @@ function setErrorTrackId (trackId) {
   };
 }
 
-export function playNext (index, type = 'track') {
+export function playNext (index, type = 'track', showGlobalSpinner) {
   return function (dispatch, getState) {
     const state = getState();
     let songData = null;
@@ -116,7 +114,7 @@ export function playNext (index, type = 'track') {
     }
 
     if (songData) {
-      dispatch(selectSong(songData, index, type));
+      dispatch(selectSong(songData, index, showGlobalSpinner));
     }
   }
 }

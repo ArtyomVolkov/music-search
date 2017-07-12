@@ -40,7 +40,7 @@ export function checkAuthUser () {
       setSessionData(resp.data);
     })
     .catch((err) => {
-      if (err.response.status === UNAUTHORIZED_CODE) {
+      if (err.response && err.response.status === UNAUTHORIZED_CODE) {
         dispatch(signOut());
       }
     });

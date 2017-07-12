@@ -95,6 +95,7 @@ class FormData extends React.Component {
                   fullWidth={true}
                   errorText={errors[ field.key ]}
                   floatingLabelText={field.label}
+                  defaultValue={field.defaultValue}
                   onChange={this.onChangeField.bind(this, field.key, field.validation)}
                 />
               );

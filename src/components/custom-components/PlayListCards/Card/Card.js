@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-
+// Services
+import RouterService from '../../../../services/RouterService/RouterService';
 // Style
 import './Card.scss';
 
@@ -10,7 +11,7 @@ import './Card.scss';
   }),
   dispatch => ({})
 )
-class Card extends Component {
+class Card extends React.Component {
   constructor (props) {
     super(props);
   }
@@ -27,7 +28,7 @@ class Card extends Component {
   };
 
   onOpenPlayList =()=> {
-    console.log(this.props.data);
+    RouterService.navigate('play-lists/' + this.props.index);
   };
 
   render () {
