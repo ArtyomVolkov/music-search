@@ -48,8 +48,8 @@ class MusicList extends Component {
   onPlaySong (track, index) {
     const { playerActions, player } = this.props;
 
-    if (player.songData && player.songData.id === track.id) {
-      if (player.songData.id === player.trackIdError) {
+    if (player.songData && player.songData.mbid === track.mbid) {
+      if (player.songData.mbid === player.trackIdError) {
         system.onPushMessage({
           type: 'error',
           msg: 'Error in audio stream'

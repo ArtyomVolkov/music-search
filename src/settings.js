@@ -13,7 +13,7 @@ export const ARTIST_DATA = `${SERVER_URL}/artist`;
 export const USER_REGISTRATION = `${SERVER_URL}/registrations/users`;
 export const USER_LOGIN = `${SERVER_URL}/authentication`;
 export const SOCIAL_LOGIN = `${SERVER_URL}/redirects/`;
-export const REFRESH_AUTH = `${SERVER_URL}/refresh-authentication`;
+export const REFRESH_AUTH = `${SERVER_URL}/authentication/refresh`;
 export const COUNTRIES = `${SERVER_URL}/countries`;
 // Social AUTH config
 export const SOCIAL_AUTH_CONFIG = {

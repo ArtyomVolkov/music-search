@@ -27,6 +27,7 @@ class TrackItem extends React.Component {
 
   onPlaySong (index) {
     const { track, onAction } = this.props;
+    console.log(track);
 
     if (onAction) {
       onAction('on-play', track, index);
@@ -88,8 +89,8 @@ class TrackItem extends React.Component {
 
   render () {
     const { player, track, indexItem, showActions, actionItems } = this.props;
-    const active = player.songData && player.songData.id === track.id ? 'active' : '';
-    const error = track.id === player.trackIdError ? 'error' : '';
+    const active = player.songData && player.songData.mbid === track.mbid ? 'active' : '';
+    const error = track.mbid === player.trackIdError ? 'error' : '';
 
     return (
       <div className={`track-item ${active} ${error}`}>
@@ -98,9 +99,9 @@ class TrackItem extends React.Component {
           onTouchTap={this.onPlaySong.bind(this, indexItem)}
           primaryText={
             <div className="song-info">
-              <span className="singer">{track.singer}</span>
-              <span className="divider">-</span>
-              <span className="song-name">{track.song}</span>
+              {/*<span className="singer">{track.singer}</span>*/}
+              {/*<span className="divider">-</span>*/}
+              <span className="song-name">{track.name}</span>
             </div>
           }
           rightIconButton={

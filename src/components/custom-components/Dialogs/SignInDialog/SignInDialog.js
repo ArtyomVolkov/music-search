@@ -50,6 +50,7 @@ class SignInDialog extends React.Component {
 			loading: false,
 			errors: {},
 			countries: [],
+			gender: '',
 			selectedCountry: null
 		};
 	}
@@ -58,7 +59,7 @@ class SignInDialog extends React.Component {
 		this.props.onClose ();
 	};
 
-	onChangeField (key, e, value) {
+	onChangeField (key, e, value, text) {
 		const {countries} = this.state;
 
 		if (!key) {
@@ -70,6 +71,13 @@ class SignInDialog extends React.Component {
 				this.dialog.formData[ key ] = countries[ value ].code;
 				this.setState ({
 					selectedCountry: value
+				});
+				break;
+
+			case 'gender':
+				this.dialog.formData[ key ] = text;
+				this.setState ({
+					gender: text
 				});
 				break;
 
@@ -144,6 +152,15 @@ class SignInDialog extends React.Component {
 							onChange={this.onChangeField.bind (this, 'lastName')}
 							fullWidth={true}
 						/>
+						<SelectField
+							fullWidth={true}
+							floatingLabelText={'Gender'}
+							value={state.gender}
+							onChange={this.onChangeField.bind (this, 'gender')}
+						>
+							<MenuItem value={'MALE'} primaryText={'Male'} />
+							<MenuItem value={'FEMALE'} primaryText={'Female'} />
+						</SelectField>
 						<DatePicker
 							floatingLabelText="Birth Date"
 							textFieldStyle={{width: '100%'}}

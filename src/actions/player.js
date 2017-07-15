@@ -24,8 +24,10 @@ export function selectSong (songData, index, showGlobalSpinner) {
       dispatch(showSpinner());
     }
     // load stream URL
-    dispatch(setLoadingStream(songData.id));
-    getSongStreamById(songData.id).then((resp) => {
+    dispatch(setLoadingStream(songData.mbid));
+
+    const streams = songData.streams.map((item)=> {return item.platformTrackId});
+    getSongStreamById(streams[0]).then((resp) => {
       dispatch(receiveTrackStream(resp.data));
 
       if (showGlobalSpinner) {
@@ -33,7 +35,7 @@ export function selectSong (songData, index, showGlobalSpinner) {
       }
 
       if (!resp.data) {
-        dispatch(onErrorTrackID(songData.id));
+        dispatch(onErrorTrackID(songData.mbid));
         dispatch(onPushMessage({
           type: 'error',
           msg: 'Error in loading of song data stream'

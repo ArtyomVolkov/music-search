@@ -35,6 +35,7 @@ class Player extends React.Component {
     this.state = {
       play: true,
       muted: false,
+			duration: 0,
       timeValue: 0
     };
     this.audioEl = {
@@ -58,7 +59,7 @@ class Player extends React.Component {
       return;
     }
 
-    if (player.songData && player.songData.id === newSongData.songData.id) {
+    if (player.songData && player.songData.mbid === newSongData.songData.mbid) {
       this.onPlayPause(audioEl.el);
       return;
     }
@@ -95,14 +96,17 @@ class Player extends React.Component {
           type: 'error',
           msg: 'Error in loading of song data stream'
         });
-        playerActions.onErrorTrackID(this.props.player.songData.id);
+        playerActions.onErrorTrackID(this.props.player.songData.mbid);
       }
     }
 
     if (!audioEl.el.oncanplaythrough) {
       audioEl.el.oncanplaythrough = () => {
         if (this.props.player.play) {
-          audioEl.el.play();
+					audioEl.el.play();
+          this.setState({
+            duration: audioEl.el.duration * 1000
+          });
         }
       };
     }
@@ -162,7 +166,7 @@ class Player extends React.Component {
 
   render () {
     const { player } = this.props;
-    const { timeValue } = this.state;
+    const { timeValue, duration } = this.state;
     const { audioEl } = this;
 
     if (!player.songData) {
@@ -198,12 +202,12 @@ class Player extends React.Component {
           />
           <div className="track-section">
             <div className="song-details">
-              <span className="author" title={player.songData.singer}>{player.songData.singer}</span>
-              <span className="divider"> - </span>
-              <span className="song-name" title={player.songData.song}>{player.songData.song}</span>
+              {/*<span className="author" title={player.songData.singer}>{player.songData.singer}</span>*/}
+              {/*<span className="divider"> - </span>*/}
+              <span className="song-name" title={player.songData.name}>{player.songData.name}</span>
             </div>
           </div>
-          <Timer value={player.songData.duration * 1000}/>
+          <Timer value={duration}/>
           <Volume audioEl={audioEl.el} />
           {player.playList && <PlayListDialog />}
         </div>
