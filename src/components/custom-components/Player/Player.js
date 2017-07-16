@@ -202,8 +202,8 @@ class Player extends React.Component {
           />
           <div className="track-section">
             <div className="song-details">
-              {/*<span className="author" title={player.songData.singer}>{player.songData.singer}</span>*/}
-              {/*<span className="divider"> - </span>*/}
+              <span className="author" title={player.songData.artistName}>{player.songData.artistName}</span>
+              <span className="divider"> - </span>
               <span className="song-name" title={player.songData.name}>{player.songData.name}</span>
             </div>
           </div>

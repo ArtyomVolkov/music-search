@@ -27,7 +27,7 @@ class ToPlayListDialog extends React.Component {
       bodyStyle: {
         padding: 0
       },
-      formData: {},
+      formData: {}
     };
     this.styles = {
       list: {
@@ -103,7 +103,7 @@ class ToPlayListDialog extends React.Component {
           return;
         }
         selectedTracks.map((track) => {
-          if (list.tracks.find((item) => track.id === item.id)) {
+          if (list.tracks.find((item) => track.mbid === item.mbid)) {
             return;
           }
           list.tracks.push(track);

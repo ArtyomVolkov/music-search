@@ -23,8 +23,8 @@ export function searchByGenre (value) {
   return axios.get(`${SEARCH_GENRE}?query=${value}`);
 }
 
-export function searchByTrack (value) {
-  return axios.get(`${SEARCH_TRACK}?query=${value}`);
+export function searchByTrack (value, page = 0) {
+  return axios.get(`${SEARCH_TRACK}?query=${value}&page=${page}`);
 }
 
 export function getArtistTracks(artistId) {

@@ -1,5 +1,5 @@
 // actions
-import { RECEIVE_SONGS } from './index';
+import { RECEIVE_SONGS, LOAD_MORE_TRACKS } from './index';
 
 // endpoints
 import { searchByArtist, searchByGenre, searchByTrack } from '../endpoints/aws-api';
@@ -41,4 +41,25 @@ function receiveSongData (type, data) {
     type: RECEIVE_SONGS,
     payload: { type, data }
   };
+}
+
+export function loadMoreTracks(value, page) {
+	return function (dispatch) {
+		dispatch(loadMore());
+		searchByTrack(value, page).then((resp) => {
+
+		});
+	}
+}
+
+function loadMore() {
+	return {
+		type: LOAD_MORE_TRACKS
+	}
+}
+
+function receiveMoreResults() {
+	return {
+		type: ''
+	}
 }

@@ -1,5 +1,9 @@
 import React from 'react';
 import Waypoint from 'react-waypoint';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+// Actions
+import * as searchActions from '../../../actions/search';
 // MU components
 import { Subheader, RefreshIndicator } from 'material-ui';
 import { List } from 'material-ui/List';
@@ -10,6 +14,12 @@ import { TRACK_LIMIT } from '../../../settings';
 // Styles
 import './TrackList.scss';
 
+@connect(
+	state => ({}),
+	dispatch => ({
+		actions: bindActionCreators(searchActions, dispatch)
+	})
+)
 class TrackList extends React.Component {
   constructor (props) {
     super(props);

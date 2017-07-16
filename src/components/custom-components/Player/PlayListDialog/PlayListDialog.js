@@ -34,7 +34,7 @@ class PlayListDialog extends Component {
   onPlayTrack(track, index) {
     const {songData, playerAction} = this.props;
 
-    if (track.id === songData.id) {
+    if (track.mbid === songData.mbid) {
       playerAction.onTogglePlay();
       return;
     }

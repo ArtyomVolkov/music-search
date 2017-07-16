@@ -64,9 +64,9 @@ class IncludeTracks extends React.Component {
                   onTouchTap={this.onToggleTracks.bind(this, track.fileId)}
                   primaryText={
                     <div className="song-info">
-                      <span className="singer">{track.singer}</span>
+                      <span className="singer">{track.artistName}</span>
                       <span className="divider">-</span>
-                      <span className="song-name">{track.song}</span>
+                      <span className="song-name">{track.name}</span>
                     </div>
                   }
                   leftAvatar={

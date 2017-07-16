@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 // M-UI components
 import { IconMenu, MenuItem, IconButton, CircularProgress, Divider } from 'material-ui';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -27,7 +26,6 @@ class TrackItem extends React.Component {
 
   onPlaySong (index) {
     const { track, onAction } = this.props;
-    console.log(track);
 
     if (onAction) {
       onAction('on-play', track, index);
@@ -97,11 +95,12 @@ class TrackItem extends React.Component {
         <ListItem
           disabled={false}
           onTouchTap={this.onPlaySong.bind(this, indexItem)}
+					secondaryText={track.albumName}
           primaryText={
             <div className="song-info">
-              {/*<span className="singer">{track.singer}</span>*/}
-              {/*<span className="divider">-</span>*/}
-              <span className="song-name">{track.name}</span>
+							<span className="singer">{track.artistName}</span>
+							<span className="divider">-</span>
+							<span className="song-name">{track.name}</span>
             </div>
           }
           rightIconButton={
@@ -150,7 +149,7 @@ class TrackItem extends React.Component {
           leftAvatar={<i className={`fa ${player.play && active ? 'fa-pause-circle' : 'fa-play-circle'}`}/>}
         />
         {
-          player.streamLoading && player.streamId === track.id &&
+          player.streamLoading && player.streamId === track.mbid &&
           <div className="spinner-wrapper">
             <CircularProgress size={45} thickness={4} color="#FF9800" style={{ left: 10 }}
             />
