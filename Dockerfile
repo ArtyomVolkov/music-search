@@ -1,15 +1,18 @@
-# In your Dockerfile.
-FROM node:7.8.0
-# The base node image sets a very verbose log level.
-ENV NPM_CONFIG_LOGLEVEL warn
+FROM ubuntu:16.04
 
-#RUN mkdir -p /frontend
-#WORKDIR /frontend
-COPY . .
+RUN apt-get update && apt-get install -y \
+    npm \
+    nodejs \
+    nginx
 
-RUN npm install
+COPY . /frontend
+WORKDIR /frontend
+RUN npm install && npm run build-prod
 
-CMD npm install -g http-server && npm run build && cd build && 	hs -p 3000;
-
-
-EXPOSE 3000
+#COPY default.conf /etc/nginx/conf.d/
+#
+#COPY /nginx/nginx.conf /etc/nginx/nginx.conf
+#COPY /build/. /etc/nginx/html/.
+#
+#CMD ["nginx", "-g", "daemon off;"]
+#EXPOSE 1111
