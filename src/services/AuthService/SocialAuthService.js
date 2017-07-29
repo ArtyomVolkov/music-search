@@ -1,10 +1,11 @@
 import STORE from '../../redux-store/index';
 // endpoints
 import { onAuthorized, signOut } from '../../actions/auth';
+import { socialAuthorization } from '../../endpoints/aws-api';
 // settings
 import { SOCIAL_AUTH_CONFIG } from '../../settings';
 // utils
-import {setCookie} from '../../utils/commons';
+import { setCookie } from '../../utils/commons';
 
 const SocialAuthService = {
   google: {
@@ -49,12 +50,19 @@ const SocialAuthService = {
             clientId: SOCIAL_AUTH_CONFIG.google.appId,
             scope: 'email'
           }).then(() => {
-            return window.gapi.auth2.getAuthInstance().signIn();
+            window.gapi.auth2.getAuthInstance().signIn()
+              .then((authData) => {
+                return socialAuthorization(authData.Zi.access_token);
+              });
           });
         });
         return;
       }
-      return window.gapi.auth2.getAuthInstance().signIn();
+
+      return window.gapi.auth2.getAuthInstance().signIn()
+        .then((authData) => {
+          return socialAuthorization(authData.Zi.access_token);
+        });
     },
     onSignOut() {
       // clear cookie (set other value)

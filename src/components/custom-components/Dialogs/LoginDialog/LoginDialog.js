@@ -8,7 +8,7 @@ import SocialAuthService from '../../../../services/AuthService/SocialAuthServic
 // endpoints
 import { authUser } from '../../../../endpoints/aws-api';
 // utils
-import {setCookie} from '../../../../utils/commons';
+import { setCookie } from '../../../../utils/commons';
 // Style
 import './LoginDialog.scss';
 
@@ -92,24 +92,24 @@ class LoginDialog extends React.Component {
   };
 
   onOpenSocialLogin (name) {
-    if (!SocialAuthService[name]) {
+    if (!SocialAuthService[ name ]) {
       return;
     }
-    SocialAuthService[name].onSignIn().then((authData) => {
-      AuthService.authUser({
-        user: {
-          username: authData.w3.getName(),
-          imageURL: authData.w3.getImageUrl(),
-          fromSocial: name
-        },
-        tokens: {
-          refreshToken: authData.Zi.id_token,
-          accessToken: authData.Zi.access_token
-        }
+    SocialAuthService[ name ].onSignIn()
+      .then((resp) => {
+        console.log(resp);
+        AuthService.authUser({
+          user: {
+            fromSocial: name
+          },
+          tokens: {
+            refreshToken: resp.data.refreshToken,
+            accessToken: resp.data.accessToken
+          }
+        });
+        setCookie('_SAN', name);
+        this.props.onClose();
       });
-      setCookie('_SAN', name);
-      this.props.onClose();
-    });
   }
 
   render () {

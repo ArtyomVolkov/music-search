@@ -27,7 +27,7 @@ export function searchByTrack (value, page = 0) {
   return axios.get(`${SEARCH_TRACK}?query=${value}&page=${page}`);
 }
 
-export function getArtistTracks(artistId) {
+export function getArtistTracks (artistId) {
   return axios.get(`${ARTIST_TRACKS}/${artistId}`);
 }
 
@@ -35,7 +35,7 @@ export function getArtistImages (artistId) {
   return axios.get(`${ARTIST_DATA}/${artistId}`);
 }
 
-export function getSongData(artistId, songMbid) {
+export function getSongData (artistId, songMbid) {
   return axios.get(`${SONG_MBID}?artistId=${artistId}&songMbid=${songMbid}`);
 }
 
@@ -52,18 +52,14 @@ export function userRegistration (data) {
 export function authUser (credentials) {
   return axios.post(USER_LOGIN, credentials);
 }
-export function getSocialLogin(socialName) {
+export function getSocialLogin (socialName) {
   return axios.get(SOCIAL_LOGIN + socialName);
 }
-export function refreshAuth(data) {
+export function refreshAuth (data) {
   return axios.post(REFRESH_AUTH, data);
 }
-export function socialAuthorization(socialName, code) {
-  return axios.get(`${SERVER_URL}/${socialName}/authentication`, {
-    params: {
-      code: code
-    }
-  });
+export function socialAuthorization (accessToken) {
+  return axios.post(`${SERVER_URL}/authentication?accessToken=${accessToken}`);
 }
 
 export function getCountries () {
