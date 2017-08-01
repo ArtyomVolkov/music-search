@@ -14,7 +14,5 @@ script:
     
 after_success:
   - docker build -t libertyaccord2/accord-frontend .
-  #- if [ "$TRAVIS_BRANCH" == "master" ]; then
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push libertyaccord2/accord-frontend;
-  #  fi 
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then  docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; fi
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then  docker push libertyaccord2/accord-frontend; fi
