@@ -58,8 +58,8 @@ export function getSocialLogin (socialName) {
 export function refreshAuth (data) {
   return axios.post(REFRESH_AUTH, data);
 }
-export function socialAuthorization (accessToken) {
-  return axios.post(`${SERVER_URL}/authentication?accessToken=${accessToken}`);
+export function socialAuthorization (socialName, accessToken) {
+  return axios.post(`${SERVER_URL}/authentication/${socialName}?accessToken=${accessToken}`);
 }
 
 export function getCountries () {

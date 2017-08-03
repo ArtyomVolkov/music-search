@@ -52,7 +52,7 @@ const SocialAuthService = {
           }).then(() => {
             window.gapi.auth2.getAuthInstance().signIn()
               .then((authData) => {
-                return socialAuthorization(authData.Zi.access_token);
+                return socialAuthorization('goggle', authData.Zi.access_token);
               });
           });
         });
@@ -61,7 +61,7 @@ const SocialAuthService = {
 
       return window.gapi.auth2.getAuthInstance().signIn()
         .then((authData) => {
-          return socialAuthorization(authData.Zi.access_token);
+          return socialAuthorization('goggle', authData.Zi.access_token);
         });
     },
     onSignOut() {
