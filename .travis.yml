@@ -1,8 +1,18 @@
 language: node_js
+
+sudo: required
+
+services:
+  - docker
+  
 node_js:
   - "7"
 install:
   - "npm install"
 script:
   - "npm run build-prod"
- 
+    
+after_success:
+  - docker build -t libertyaccord2/accord-frontend .
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then  docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; fi
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then  docker push libertyaccord2/accord-frontend; fi
