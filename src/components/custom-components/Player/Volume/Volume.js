@@ -3,10 +3,25 @@ import React from 'react';
 import Settings_SRV from '../../../../services/AppSettings/AppSettings';
 // M-UI components
 import Slider from 'material-ui/Slider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// Styles
 import './Volume.scss';
 
+const MUI_Theme = getMuiTheme({
+  slider: {
+    selectionColor: '#6f6f6f',
+    rippleColor: '#6f6f6f',
+    trackColor: '#dadada',
+    trackColorSelected: '#dadada',
+    handleSizeActive: 16,
+    handleSize: 14,
+    trackSize: 4
+  }
+});
+
 class Volume extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
 
     this.state = {
@@ -15,7 +30,7 @@ class Volume extends React.Component {
   }
 
   onToggleMute = () => {
-    const {audioEl} = this.props;
+    const { audioEl } = this.props;
 
     audioEl.muted = !audioEl.muted;
     this.setState({
@@ -24,14 +39,14 @@ class Volume extends React.Component {
   };
 
   onVolumeChange = (e, value) => {
-    const {audioEl} = this.props;
+    const { audioEl } = this.props;
 
     Settings_SRV.setValue('player', 'volume', value);
     audioEl.volume = value;
   };
 
-  render() {
-    const {muted} = this.state;
+  render () {
+    const { muted } = this.state;
     const defaultVolume = Settings_SRV.getValue('player', 'volume');
 
     return (
@@ -42,13 +57,15 @@ class Volume extends React.Component {
           />
         </div>
         <div className="volume-slider">
-          <Slider
-            min={0.1}
-            max={1}
-            step={0.05}
-            value={defaultVolume}
-            onChange={this.onVolumeChange}
-            sliderStyle={{margin: 0}}/>
+          <MuiThemeProvider muiTheme={MUI_Theme}>
+            <Slider
+              min={0.1}
+              max={1}
+              step={0.05}
+              value={defaultVolume}
+              onChange={this.onVolumeChange}
+              sliderStyle={{ margin: 0 }}/>
+          </MuiThemeProvider>
         </div>
       </div>
     )

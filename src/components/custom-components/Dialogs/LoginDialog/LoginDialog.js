@@ -37,11 +37,12 @@ class LoginDialog extends React.Component {
       actionButtons: [
         <FlatButton
           label="Cancel"
-          primary={false}
+          primary={true}
           onTouchTap={this.onCloseDialog}
         />,
         <RaisedButton
           label="Login"
+          style={{marginLeft: 10}}
           primary={true}
           onTouchTap={this.onLoginUser}
         />
@@ -97,10 +98,13 @@ class LoginDialog extends React.Component {
     }
     SocialAuthService[ name ].onSignIn()
       .then((resp) => {
-        console.log(resp);
+        const userData = gapi.auth2.getAuthInstance().currentUser.Ab;
+
         AuthService.authUser({
           user: {
-            fromSocial: name
+            fromSocial: name,
+            username: userData.w3.ig,
+            imageURL: userData.w3.Paa
           },
           tokens: {
             refreshToken: resp.data.refreshToken,
@@ -117,21 +121,34 @@ class LoginDialog extends React.Component {
 
     return (
       <Dialog
-        title={'Login'}
+        title={
+          <div className="title-section">
+            <FlatButton
+              primary={true}
+              label="Sign UP"
+              backgroundColor="white"
+              onTouchTap={this.onSignIn}
+            />
+          </div>
+        }
         contentStyle={dialog.style}
         bodyStyle={dialog.bodyStyle}
         actions={dialog.actionButtons}
         open={true}
         modal={false}>
         <div className="login-dialog-content">
+          <div className="social-login">
+            <i className="fa fa-google" onClick={this.onOpenSocialLogin.bind(this, 'google')}/>
+            <i className="fa fa-facebook-square"/>
+            <i className="fa fa-vk"/>
+            <i className="fa fa-soundcloud"/>
+          </div>
+          <div className="divider-section">
+            <span className="divider" />
+            <span className="divider-txt">or</span>
+            <span className="divider" />
+          </div>
           <div className="login-default">
-            <RaisedButton
-              label="Sign UP"
-              backgroundColor="#3f51b5"
-              labelColor={'white'}
-              fullWidth={true}
-              onTouchTap={this.onSignIn}
-            />
             <TextField
               floatingLabelText="Email"
               onChange={this.onChangeFieldValue.bind(this, 'username')}
@@ -146,21 +163,7 @@ class LoginDialog extends React.Component {
               floatingLabelText="Password"
               type="password"
             />
-            <Checkbox label="Remember me"/>
-            <br />
-          </div>
-          <div className="social-login">
-            <i
-              className="fa fa-google"
-              onClick={this.onOpenSocialLogin.bind(this, 'google')}
-            />
-            <i
-              className="fa fa-facebook-square"
-            />
-            <i
-              className="fa fa-vk"
-            />
-            <i className="fa fa-soundcloud"/>
+            <br/>
           </div>
           {
             state.loading &&

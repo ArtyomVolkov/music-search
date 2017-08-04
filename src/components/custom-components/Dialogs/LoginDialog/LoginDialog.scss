@@ -1,7 +1,28 @@
+.title-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
 .login-dialog-content {
-  margin-top: 5px;
+  margin: 10px 0;
   position: relative;
   overflow: hidden;
+
+  .divider-section {
+    margin: 0 25px;
+    display: flex;
+    align-items: center;
+
+    .divider {
+      border-bottom: 1px solid #a7a7a7;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .divider-txt {
+      padding: 0 10px;
+    }
+  }
 
   .login-default {
     padding: 0 25px;
@@ -11,9 +32,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px 0;
-    border-top: 1px solid #ababab;
-    border-bottom: 1px solid #ababab;
+    margin-bottom: 15px;
 
     .fa {
       font-size: 36px;
