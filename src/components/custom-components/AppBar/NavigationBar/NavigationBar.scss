@@ -2,23 +2,23 @@
 
   .fa {
     font-size: 24px;
-    color: #ffffff;
+    color: #c2c2c2;
     padding: 12px 20px;
 
     &:hover {
-      color: black;
+      color: #7dca38;
       transition-duration: 0.4s;
-      text-shadow: 2px 0 8px #404040, 0 0 1em #7b7b7b;
+      text-shadow: 2px 0 8px #7dca38, 0 0 1em #7dca38;
       transition-property: all;
       cursor: pointer;
     }
 
     &.active {
-      color: #ffffff;
-      text-shadow: 2px 0 8px #e2e2e2, 0 0 1em #e0e0e0;
+      color: #FFC107;
+      text-shadow: 2px 0 8px #FFC107, 0 0 1em #FFC107;
       &:hover {
-        color: #ffffff;
-        text-shadow: 2px 0 8px #e2e2e2, 0 0 1em #e0e0e0;
+        color: #FFC107;
+        text-shadow: 2px 0 8px #FFC107, 0 0 1em #FFC107;
       }
     }
 

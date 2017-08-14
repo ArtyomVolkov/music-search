@@ -9,8 +9,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './TrackBar.scss';
 const MUI_Theme = getMuiTheme({
   slider: {
-    selectionColor: '#6f6f6f',
-    rippleColor: '#6f6f6f',
+    selectionColor: '#FF5722',
+    rippleColor: '#FF5722',
     trackColor: 'transparent',
     trackColorSelected: 'transparent',
     handleSizeActive: 16,
@@ -85,7 +85,7 @@ class TrackBar extends React.Component {
     return (
       <div className="track-bar">
         <div className="progress-section">
-          <div className="buffered" style={{ width: this.getBufferedAudioValue(audioEl)}} />
+          <div className="buffered" style={{ width: this.getBufferedAudioValue(audioEl)}}></div>
         </div>
         <MuiThemeProvider muiTheme={MUI_Theme}>
           <Slider

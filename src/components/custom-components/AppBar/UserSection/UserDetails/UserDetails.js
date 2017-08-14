@@ -105,7 +105,7 @@ class UserDetails extends React.Component {
         <Popover
           open={showDetails}
           anchorEl={this.anchorEl}
-          style={{background: '#00BCD4', boxShadow: 'none'}}
+          style={{background: '#1d343e'}}
           anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
           targetOrigin={{horizontal: 'left', vertical: 'top'}}
           onRequestClose={this.onClosePopOver}
