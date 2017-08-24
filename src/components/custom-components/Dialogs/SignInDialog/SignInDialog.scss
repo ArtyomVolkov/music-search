@@ -2,6 +2,17 @@
   position: relative;
   overflow: hidden;
 
+  .stepper-section {
+    padding: 0 10px 15px 10px;
+  }
+
+  .error-section {
+    padding: 5px 20px;
+    background: red;
+    color: white;
+    font-size: 14px;
+  }
+
   .fields {
     padding: 0 25px;
   }
